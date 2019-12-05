@@ -1,9 +1,16 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
 from src.main.model.FirstOrderODE import FirstOrderODE
 from src.main.model.SecondOrderODE import SecondOrderODE
+from src.main.model.HeatEquation import HeatEquation
+import matplotlib.pyplot as plt
+import numpy as np
 
 if __name__ == '__main__':
-    second_order_ode = SecondOrderODE(lambda x, y, y_prime: -y, 0, 1)
-    second_order_ode.plot_solution(10, 100)
+    # firstOrderODE = FirstOrderODE(lambda x, y: y, 1)
+    # firstOrderODE.plot_solution(10, 1000)
+
+    # secondOrderODE = SecondOrderODE(lambda x, y, y_prime: -y, 0, 1)
+    # secondOrderODE.plot_solution(4*np.pi, 100)
+    # x1, x2, y1, y2 = plt.axis()
+    # plt.axis((x1,x2,-2,2))
+
+    plt.show()

@@ -26,4 +26,3 @@ class SecondOrderODE:
         x = np.linspace(0, L, n)
         y = self.integrate(L, n)
         plt.plot(x,y)
-        plt.show()
