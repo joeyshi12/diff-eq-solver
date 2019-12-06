@@ -10,10 +10,10 @@ class FirstOrderODE:
 
     def integrate(self, L, n):
         dx = L/n
-        y = np.array([])
+        y = []
         y0 = self.initial_value
         for i in range(n):
-            y = np.append(y, y0)
+            y.append(y0)
             y1 = y0 + self.function(i*dx, y0)*dx
             y0 = y1
         return y

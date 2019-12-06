@@ -11,11 +11,11 @@ class SecondOrderODE:
 
     def integrate(self, L, n):
         dx = L/n
-        y = np.array([])
+        y = []
         y0_prime = self.initial_derivative
         y0 = self.initial_value
         for i in range(n):
-            y = np.append(y, y0)
+            y.append(y0)
             y1_prime = y0_prime + self.function(i*dx, y0, y0_prime)*dx
             y0_prime = y1_prime
             y1 = y0 + y0_prime*dx
