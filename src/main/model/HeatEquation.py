@@ -1,13 +1,12 @@
-import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
-
 
 class HeatEquation:
     alpha: float
     boundary_condition: int
-
     # boundary_condition is one-of
     # 0, 1 ,2 ,3
     # Interp. - 0: Dirichlet BC
@@ -20,24 +19,25 @@ class HeatEquation:
         self.boundary_condition = boundary_condition
         self.initial_condition = initial_condition
 
+
     def integrate(self, L, N, t):
-        dx = L / N
-        M = np.ceil(2 * t / dx ** 2)
+        dx = L/N
+        M = np.ceil(2*t/dx**2)
         M = int(M)
-        dt = t / M
+        dt = t/M
         u = []
         if self.boundary_condition == 0:
             u_i = []
-            for n in range(N + 1):
-                u_i.append(self.initial_condition(n * dx))
+            for n in range(N+1):
+                u_i.append(self.initial_condition(n*dx))
             u.append(u_i)
-            for m in range(1, M):
+            for m in range(1,M):
                 u_i = []
-                for n in range(N + 1):
+                for n in range(N+1):
                     if n == 0 or n == N:
                         u_i.append(0)
                     else:
-                        u_i.append(u[m - 1][n] + (dt / dx ** 2) * (u[m - 1][n + 1] - 2 * u[m - 1][n] + u[m - 1][n - 1]))
+                        u_i.append(u[m-1][n] + (dt/dx**2)*(u[m-1][n+1] - 2*u[m-1][n] + u[m-1][n-1]))
                 u.append(u_i)
         return u
 
@@ -66,3 +66,4 @@ class HeatEquation:
 
         # Add a color bar which maps values to colors.
         fig.colorbar(surf, shrink=0.5, aspect=5)
+
