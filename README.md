@@ -1,6 +1,9 @@
 # diff-eq-solver
 
-This program uses various finite difference methods to solve ordinary differential equations and partial differential equations. For partial differential equations, we focus on specific types, such as the heat equation, wave equation, and Laplace's equation. Matplotlib is used to represent the solutions on graphs.
+This program uses various finite difference methods to solve ordinary differential equations and partial differential 
+equations. For partial differential equations, we focus on specific types, such as the heat equation, wave equation, 
+and Laplace's equation. Matplotlib is used to represent the solutions on graphs. <br>
+[Work in progress]
 
 ## Getting Started
 
