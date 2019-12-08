@@ -12,6 +12,6 @@ if __name__ == '__main__':
     # plt.axis((x1,x2,-2,2))
 
     heatEquation = HeatEquation(1, 0, lambda x: 1 - (x - 1) ** 2)
-    heatEquation.plot_solution(2, 50, 5)
+    heatEquation.plot_solution(2, 50, 1)
 
     plt.show()
