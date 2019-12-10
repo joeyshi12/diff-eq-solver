@@ -10,7 +10,7 @@ class ODE:
     def integrate(self, L, n):
         pass
 
-    def write_solution(self, L, n):
+    def write_solution(self, L: float, n: int):
         x = np.linspace(0, L, n)
         y = self.integrate(L, n)
         table = np.column_stack((x, y))

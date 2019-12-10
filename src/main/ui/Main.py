@@ -17,10 +17,11 @@ if __name__ == '__main__':
     # x1, x2, y1, y2 = plt.axis()
     # plt.axis((x1,x2,-2,2))
 
-    p = lambda t: t
+    p = lambda t: 0
     q = lambda t: 0
     f = lambda x: 2 * x - x ** 2
-    heatEquation = HeatEquation(1, 2, p, q, f)
+    heatEquation = HeatEquation(1, 0, p, q, f)
     heatEquation.plot_solution(2, 25, 1)
+    heatEquation.write_solution(2, 25, 1)
 
     plt.show()

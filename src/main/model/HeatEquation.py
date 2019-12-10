@@ -1,3 +1,4 @@
+import xlsxwriter
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import matplotlib.pyplot as plt
@@ -101,6 +102,40 @@ class HeatEquation:
             u.append(u_j)
         u = np.delete(u, 0, 1)
         return u
+
+    def write_solution(self, L: float, n: int, t: float):
+        dx = L / n
+        m = np.ceil(2 * self.alpha * t / (dx ** 2))
+        m = int(m)
+
+        # Data
+        x_range = np.linspace(0, L, n + 1)
+        t_range = np.linspace(0, t, m + 1)
+        u = self.integrate(L, n, t, m)
+
+        workbook = xlsxwriter.Workbook(r'C:\Users\j\Desktop\PycharmProjects\DifferentialEquationSolver\src\data'
+                                       r'\HeatEquation.xlsx')
+        worksheet = workbook.add_worksheet()
+
+        # x labels
+        worksheet.write(0, 1, "x ->")
+        for i in range(n + 1):
+            worksheet.write(0, 2 + i, x_range[i])
+
+        # t labels
+        worksheet.write(1, 0, "t ↓")
+        for j in range(m + 1):
+            worksheet.write(2 + j, 0, t_range[j])
+
+        # u values
+        i, j = 2, 2
+        for row in u:
+            for element in row:
+                worksheet.write(j, i, element)
+                i += 1
+            j += 1
+            i = 2
+        workbook.close()
 
     def plot_solution(self, L: float, n: int, t: float):
         dx = L / n
