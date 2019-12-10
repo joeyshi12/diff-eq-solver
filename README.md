@@ -18,9 +18,9 @@ The file for running this program can be found at src/main/ui/Main.py.
 
 ## Example
 ```python
-p = lambda t: 0
-q = lambda t: 0
-f = lambda x: 2 * x - x ** 2
+p = lambda t: 0               # Left Boundary
+q = lambda t: 0               # Right Boundary
+f = lambda x: 2 * x - x ** 2  # Initial Condition
 heatEquation = HeatEquation(1, 0, p, q, f)
 heatEquation.plot_solution(2, 50, 1)
 ```
