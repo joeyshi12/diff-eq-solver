@@ -12,6 +12,7 @@ class WaveEquation:
     #         - 2: Mixed 1 BC
     #         - 3: Mixed 2 BC
 
-    def __init__(self, c: float, boundary_condition: int):
+    def __init__(self, c: float, boundary_condition: int, initial_condition):
         self.c = c
         self.boundary_condition = boundary_condition
+        self.initial_condition = initial_condition

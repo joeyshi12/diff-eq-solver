@@ -3,12 +3,13 @@ import matplotlib.pyplot as plt
 
 
 class FirstOrderODE:
+    initial_value: float
 
-    def __init__(self, function, initial_value):
+    def __init__(self, function, initial_value: float):
         self.function = function
         self.initial_value = initial_value
 
-    def integrate(self, L, n):
+    def integrate(self, L: float, n: int) -> list:
         dx = L/n
         y = []
         y0 = self.initial_value
@@ -18,7 +19,7 @@ class FirstOrderODE:
             y0 = y1
         return y
 
-    def plot_solution(self, L, n):
+    def plot_solution(self, L: float, n: int):
         x = np.linspace(0, L, n)
         y = self.integrate(L, n)
         plt.plot(x, y)
