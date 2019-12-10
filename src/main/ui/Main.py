@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.main.exception.EquationTypeException import EquationTypeException
+from src.main.exception.BoundaryTypeException import EquationTypeException
 from src.main.model.FirstOrderODE import FirstOrderODE
 from src.main.model.HeatEquation import HeatEquation
 from src.main.model.SecondOrderODE import SecondOrderODE

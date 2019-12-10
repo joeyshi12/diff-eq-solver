@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-from src.main.exception.EquationTypeException import EquationTypeException
+from src.main.exception.BoundaryTypeException import EquationTypeException
 
 
 class HeatEquation:
