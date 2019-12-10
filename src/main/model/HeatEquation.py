@@ -37,7 +37,7 @@ class HeatEquation:
         elif self.boundary_type == 3:
             return self.integrate_mixed_2(dt, dx, k, m, n)
 
-    def integrate_dirichlet(self, dt, dx, k, m, n):
+    def integrate_dirichlet(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(1, n)]
@@ -52,7 +52,7 @@ class HeatEquation:
             u.append(u_j)
         return np.array(u)
 
-    def integrate_neumann(self, dt, dx, k, m, n):
+    def integrate_neumann(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(n + 1)]
@@ -63,7 +63,6 @@ class HeatEquation:
         for j in range(1, m + 1):
             # nodal values
             u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n + 2)]
-            print(u_j)
             # boundary values
             u_j = [u_j[1] - 2 * self.p(j * dt)] + u_j + [u_j[-2] - 2 * self.q(j * dt)]
             u.append(u_j)
@@ -71,7 +70,7 @@ class HeatEquation:
         u = np.delete(u, n + 1, 1)
         return u
 
-    def integrate_mixed_1(self, dt, dx, k, m, n):
+    def integrate_mixed_1(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(1, n + 1)]
@@ -87,7 +86,7 @@ class HeatEquation:
         u = np.delete(u, n + 1, 1)
         return u
 
-    def integrate_mixed_2(self, dt, dx, k, m, n):
+    def integrate_mixed_2(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(n)]
@@ -96,10 +95,9 @@ class HeatEquation:
         u.append(u_0)
         for j in range(1, m + 1):
             # nodal values
-            u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n + 1)] + \
-                  [self.q(n)]
+            u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n + 1)]
             # boundary values
-            u_j = [u_j[1] - 2 * self.p(j * dt)] + u_j
+            u_j = [u_j[1] - 2 * self.p(j * dt)] + u_j + [self.q(n)]
             u.append(u_j)
         u = np.delete(u, 0, 1)
         return u
@@ -110,16 +108,15 @@ class HeatEquation:
         m = int(m)
 
         # Data
-        X = np.linspace(0, L, n + 1)
-        T = np.linspace(0, t, m + 1)
-        X, T = np.meshgrid(X, T)
+        x_range = np.linspace(0, L, n + 1)
+        t_range = np.linspace(0, t, m + 1)
+        x_range, t_range = np.meshgrid(x_range, t_range)
         u = self.integrate(L, n, t, m)
-
 
         # Plot
         fig = plt.figure()
         ax = fig.gca(projection='3d')
-        surf = ax.plot_surface(X, T, u, cmap=cm.coolwarm,
+        surf = ax.plot_surface(x_range, t_range, u, cmap=cm.coolwarm,
                                linewidth=0, antialiased=False)
 
         # Customize the z axis.
