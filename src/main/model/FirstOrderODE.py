@@ -1,3 +1,5 @@
+import numpy as np
+
 from src.main.model.ODE import ODE
 
 
@@ -8,7 +10,7 @@ class FirstOrderODE(ODE):
         self.function = function
         self.initial_value = initial_value
 
-    def integrate(self, L: float, n: int) -> list:
+    def integrate(self, L: float, n: int) -> np.array:
         dx = L/n
         y = []
         y0 = self.initial_value
@@ -16,4 +18,4 @@ class FirstOrderODE(ODE):
             y.append(y0)
             y1 = y0 + self.function(i*dx, y0)*dx
             y0 = y1
-        return y
+        return np.array(y)

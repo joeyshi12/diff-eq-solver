@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 class ODE:
     @abc.abstractmethod
-    def integrate(self, L, n):
+    def integrate(self, L: float, n: int) -> np.array:
         pass
 
     def write_solution(self, L: float, n: int):

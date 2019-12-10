@@ -12,7 +12,7 @@ class HeatEquation:
     alpha: float
     boundary_type: int
 
-    # boundary_condition is one-of
+    # boundary_type is one-of
     # 0, 1 ,2 ,3
     # Interp. - 0: u(0,t)   = p(t),     u(L,t)   = q(t)
     #         - 1: u_x(0,t) = p(t),     u_x(L,t) = q(t)
@@ -64,7 +64,6 @@ class HeatEquation:
         # initial boundary conditions
         u_0 = [u_0[0] - 2 * self.p(0) * dx] + u_0 + [u_0[-1] - 2 * self.q(0) * dx]
         u.append(u_0)
-        print(u_0)
         for j in range(1, m + 1):
             # nodal values
             u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n + 2)]
@@ -158,10 +157,5 @@ class HeatEquation:
         surf = ax.plot_surface(x_range, t_range, u, cmap=cm.coolwarm,
                                linewidth=0, antialiased=False)
 
-        # Customize the z axis.
-        ax.set_zlim(-1.01, 1.01)
-        ax.zaxis.set_major_locator(LinearLocator(10))
-        ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-
-        # Add a color bar which maps values to colors.
+        # Colour Bar
         fig.colorbar(surf, shrink=0.5, aspect=5)
