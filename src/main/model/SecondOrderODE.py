@@ -12,5 +12,14 @@ class SecondOrderODE(ODE):
 
     def integrate(self, L: float, n: int) -> list:
         dx = L/n
-        y = [] 
+        y = []
+        y0_prime = self.initial_derivative
+        y0 = self.initial_value
+        for i in range(n):
+            y.append(y0)
+            y1_prime = y0_prime + self.function(i * dx, y0, y0_prime) * dx
+            y1 = y0 + y0_prime * dx
+            y0_prime = y1_prime
+            y1 = y0 + y0_prime * dx
+            y0 = y1
         return y
