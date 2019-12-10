@@ -18,8 +18,8 @@ if __name__ == '__main__':
     # x1, x2, y1, y2 = plt.axis()
     # plt.axis((x1,x2,-2,2))
 
-    p = lambda t: 0
-    q = lambda t: 0
+    p = lambda t: t
+    q = lambda t: -t
     f = lambda x: 2 * x - x ** 2
     try:
         heatEquation = HeatEquation(1, 1, p, q, f)
