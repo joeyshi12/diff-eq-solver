@@ -4,6 +4,14 @@ This program uses various finite difference methods to solve ordinary differenti
 equations. For partial differential equations, we focus on special types of partial differential equations, such as the heat equation, wave equation, and Laplace's equation. The solution values are written to an excel file and the solution is visually represented on a plot generated with Matplotlib. <br>
 [Work in progress]
 
+## Progress
+- [x] First Order Equation Class
+- [x] Second Order Equation Class
+- [ ] n-th Order Equation Class
+- [x] Heat Eqaution Class
+- [ ] Wave Equation Class
+- [ ] Laplace's Equation Class
+
 ## Getting Started
 
 The file for running this program can be found at src/main/ui/Main.py. 
