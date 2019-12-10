@@ -13,7 +13,8 @@ equations. For partial differential equations, we focus on special types of part
 
 ## Getting Started
 
-The file for running this program can be found at src/main/ui/Main.py. 
+Sample code for running the program can be found at src/main/ui/Main.py. Try changing the parameters of the constructor 
+calls and see how it changes the excel spreadsheets in src/data. 
 
 ## Example
 ```python
