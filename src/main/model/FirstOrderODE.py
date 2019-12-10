@@ -1,8 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
+from src.main.model.ODE import ODE
 
 
-class FirstOrderODE:
+class FirstOrderODE(ODE):
     initial_value: float
 
     def __init__(self, function, initial_value: float):
@@ -18,8 +17,3 @@ class FirstOrderODE:
             y1 = y0 + self.function(i*dx, y0)*dx
             y0 = y1
         return y
-
-    def plot_solution(self, L: float, n: int):
-        x = np.linspace(0, L, n)
-        y = self.integrate(L, n)
-        plt.plot(x, y)

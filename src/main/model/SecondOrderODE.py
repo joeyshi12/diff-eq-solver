@@ -1,8 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
+from src.main.model.ODE import ODE
 
 
-class SecondOrderODE:
+class SecondOrderODE(ODE):
     initial_value: float
     initial_derivative: float
 
@@ -23,8 +22,3 @@ class SecondOrderODE:
             y1 = y0 + y0_prime*dx
             y0 = y1
         return y
-
-    def plot_solution(self, L: float, n: int):
-        x = np.linspace(0, L, n)
-        y = self.integrate(L, n)
-        plt.plot(x,y)
