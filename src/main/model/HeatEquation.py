@@ -107,8 +107,7 @@ class HeatEquation:
         return u
 
     def write_solution(self, L: float, n: int, t: float):
-        dx = L / n
-        m = np.ceil(2 * self.alpha * t / (dx ** 2))
+        m = np.ceil(2 * self.alpha * t * n ** 2 / (L ** 2))
         m = int(m)
 
         # Data
@@ -141,8 +140,7 @@ class HeatEquation:
         workbook.close()
 
     def plot_solution(self, L: float, n: int, t: float):
-        dx = L / n
-        m = np.ceil(2 * self.alpha * t / (dx ** 2))
+        m = np.ceil(2 * self.alpha * t * n ** 2 / (L ** 2))
         m = int(m)
 
         # Data
