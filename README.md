@@ -8,7 +8,7 @@ equations. For partial differential equations, we focus on special types of part
 - [x] First Order Equation Class
 - [x] Second Order Equation Class
 - [ ] n-th Order Equation Class
-- [x] Heat Eqaution Class
+- [x] Heat Equation Class
 - [ ] Wave Equation Class
 - [ ] Laplace's Equation Class
 
