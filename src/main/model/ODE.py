@@ -16,8 +16,7 @@ class ODE:
         table = np.column_stack((x, y))
         row = 0
         col = 0
-        workbook = xlsxwriter.Workbook(r'C:\Users\j\Desktop\PycharmProjects\DifferentialEquationSolver\src\data\ODE'
-                                       r'.xlsx')
+        workbook = xlsxwriter.Workbook('excel_data/ODE.xlsx')
         worksheet = workbook.add_worksheet()
         for x_val, y_val in table:
             worksheet.write(row, col, x_val)

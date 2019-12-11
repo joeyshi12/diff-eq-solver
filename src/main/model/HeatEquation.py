@@ -115,8 +115,7 @@ class HeatEquation:
         t_range = np.linspace(0, t, m + 1)
         u = self.integrate(L, n, t, m)
 
-        workbook = xlsxwriter.Workbook(r'C:\Users\j\Desktop\PycharmProjects\DifferentialEquationSolver\src\data'
-                                       r'\HeatEquation.xlsx')
+        workbook = xlsxwriter.Workbook('excel_data/HeatEquation.xlsx')
         worksheet = workbook.add_worksheet()
 
         # x labels

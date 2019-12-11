@@ -22,7 +22,7 @@ if __name__ == '__main__':
     q = lambda t: 0
     f = lambda x: 2 * x - x ** 2
     try:
-        heatEquation = HeatEquation(1, 0, p, q, f)
+        heatEquation = HeatEquation(1, 1, p, q, f)
         heatEquation.plot_solution(2, 25, 1)
         heatEquation.write_solution(2, 25, 1)
     except BoundaryTypeException:
