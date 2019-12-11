@@ -1,11 +1,5 @@
-import xlsxwriter
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-from src.main.exception.BoundaryTypeException import BoundaryTypeException
 from src.main.model.PDE import PDE
 
 
@@ -69,13 +63,13 @@ class HeatEquation(PDE):
         u = np.delete(u, 0, 1)
         return u
 
-    def get_k(self, dx, dt):
+    def get_k(self, dx: float, dt: float) -> float:
         return self.alpha * dt / dx ** 2
 
     @staticmethod
-    def node_val(u, k, i, j):
+    def node_val(u: np.array, k: float, i: int, j: int) -> float:
         return u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1])
 
-    def get_stable_m(self, L, n, t):
+    def get_stable_m(self, L: float, n: int, t: float) -> int:
         m = np.ceil(2 * self.alpha * t * n ** 2 / (L ** 2))
         return int(m)

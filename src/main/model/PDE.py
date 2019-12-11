@@ -82,21 +82,21 @@ class PDE:
         fig.colorbar(surf, shrink=0.5, aspect=5)
 
     @abc.abstractmethod
-    def integrate_dirichlet(self, dx, dt, n, m, k):
+    def integrate_dirichlet(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
         pass
 
     @abc.abstractmethod
-    def integrate_neumann(self, dx, dt, n, m, k):
+    def integrate_neumann(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
         pass
 
     @abc.abstractmethod
-    def integrate_mixed_1(self, dx, dt, n, m, k):
+    def integrate_mixed_1(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
         pass
 
     @abc.abstractmethod
-    def integrate_mixed_2(self, dx, dt, n, m, k):
+    def integrate_mixed_2(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
         pass
 
     @abc.abstractmethod
-    def get_k(self, dx, dt):
+    def get_k(self, dx: float, dt: float) -> float:
         pass

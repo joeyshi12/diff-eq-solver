@@ -1,11 +1,5 @@
-import xlsxwriter
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-from src.main.exception.BoundaryTypeException import BoundaryTypeException
 from src.main.model.PDE import PDE
 
 
@@ -37,22 +31,22 @@ class WaveEquation(PDE):
             u.append(u_j)
         return np.array(u)
 
-    def integrate_neumann(self, dx, dt, n, m, k):
+    def integrate_neumann(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
         return np.array([])
 
-    def integrate_mixed_1(self, dx, dt, n, m, k):
+    def integrate_mixed_1(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
         return np.array([])
 
-    def integrate_mixed_2(self, dx, dt, n, m, k):
+    def integrate_mixed_2(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
         return np.array([])
 
-    def get_k(self, dx, dt):
+    def get_k(self, dx: float, dt: float) -> float:
         return self.c * dt / dx
 
     @staticmethod
-    def node_val(u, k, i, j):
+    def node_val(u: np.array, k: float, i: int, j: int) -> float:
         return k ** 2 * u[j - 1][i + 1] + 2 * (1 - k ** 2) * u[j - 1][i] + k ** 2 * u[j - 1][i - 1] - u[j - 2][i]
 
-    def get_stable_m(self, L, n, t):
+    def get_stable_m(self, L: float, n: int, t: float) -> int:
         m = np.ceil(self.c * t * n / L)
         return int(m)
