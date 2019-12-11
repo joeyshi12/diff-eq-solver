@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-from src.main.exception.BoundaryTypeException import EquationTypeException
+from src.main.exception.BoundaryTypeException import BoundaryTypeException
 
 
 class HeatEquation:
@@ -40,7 +40,7 @@ class HeatEquation:
         elif self.boundary_type == 3:
             return self.integrate_mixed_2(dt, dx, k, m, n)
         else:
-            raise EquationTypeException
+            raise BoundaryTypeException
 
     def integrate_dirichlet(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
         u = []

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.main.exception.BoundaryTypeException import EquationTypeException
+from src.main.exception.BoundaryTypeException import BoundaryTypeException
 from src.main.model.FirstOrderODE import FirstOrderODE
 from src.main.model.HeatEquation import HeatEquation
 from src.main.model.SecondOrderODE import SecondOrderODE
@@ -18,14 +18,14 @@ if __name__ == '__main__':
     # x1, x2, y1, y2 = plt.axis()
     # plt.axis((x1,x2,-2,2))
 
-    p = lambda t: t
-    q = lambda t: -t
+    p = lambda t: 0
+    q = lambda t: 0
     f = lambda x: 2 * x - x ** 2
     try:
-        heatEquation = HeatEquation(1, 1, p, q, f)
+        heatEquation = HeatEquation(1, 0, p, q, f)
         heatEquation.plot_solution(2, 25, 1)
         heatEquation.write_solution(2, 25, 1)
-    except EquationTypeException:
+    except BoundaryTypeException:
         print("Invalid boundary type in heat equation")
 
     plt.show()

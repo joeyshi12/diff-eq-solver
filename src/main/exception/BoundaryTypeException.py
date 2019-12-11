@@ -1,2 +1,2 @@
-class EquationTypeException(Exception):
+class BoundaryTypeException(Exception):
     pass
