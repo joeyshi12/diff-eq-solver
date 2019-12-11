@@ -26,32 +26,17 @@ class PDE:
     def integrate(self, L: float, n: int, t: float, m: int) -> np.ndarray:
         dx = L / n
         dt = t / m
+        k = self.get_k(dx, dt)
         if self.boundary_type == 0:
-            return self.integrate_dirichlet(dt, dx, m, n)
+            return self.integrate_dirichlet(dx, dt, n, m, k)
         elif self.boundary_type == 1:
-            return self.integrate_neumann(dt, dx, m, n)
+            return self.integrate_neumann(dx, dt, n, m, k)
         elif self.boundary_type == 2:
-            return self.integrate_mixed_1(dt, dx, m, n)
+            return self.integrate_mixed_1(dx, dt, n, m, k)
         elif self.boundary_type == 3:
-            return self.integrate_mixed_2(dt, dx, m, n)
+            return self.integrate_mixed_2(dx, dt, n, m, k)
         else:
             raise BoundaryTypeException
-
-    @abc.abstractmethod
-    def integrate_dirichlet(self, dt, dx, m, n):
-        pass
-
-    @abc.abstractmethod
-    def integrate_neumann(self, dt, dx, m, n):
-        pass
-
-    @abc.abstractmethod
-    def integrate_mixed_1(self, dt, dx, m, n):
-        pass
-
-    @abc.abstractmethod
-    def integrate_mixed_2(self, dt, dx, m, n):
-        pass
 
     def write_solution(self, L: float, n: int, t: float, m: int):
         # Data
@@ -91,8 +76,27 @@ class PDE:
         # Plot
         fig = plt.figure()
         ax = fig.gca(projection='3d')
-        surf = ax.plot_surface(x_range, t_range, u, cmap=cm.coolwarm,
-                               linewidth=0, antialiased=False)
+        surf = ax.plot_surface(x_range, t_range, u, cmap=cm.coolwarm, linewidth=0, antialiased=False)
 
         # Colour Bar
         fig.colorbar(surf, shrink=0.5, aspect=5)
+
+    @abc.abstractmethod
+    def integrate_dirichlet(self, dx, dt, n, m, k):
+        pass
+
+    @abc.abstractmethod
+    def integrate_neumann(self, dx, dt, n, m, k):
+        pass
+
+    @abc.abstractmethod
+    def integrate_mixed_1(self, dx, dt, n, m, k):
+        pass
+
+    @abc.abstractmethod
+    def integrate_mixed_2(self, dx, dt, n, m, k):
+        pass
+
+    @abc.abstractmethod
+    def get_k(self, dx, dt):
+        pass

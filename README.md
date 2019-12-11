@@ -22,9 +22,20 @@ calls and see how it changes the excel spreadsheets in src/main/ui/excel_data.
 ```python
 p = lambda t: 0               # Left Boundary
 q = lambda t: 0               # Right Boundary
-f = lambda x: 2 * x - x ** 2  # Initial Condition
+f = lambda x: 2 * x - x ** 2  # Initial Values
 heatEquation = HeatEquation(1, 0, p, q, f)
-heatEquation.plot_solution(2, 50, 1)
+L = 2
+n = 25
+t = 1
+m = heatEquation.get_stable_m(L, n, t)    # Larger values increases accuracy
+try:
+    heatEquation.plot_solution(L, n, t, m)
+    heatEquation.write_solution(L, n, t, m)
+except BoundaryTypeException:
+    print("Invalid boundary type in heat equation")
 ```
-![Figure_1](https://user-images.githubusercontent.com/46363213/70382868-26dabb80-1918-11ea-91ef-ea636704b5ac.png)
+
+![heat_figure](https://user-images.githubusercontent.com/46363213/70660505-378c7980-1c17-11ea-9d0c-3286d399c247.png)
+
+![heat_data](https://user-images.githubusercontent.com/46363213/70660477-217eb900-1c17-11ea-8e75-1e420af3dca0.PNG)
 
