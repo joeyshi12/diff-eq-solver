@@ -5,7 +5,7 @@ from src.main.exception.BoundaryTypeException import BoundaryTypeException
 from src.main.model.FirstOrderODE import FirstOrderODE
 from src.main.model.HeatEquation import HeatEquation
 from src.main.model.SecondOrderODE import SecondOrderODE
-
+from src.main.model.WaveEquation import WaveEquation
 
 if __name__ == '__main__':
     # firstOrderODE = FirstOrderODE(lambda x, y: y, 1)
@@ -18,14 +18,33 @@ if __name__ == '__main__':
     # x1, x2, y1, y2 = plt.axis()
     # plt.axis((x1,x2,-2,2))
 
+    # p = lambda t: 0
+    # q = lambda t: 0
+    # f = lambda x: 2 * x - x ** 2
+    # heatEquation = HeatEquation(1, 0, p, q, f)
+    # L = 2
+    # n = 25
+    # t = 1
+    # m = heatEquation.get_stable_m(L, n, t)
+    # try:
+    #     heatEquation.plot_solution(L, n, t, m)
+    #     heatEquation.write_solution(L, n, t, m)
+    # except BoundaryTypeException:
+    #     print("Invalid boundary type in heat equation")
+
     p = lambda t: 0
     q = lambda t: 0
     f = lambda x: 2 * x - x ** 2
+    g = lambda x: 0
+    waveEquation = WaveEquation(1, 0, p, q, f, lambda x: 0)
+    L = 2
+    n = 25
+    t = 5
+    m = waveEquation.get_stable_m(L, n, t)
     try:
-        heatEquation = HeatEquation(1, 0, p, q, f)
-        heatEquation.plot_solution(2, 25, 1)
-        heatEquation.write_solution(2, 25, 1)
+        waveEquation.plot_solution(L, n, t, m)
+        waveEquation.write_solution(L, n, t, m)
     except BoundaryTypeException:
-        print("Invalid boundary type in heat equation")
+        print("Invalid boundary type in wave equation")
 
     plt.show()

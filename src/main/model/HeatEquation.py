@@ -6,43 +6,21 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
 from src.main.exception.BoundaryTypeException import BoundaryTypeException
+from src.main.model.PDE import PDE
 
 
-class HeatEquation:
+class HeatEquation(PDE):
     alpha: float
-    boundary_type: int
-
-    # boundary_type is one-of
-    # 0, 1 ,2 ,3
-    # Interp. - 0: u(0,t)   = p(t),     u(L,t)   = q(t)
-    #         - 1: u_x(0,t) = p(t),     u_x(L,t) = q(t)
-    #         - 2: u(0,t)   = p(t),     u_x(L,t) = q(t)
-    #         - 3: u_x(0,t) = p(t),     u(L,t)   = q(t)
 
     def __init__(self, alpha: float, boundary_type: int, p, q, f):
         self.alpha = alpha
-        self.boundary_type = boundary_type
+        super().__init__(boundary_type)
         self.p = p  # boundary condition 1
         self.q = q  # boundary condition 2
         self.f = f  # initial condition
 
-    def integrate(self, L: float, n: int, t: float, m: int) -> np.ndarray:
-        dx = L / n
-        dt = t / m
+    def integrate_dirichlet(self, dt: float, dx: float, m: int, n: int) -> np.array:
         k = self.alpha * dt / dx ** 2
-
-        if self.boundary_type == 0:
-            return self.integrate_dirichlet(dt, dx, k, m, n)
-        elif self.boundary_type == 1:
-            return self.integrate_neumann(dt, dx, k, m, n)
-        elif self.boundary_type == 2:
-            return self.integrate_mixed_1(dt, dx, k, m, n)
-        elif self.boundary_type == 3:
-            return self.integrate_mixed_2(dt, dx, k, m, n)
-        else:
-            raise BoundaryTypeException
-
-    def integrate_dirichlet(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(1, n)]
@@ -51,13 +29,14 @@ class HeatEquation:
         u.append(u_0)
         for j in range(1, m + 1):
             # nodal values
-            u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n)]
+            u_j = [self.node_val(u, k, i, j) for i in range(1, n)]
             # boundary values
             u_j = [self.p(j * dt)] + u_j + [self.q(j * dt)]
             u.append(u_j)
         return np.array(u)
 
-    def integrate_neumann(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
+    def integrate_neumann(self, dt: float, dx: float, m: int, n: int) -> np.array:
+        k = self.alpha * dt / dx ** 2
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(n + 1)]
@@ -66,7 +45,7 @@ class HeatEquation:
         u.append(u_0)
         for j in range(1, m + 1):
             # nodal values
-            u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n + 2)]
+            u_j = [self.node_val(u, k, i, j) for i in range(1, n + 2)]
             # boundary values
             u_j = [u_j[1] - 2 * self.p(j * dt)] + u_j + [u_j[-2] + 2 * self.q(j * dt)]
             u.append(u_j)
@@ -74,7 +53,8 @@ class HeatEquation:
         u = np.delete(u, n + 1, 1)
         return u
 
-    def integrate_mixed_1(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
+    def integrate_mixed_1(self, dt: float, dx: float, m: int, n: int) -> np.array:
+        k = self.alpha * dt / dx ** 2
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(1, n + 1)]
@@ -83,14 +63,15 @@ class HeatEquation:
         u.append(u_0)
         for j in range(1, m + 1):
             # nodal values
-            u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n + 1)]
+            u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]
             # boundary values
             u_j = [self.p(j * dt)] + u_j + [u_j[n - 1] + 2 * self.q(j * dt)]
             u.append(u_j)
         u = np.delete(u, n + 1, 1)
         return u
 
-    def integrate_mixed_2(self, dt: float, dx: float, k: float, m: int, n: int) -> np.array:
+    def integrate_mixed_2(self, dt: float, dx: float, m: int, n: int) -> np.array:
+        k = self.alpha * dt / dx ** 2
         u = []
         # initial condition
         u_0 = [self.f(i * dx) for i in range(n)]
@@ -99,60 +80,17 @@ class HeatEquation:
         u.append(u_0)
         for j in range(1, m + 1):
             # nodal values
-            u_j = [u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1]) for i in range(1, n + 1)]
+            u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]
             # boundary values
             u_j = [u_j[1] - 2 * self.p(j * dt)] + u_j + [self.q(n)]
             u.append(u_j)
         u = np.delete(u, 0, 1)
         return u
 
-    def write_solution(self, L: float, n: int, t: float):
+    @staticmethod
+    def node_val(u, k, i, j):
+        return u[j - 1][i] + k * (u[j - 1][i + 1] - 2 * u[j - 1][i] + u[j - 1][i - 1])
+
+    def get_stable_m(self, L, n, t):
         m = np.ceil(2 * self.alpha * t * n ** 2 / (L ** 2))
-        m = int(m)
-
-        # Data
-        x_range = np.linspace(0, L, n + 1)
-        t_range = np.linspace(0, t, m + 1)
-        u = self.integrate(L, n, t, m)
-
-        workbook = xlsxwriter.Workbook('excel_data/HeatEquation.xlsx')
-        worksheet = workbook.add_worksheet()
-
-        # x labels
-        worksheet.write(0, 1, "x ->")
-        for i in range(n + 1):
-            worksheet.write(0, 2 + i, x_range[i])
-
-        # t labels
-        worksheet.write(1, 0, "t ↓")
-        for j in range(m + 1):
-            worksheet.write(2 + j, 0, t_range[j])
-
-        # u values
-        i, j = 2, 2
-        for row in u:
-            for element in row:
-                worksheet.write(j, i, element)
-                i += 1
-            j += 1
-            i = 2
-        workbook.close()
-
-    def plot_solution(self, L: float, n: int, t: float):
-        m = np.ceil(2 * self.alpha * t * n ** 2 / (L ** 2))
-        m = int(m)
-
-        # Data
-        x_range = np.linspace(0, L, n + 1)
-        t_range = np.linspace(0, t, m + 1)
-        x_range, t_range = np.meshgrid(x_range, t_range)
-        u = self.integrate(L, n, t, m)
-
-        # Plot
-        fig = plt.figure()
-        ax = fig.gca(projection='3d')
-        surf = ax.plot_surface(x_range, t_range, u, cmap=cm.coolwarm,
-                               linewidth=0, antialiased=False)
-
-        # Colour Bar
-        fig.colorbar(surf, shrink=0.5, aspect=5)
+        return int(m)

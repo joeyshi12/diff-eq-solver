@@ -14,10 +14,13 @@ class ODE:
         x = np.linspace(0, L, n)
         y = self.integrate(L, n)
         table = np.column_stack((x, y))
-        row = 0
+        row = 1
         col = 0
         workbook = xlsxwriter.Workbook('excel_data/ODE.xlsx')
         worksheet = workbook.add_worksheet()
+
+        worksheet.write(0, 0, 'x')
+        worksheet.write(0, 1, 'y')
         for x_val, y_val in table:
             worksheet.write(row, col, x_val)
             worksheet.write(row, col + 1, y_val)
