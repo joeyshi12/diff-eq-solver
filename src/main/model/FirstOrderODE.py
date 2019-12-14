@@ -7,7 +7,7 @@ class FirstOrderODE(ODE):
     initial_value: float
 
     def __init__(self, function, initial_value: float):
-        self.function = function
+        super().__init__(function)
         self.initial_value = initial_value
 
     def integrate(self, L: float, n: int) -> np.array:

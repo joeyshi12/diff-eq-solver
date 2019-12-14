@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 
 class ODE:
-    @abc.abstractmethod
-    def integrate(self, L: float, n: int) -> np.array:
-        pass
+
+    def __init__(self, function):
+        self.function = function
 
     def write_solution(self, L: float, n: int):
         x = np.linspace(0, L, n)
@@ -31,3 +31,7 @@ class ODE:
         x = np.linspace(0, L, n)
         y = self.integrate(L, n)
         plt.plot(x, y)
+
+    @abc.abstractmethod
+    def integrate(self, L: float, n: int) -> np.array:
+        pass

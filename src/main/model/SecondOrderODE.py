@@ -8,7 +8,7 @@ class SecondOrderODE(ODE):
     initial_derivative: float
 
     def __init__(self, function, initial_value: float, initial_derivative: float):
-        self.function = function
+        super().__init__(function)
         self.initial_value = initial_value
         self.initial_derivative = initial_derivative
 
