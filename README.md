@@ -8,7 +8,6 @@ excel file and the solution is visually represented on a plot generated with Mat
 ## Progress
 - [x] First Order ODE Class
 - [x] Second Order ODE Class
-- [ ] n-th Order ODE Class
 - [x] Heat Equation Class
 - [x] Wave Equation Class
 - [ ] Laplace's Equation Class

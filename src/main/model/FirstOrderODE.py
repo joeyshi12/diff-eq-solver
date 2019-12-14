@@ -13,9 +13,8 @@ class FirstOrderODE(ODE):
     def integrate(self, L: float, n: int) -> np.array:
         dx = L/n
         y = []
-        y0 = self.initial_value
+        y_i = self.initial_value
         for i in range(n):
-            y.append(y0)
-            y1 = y0 + self.function(i*dx, y0)*dx
-            y0 = y1
+            y.append(y_i)
+            y_i = y_i + self.function(i*dx, y_i)*dx
         return np.array(y)
