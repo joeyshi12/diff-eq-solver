@@ -11,12 +11,12 @@ class HeatEquation(PDE):
         super().__init__(boundary_type)
         self.p = p  # boundary condition 1
         self.q = q  # boundary condition 2
-        self.f = f  # initial condition
+        self.f = f  # initial values
 
     def integrate_dirichlet(self, dx: float, dt: float, n: int, m: int, k) -> np.array:
         u = []
         u_0 = [self.f(i * dx) for i in range(1, n)]                 # initial condition
-        u_0 = [self.p(0)] + u_0 + [self.q(0)]                       # initial boundary conditions
+        u_0 = [self.p(0)] + u_0 + [self.q(0)]                       # initial boundary values
         u.append(u_0)
         for j in range(1, m + 1):
             u_j = [self.node_val(u, k, i, j) for i in range(1, n)]  # nodal values
@@ -26,12 +26,12 @@ class HeatEquation(PDE):
 
     def integrate_neumann(self, dx: float, dt: float, n: int, m: int, k) -> np.array:
         u = []
-        u_0 = [self.f(i * dx) for i in range(n + 1)]                                    # initial condition
-        u_0 = [u_0[0] - 2 * self.p(0) * dx] + u_0 + [u_0[-1] + 2 * self.q(0) * dx]      # initial boundary conditions
+        u_0 = [self.f(i * dx) for i in range(n + 1)]                                    # initial values
+        u_0 = [u_0[1] - 2 * self.p(0) * dx] + u_0 + [u_0[-2] + 2 * self.q(0) * dx]      # initial boundary values
         u.append(u_0)
         for j in range(1, m + 1):
             u_j = [self.node_val(u, k, i, j) for i in range(1, n + 2)]                  # nodal values
-            u_j = [u_j[1] - 2 * self.p(j * dt)] + u_j + [u_j[-2] + 2 * self.q(j * dt)]  # boundary values
+            u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [u_j[-2] + 2 * self.q(j * dt) * dx]  # boundary values
             u.append(u_j)
         u = np.delete(u, 0, 1)
         u = np.delete(u, n + 1, 1)
@@ -39,26 +39,24 @@ class HeatEquation(PDE):
 
     def integrate_mixed_1(self, dx: float, dt: float, n: int, m: int, k) -> np.array:
         u = []
-        u_0 = [self.f(i * dx) for i in range(1, n + 1)]                         # initial condition
-        u_0 = [self.p(0)] + u_0 + [u_0[-2] + 2 * self.q(0) * dx]                # initial boundary conditions
+        u_0 = [self.f(i * dx) for i in range(1, n + 1)]                         # initial values
+        u_0 = [self.p(0)] + u_0 + [u_0[-2] + 2 * self.q(0) * dx]                # initial boundary values
         u.append(u_0)
-
         for j in range(1, m + 1):
             u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]          # nodal values
-            u_j = [self.p(j * dt)] + u_j + [u_j[n - 1] + 2 * self.q(j * dt)]    # boundary values
+            u_j = [self.p(j * dt)] + u_j + [u_j[n - 1] + 2 * self.q(j * dt) * dx]    # boundary values
             u.append(u_j)
         u = np.delete(u, n + 1, 1)
         return u
 
     def integrate_mixed_2(self, dx: float, dt: float, n: int, m: int, k) -> np.array:
         u = []
-        u_0 = [self.f(i * dx) for i in range(n)]                        # initial condition
-        u_0 = [u_0[1] - 2 * self.p(0) * dx] + u_0 + [self.q(0)]         # initial boundary condition
+        u_0 = [self.f(i * dx) for i in range(n)]                                # initial values
+        u_0 = [u_0[1] - 2 * self.p(0) * dx] + u_0 + [self.q(0)]                 # initial boundary values
         u.append(u_0)
-
         for j in range(1, m + 1):
-            u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]  # nodal values
-            u_j = [u_j[1] - 2 * self.p(j * dt)] + u_j + [self.q(n)]     # boundary values
+            u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]          # nodal values
+            u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [self.q(j * dt)]        # boundary values
             u.append(u_j)
         u = np.delete(u, 0, 1)
         return u

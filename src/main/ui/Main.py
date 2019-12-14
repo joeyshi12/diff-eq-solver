@@ -32,15 +32,15 @@ if __name__ == '__main__':
     except BoundaryTypeException:
         print("Invalid boundary type in heat equation")
 
-    # p = lambda t: 0  # Left Boundary
-    # q = lambda t: 0  # Right Boundary
-    # f = lambda x: 2 * x - x ** 2  # Initial Values
-    # g = lambda x: 0  # Initial Derivatives
+    # p = lambda t: 2                 # Left Boundary
+    # q = lambda t: 2                 # Right Boundary
+    # f = lambda x: 2 * x - x ** 2    # Initial Values
+    # g = lambda x: 0                 # Initial Derivatives
     # waveEquation = WaveEquation(1, 1, p, q, f, g)
     # L = 2
-    # n = 50
+    # n = 100
     # t = 2
-    # m = 2 * waveEquation.get_stable_m(L, n, t)
+    # m = waveEquation.get_stable_m(L, n, t)
     # try:
     #     waveEquation.plot_solution(L, n, t, m)
     #     waveEquation.write_solution(L, n, t, m)

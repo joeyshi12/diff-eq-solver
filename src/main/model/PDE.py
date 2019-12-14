@@ -13,8 +13,7 @@ from src.main.exception.BoundaryTypeException import BoundaryTypeException
 class PDE:
     boundary_type: int
 
-    # boundary_type is one-of
-    # 0, 1 ,2 ,3
+    # boundary_type is an int in [0, 3]
     # Interp. - 0: u(0,t)   = p(t),     u(L,t)   = q(t)
     #         - 1: u_x(0,t) = p(t),     u_x(L,t) = q(t)
     #         - 2: u(0,t)   = p(t),     u_x(L,t) = q(t)
@@ -57,13 +56,9 @@ class PDE:
             worksheet.write(2 + j, 0, t_range[j])
 
         # u values
-        i, j = 2, 2
-        for row in u:
-            for element in row:
-                worksheet.write(j, i, element)
-                i += 1
-            j += 1
-            i = 2
+        for j in range(m + 1):
+            for i in range(n + 1):
+                worksheet.write(j+2, i+2, u[j][i])
         workbook.close()
 
     def plot_solution(self, L: float, n: int, t: float, m: int):

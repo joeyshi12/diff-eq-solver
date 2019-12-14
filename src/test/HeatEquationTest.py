@@ -11,13 +11,17 @@ class HeatEquationTest(unittest.TestCase):
     heat_equation_neumann: HeatEquation
     heat_equation_mixed_1: HeatEquation
     heat_equation_mixed_2: HeatEquation
+    heat_equation_invalid: HeatEquation
 
     def setUp(self) -> None:
-        self.heat_equation_dirichlet = HeatEquation(1, 0, lambda t: 0, lambda t: 0, lambda x: 2 * x - x ** 2)
-        self.heat_equation_neumann = HeatEquation(1, 1, lambda t: 0, lambda t: 0, lambda x: 2 * x - x ** 2)
-        self.heat_equation_mixed_1 = HeatEquation(1, 2, lambda t: 0, lambda t: 0, lambda x: 2 * x - x ** 2)
-        self.heat_equation_mixed_2 = HeatEquation(1, 3, lambda t: 0, lambda t: 0, lambda x: 2 * x - x ** 2)
-        self.heat_equation_invalid =  HeatEquation(1, 4, lambda t: 0, lambda t: 0, lambda x: 2 * x - x ** 2)
+        p = lambda t: 0
+        q = lambda t: 0
+        f = lambda x: 2 * x - x ** 2
+        self.heat_equation_dirichlet = HeatEquation(1, 0, p, q, f)
+        self.heat_equation_neumann = HeatEquation(1, 1, p, q, f)
+        self.heat_equation_mixed_1 = HeatEquation(1, 2, p, q, f)
+        self.heat_equation_mixed_2 = HeatEquation(1, 3, p, q, f)
+        self.heat_equation_invalid =  HeatEquation(1, 4, p, q, f)
 
     def test_integrate_dirichlet(self):
         L = 2
@@ -31,8 +35,6 @@ class HeatEquationTest(unittest.TestCase):
         for j in range(m + 1):
             self.assertEquals(u_numerical[j][0], self.heat_equation_dirichlet.p(j))
             self.assertEquals(u_numerical[j][-1], self.heat_equation_dirichlet.q(j))
-
-        # TODO: make tests more rigorous
 
     def test_integrate_invalid(self):
         try:
