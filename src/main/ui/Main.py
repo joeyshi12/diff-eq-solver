@@ -18,33 +18,33 @@ if __name__ == '__main__':
     # x1, x2, y1, y2 = plt.axis()
     # plt.axis((x1,x2,-2,2))
 
-    p = lambda t: 0               # Left Boundary
-    q = lambda t: 0               # Right Boundary
-    f = lambda x: 2 * x - x ** 2  # Initial Values
-    heatEquation = HeatEquation(1, 0, p, q, f)
-    L = 2
-    n = 25
-    t = 1
-    m = heatEquation.get_stable_m(L, n, t)
-    try:
-        heatEquation.plot_solution(L, n, t, m)
-        heatEquation.write_solution(L, n, t, m)
-    except BoundaryTypeException:
-        print("Invalid boundary type in heat equation")
-
-    # p = lambda t: 2                 # Left Boundary
-    # q = lambda t: 2                 # Right Boundary
-    # f = lambda x: 2 * x - x ** 2    # Initial Values
-    # g = lambda x: 0                 # Initial Derivatives
-    # waveEquation = WaveEquation(1, 1, p, q, f, g)
+    # p = lambda t: 0               # Left Boundary
+    # q = lambda t: 0               # Right Boundary
+    # f = lambda x: 2 * x - x ** 2  # Initial Values
+    # heatEquation = HeatEquation(1, 0, p, q, f)
     # L = 2
-    # n = 100
-    # t = 2
-    # m = waveEquation.get_stable_m(L, n, t)
+    # n = 25
+    # t = 1
+    # m = heatEquation.get_stable_m(L, n, t)
     # try:
-    #     waveEquation.plot_solution(L, n, t, m)
-    #     waveEquation.write_solution(L, n, t, m)
+    #     heatEquation.plot_solution(L, n, t, m)
+    #     heatEquation.write_solution(L, n, t, m)
     # except BoundaryTypeException:
-    #     print("Invalid boundary type in wave equation")
+    #     print("Invalid boundary type in heat equation")
+
+    p = lambda t: 2                 # Left Boundary
+    q = lambda t: 2                 # Right Boundary
+    f = lambda x: 2 * x - x ** 2    # Initial Values
+    g = lambda x: 0                 # Initial Derivatives
+    waveEquation = WaveEquation(1, 1, p, q, f, g)
+    L = 2
+    n = 100
+    t = 2
+    m = waveEquation.get_stable_m(L, n, t)
+    try:
+        waveEquation.plot_solution(L, n, t, m)
+        waveEquation.write_solution(L, n, t, m)
+    except BoundaryTypeException:
+        print("Invalid boundary type in wave equation")
 
     plt.show()
