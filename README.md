@@ -14,8 +14,13 @@ excel file and the solution is visually represented on a plot generated with Mat
 
 ## Getting Started
 
-Sample code for running the program can be found at src/main/ui/Main.py. Try changing the parameters of the constructor 
-calls and see how it changes the excel spreadsheets in src/main/ui/excel_data. 
+1. Clone the repository. \
+```git clone https://github.com/joeyshi12/diff-eq-solver.git```
+2. Install numpy and matplotlib. \
+```python -m pip install numpy``` \
+```python -m pip install matplotlib``` 
+3. Inside of Main.py, try changing the parameters inside of the example functions and check the changes inside of 
+excel_data. 
 
 ## Example
 ```python

@@ -1,9 +1,7 @@
 import unittest
 
-import numpy as np
-
-from src.main.exception.BoundaryTypeException import BoundaryTypeException
-from src.main.model.WaveEquation import WaveEquation
+from exception.BoundaryTypeException import BoundaryTypeException
+from model.WaveEquation import WaveEquation
 
 
 class WaveEquationTest(unittest.TestCase):

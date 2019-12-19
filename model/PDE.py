@@ -1,13 +1,12 @@
 import abc
 
 import xlsxwriter
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-from src.main.exception.BoundaryTypeException import BoundaryTypeException
+from exception.BoundaryTypeException import BoundaryTypeException
 
 
 class PDE:

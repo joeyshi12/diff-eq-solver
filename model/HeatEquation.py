@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.main.model.PDE import PDE
+from model.PDE import PDE
 
 
 class HeatEquation(PDE):
@@ -15,8 +15,7 @@ class HeatEquation(PDE):
 
     def integrate_dirichlet(self, dx: float, dt: float, n: int, m: int, k) -> np.array:
         u = []
-        u_0 = [self.f(i * dx) for i in range(1, n)]                 # initial condition
-        u_0 = [self.p(0)] + u_0 + [self.q(0)]                       # initial boundary values
+        u_0 = [self.f(i * dx) for i in range(n + 1)]                 # initial condition
         u.append(u_0)
         for j in range(1, m + 1):
             u_j = [self.node_val(u, k, i, j) for i in range(1, n)]  # nodal values
@@ -39,8 +38,8 @@ class HeatEquation(PDE):
 
     def integrate_mixed_1(self, dx: float, dt: float, n: int, m: int, k) -> np.array:
         u = []
-        u_0 = [self.f(i * dx) for i in range(1, n + 1)]                         # initial values
-        u_0 = [self.p(0)] + u_0 + [u_0[-2] + 2 * self.q(0) * dx]                # initial boundary values
+        u_0 = [self.f(i * dx) for i in range(n + 1)]                         # initial values
+        u_0 = u_0 + [u_0[-2] + 2 * self.q(0) * dx]                # initial boundary values
         u.append(u_0)
         for j in range(1, m + 1):
             u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]          # nodal values
@@ -51,8 +50,8 @@ class HeatEquation(PDE):
 
     def integrate_mixed_2(self, dx: float, dt: float, n: int, m: int, k) -> np.array:
         u = []
-        u_0 = [self.f(i * dx) for i in range(n)]                                # initial values
-        u_0 = [u_0[1] - 2 * self.p(0) * dx] + u_0 + [self.q(0)]                 # initial boundary values
+        u_0 = [self.f(i * dx) for i in range(n + 1)]                                # initial values
+        u_0 = [u_0[1] - 2 * self.p(0) * dx] + u_0                # initial boundary values
         u.append(u_0)
         for j in range(1, m + 1):
             u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]          # nodal values

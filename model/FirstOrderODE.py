@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.main.model.ODE import ODE
+from model.ODE import ODE
 
 
 class FirstOrderODE(ODE):

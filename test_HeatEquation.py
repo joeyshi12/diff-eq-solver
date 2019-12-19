@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.main.exception.BoundaryTypeException import BoundaryTypeException
-from src.main.model.HeatEquation import HeatEquation
+from exception.BoundaryTypeException import BoundaryTypeException
+from model.HeatEquation import HeatEquation
 
 
 class HeatEquationTest(unittest.TestCase):

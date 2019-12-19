@@ -1,5 +1,5 @@
 import unittest
-from src.main.model.FirstOrderODE import *
+from model.FirstOrderODE import *
 
 
 class FirstOrderODETest(unittest.TestCase):

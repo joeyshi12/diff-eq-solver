@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.main.model.SecondOrderODE import SecondOrderODE
+from model.SecondOrderODE import SecondOrderODE
 
 
 class SecondOrderODETest(unittest.TestCase):
