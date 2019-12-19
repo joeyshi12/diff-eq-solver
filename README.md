@@ -31,7 +31,7 @@ heatEquation = HeatEquation(1, 0, p, q, f)
 L = 2
 n = 25
 t = 1
-m = heatEquation.get_stable_m(L, n, t)    # Larger values increases accuracy
+m = heatEquation.get_stable_m(L, n, t)    
 try:
     heatEquation.plot_solution(L, n, t, m)
     heatEquation.write_solution(L, n, t, m)
