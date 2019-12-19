@@ -19,8 +19,8 @@ excel file and the solution is visually represented on a plot generated with Mat
 2. Install numpy and matplotlib. \
 ```python -m pip install numpy``` \
 ```python -m pip install matplotlib``` 
-3. Inside of Main.py, try changing the parameters inside of the example functions and check the changes inside of 
-excel_data. 
+3. Inside of Main.py, try changing the parameters inside of the example functions and run the file. A plot should appear
+and the values of the solution will be written on the corresponding spreadsheet inside of excel_data.
 
 ## Example
 ```python
