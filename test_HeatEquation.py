@@ -6,7 +6,7 @@ from exception.BoundaryTypeException import BoundaryTypeException
 from model.HeatEquation import HeatEquation
 
 
-class HeatEquationTest(unittest.TestCase):
+class TestHeatEquation(unittest.TestCase):
     heat_equation_dirichlet: HeatEquation
     heat_equation_neumann: HeatEquation
     heat_equation_mixed_1: HeatEquation

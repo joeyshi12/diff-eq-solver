@@ -2,7 +2,7 @@ import unittest
 from model.FirstOrderODE import *
 
 
-class FirstOrderODETest(unittest.TestCase):
+class TestFirstOrderODE(unittest.TestCase):
     test_ode: FirstOrderODE
 
     def setUp(self) -> None:

@@ -5,7 +5,7 @@ import numpy as np
 from model.SecondOrderODE import SecondOrderODE
 
 
-class SecondOrderODETest(unittest.TestCase):
+class TestSecondOrderODE(unittest.TestCase):
     test_ode: SecondOrderODE
 
     def setUp(self) -> None:

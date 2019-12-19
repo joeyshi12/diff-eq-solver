@@ -4,7 +4,7 @@ from exception.BoundaryTypeException import BoundaryTypeException
 from model.WaveEquation import WaveEquation
 
 
-class WaveEquationTest(unittest.TestCase):
+class TestWaveEquation(unittest.TestCase):
     wave_equation_dirichlet: WaveEquation
     wave_equation_neumann: WaveEquation
     wave_equation_mixed_1: WaveEquation
