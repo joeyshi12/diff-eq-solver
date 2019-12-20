@@ -18,13 +18,15 @@ class PDE:
     #         - 2: u(0,t)   = p(t),     u_x(L,t) = q(t)
     #         - 3: u_x(0,t) = p(t),     u(L,t)   = q(t)
 
-    def __init__(self, boundary_type):
+    def __init__(self, boundary_type, p, q):
         self.boundary_type = boundary_type
+        self.p = p
+        self.q = q
 
     def integrate(self, L: float, n: int, t: float, m: int) -> np.ndarray:
         dx = L / n
         dt = t / m
-        k = self.get_k(dx, dt)
+        k = self.calc_k(dx, dt)
         if self.boundary_type == 0:
             return self.integrate_dirichlet(dx, dt, n, m, k)
         elif self.boundary_type == 1:
@@ -35,6 +37,26 @@ class PDE:
             return self.integrate_mixed_2(dx, dt, n, m, k)
         else:
             raise BoundaryTypeException
+
+    def add_layer_dirichlet(self, dt, j, k, n, u):
+        u_j = [self.node_val(u, k, i, j) for i in range(1, n)]                  # nodal values
+        u_j = [self.p(j * dt)] + u_j + [self.q(j * dt)]                         # boundary values
+        u.append(u_j)
+
+    def add_layer_neumann(self, dt, dx, j, k, n, u):
+        u_j = [self.node_val(u, k, i, j) for i in range(1, n + 2)]                              # nodal values
+        u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [u_j[-2] + 2 * self.q(j * dt) * dx]    # boundary values
+        u.append(u_j)
+
+    def add_layer_mixed_1(self, dt, dx, j, k, n, u):
+        u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]              # nodal values
+        u_j = [self.p(j * dt)] + u_j + [u_j[n - 1] + 2 * self.q(j * dt) * dx]   # boundary values
+        u.append(u_j)
+
+    def add_layer_mixed_2(self, dt, dx, j, k, n, u):
+        u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]              # nodal values
+        u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [self.q(j * dt)]       # boundary values
+        u.append(u_j)
 
     def write_solution(self, L: float, n: int, t: float, m: int):
         # Data
@@ -92,5 +114,9 @@ class PDE:
         pass
 
     @abc.abstractmethod
-    def get_k(self, dx: float, dt: float) -> float:
+    def node_val(self, u: np.array, k: float, i: int, j: int) -> float:
+        pass
+
+    @abc.abstractmethod
+    def calc_k(self, dx: float, dt: float) -> float:
         pass
