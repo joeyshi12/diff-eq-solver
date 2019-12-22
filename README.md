@@ -10,7 +10,9 @@ excel file and the solution is visually represented on a plot generated with Mat
 - [x] Second Order ODE Class
 - [x] Heat Equation Class
 - [x] Wave Equation Class
+- [ ] Good Looking GUI
 - [ ] Laplace's Equation Class
+- [ ] Schrodinger's Equation Class
 
 ## Getting Started
 
