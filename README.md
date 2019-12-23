@@ -11,7 +11,6 @@ excel file and the solution is visually represented on a plot generated with Mat
 - [x] Heat Equation Class
 - [x] Wave Equation Class
 - [x] GUI
-- [x] Create executable
 - [ ] Good Looking GUI
 - [ ] Source term for PDE classes
 - [ ] Laplace's Equation Class
@@ -22,7 +21,11 @@ excel file and the solution is visually represented on a plot generated with Mat
 1. Clone the repository. \
 ```git clone https://github.com/joeyshi12/diff-eq-solver.git```
 
-2. In the project folder, run main.exe.
+2. Install numpy and matplotlib. \
+```python -m pip install numpy``` \
+```python -m pip install matplotlib``` 
+
+3. Inside of the project folder, run main.cmd.
 
 ## Example
 
