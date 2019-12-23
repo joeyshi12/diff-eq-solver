@@ -10,7 +10,10 @@ excel file and the solution is visually represented on a plot generated with Mat
 - [x] Second Order ODE Class
 - [x] Heat Equation Class
 - [x] Wave Equation Class
+- [x] GUI
+- [x] Create executable
 - [ ] Good Looking GUI
+- [ ] Source term for PDE classes
 - [ ] Laplace's Equation Class
 - [ ] Schrodinger's Equation Class
 
@@ -19,29 +22,11 @@ excel file and the solution is visually represented on a plot generated with Mat
 1. Clone the repository. \
 ```git clone https://github.com/joeyshi12/diff-eq-solver.git```
 
-2. Install numpy and matplotlib. \
-```python -m pip install numpy``` \
-```python -m pip install matplotlib``` 
-
-3. Inside of Main.py, try changing the parameters inside of the example functions and run the file. A plot should appear
-and the values of the solution will be written on the corresponding spreadsheet inside of excel_data.
+2. In the project folder, run main.exe.
 
 ## Example
-```python
-p = lambda t: 0               # Left Boundary
-q = lambda t: 0               # Right Boundary
-f = lambda x: 2 * x - x ** 2  # Initial Values
-heatEquation = HeatEquation(1, 0, p, q, f)
-L = 2
-n = 25
-t = 1
-m = heatEquation.get_stable_m(L, n, t)    
-try:
-    heatEquation.plot_solution(L, n, t, m)
-    heatEquation.write_solution(L, n, t, m)
-except BoundaryTypeException:
-    print("Invalid boundary type in heat equation")
-```
+
+![Capture](https://user-images.githubusercontent.com/46363213/71333241-2f252000-24ee-11ea-95b7-98d9e014a2a3.PNG)
 
 ![heat_figure](https://user-images.githubusercontent.com/46363213/70660505-378c7980-1c17-11ea-9d0c-3286d399c247.png)
 
