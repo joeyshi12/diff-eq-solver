@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from math import *
 import tkinter as tk
 
+from ui.MainView import MainView
+
 
 def first_order_ode_example():
     first_order_ode = FirstOrderODE(lambda x, y: y, 1)
@@ -62,10 +64,16 @@ def wave_equation_example():
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Differential Equation Solver")
-    root.geometry("400x400")
-    tk.Label(root, text="Demo").pack(side=tk.TOP, pady=20)
-    tk.Button(root, text="ode1 example", command=first_order_ode_example).pack(side=tk.TOP,pady=10)
-    tk.Button(root, text="ode2 example", command=second_order_ode_example).pack(side=tk.TOP, pady=10)
-    tk.Button(root, text="heat example", command=heat_equation_example).pack(side=tk.TOP, pady=10)
-    tk.Button(root, text="wave example", command=wave_equation_example).pack(side=tk.TOP, pady=10)
+    root.geometry("490x400")
+    # tk.Label(root, text="Choose a type").pack(side=tk.TOP, pady=20)
+    # ode1_button = tk.Button(root, text="First Order Ordinary Equation", command=first_order_page, width=42)
+    # ode1_button.pack(side=tk.TOP,pady=10)
+    # ode2_button = tk.Button(root, text="Second Order Ordinary Equation", command=second_order_page, width=42)
+    # ode2_button.pack(side=tk.TOP, pady=10)
+    # heat_button = tk.Button(root, text="Heat Equation", command=heat_page, width=42)
+    # heat_button.pack(side=tk.TOP, pady=10)
+    # wave_button = tk.Button(root, text="Wave Equation", command=wave_equation_example, width=42)
+    # wave_button.pack(side=tk.TOP, pady=10)
+    main = MainView(root)
+    main.pack(side="top", fill="both", expand=True)
     root.mainloop()
