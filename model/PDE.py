@@ -11,7 +11,6 @@ from exception.BoundaryTypeException import BoundaryTypeException
 
 class PDE:
     boundary_type: int
-
     # boundary_type is an int in [0, 3]
     # Interp. - 0: u(0,t)   = p(t),     u(L,t)   = q(t)
     #         - 1: u_x(0,t) = p(t),     u_x(L,t) = q(t)
@@ -24,6 +23,7 @@ class PDE:
         self.q = q
 
     def integrate(self, L: float, n: int, t: float, m: int) -> np.ndarray:
+        """returns the solution as an (m+1)x(n+1) array"""
         dx = L / n
         dt = t / m
         k = self.calc_k(dx, dt)
@@ -39,26 +39,31 @@ class PDE:
             raise BoundaryTypeException
 
     def add_layer_dirichlet(self, dt, j, k, n, u):
+        """computes and appends the jth layer of the solution for Dirichlet boundary conditions"""
         u_j = [self.node_val(u, k, i, j) for i in range(1, n)]                  # nodal values
         u_j = [self.p(j * dt)] + u_j + [self.q(j * dt)]                         # boundary values
         u.append(u_j)
 
     def add_layer_neumann(self, dt, dx, j, k, n, u):
+        """computes and appends the jth layer of the solution for Neumann boundary conditions"""
         u_j = [self.node_val(u, k, i, j) for i in range(1, n + 2)]                              # nodal values
         u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [u_j[-2] + 2 * self.q(j * dt) * dx]    # boundary values
         u.append(u_j)
 
     def add_layer_mixed_1(self, dt, dx, j, k, n, u):
+        """computes and appends the jth layer of the solution for mixed 1 boundary conditions"""
         u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]              # nodal values
         u_j = [self.p(j * dt)] + u_j + [u_j[n - 1] + 2 * self.q(j * dt) * dx]   # boundary values
         u.append(u_j)
 
     def add_layer_mixed_2(self, dt, dx, j, k, n, u):
+        """computes and appends the jth layer of the solution for mixed 2 boundary conditions"""
         u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]              # nodal values
         u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [self.q(j * dt)]       # boundary values
         u.append(u_j)
 
     def write_solution(self, L: float, n: int, t: float, m: int):
+        """writes the solution over the domain [0,L]x[0,t] with (m+1)x(n+1) iterations to PDE.xlsx"""
         # Data
         x_range = np.linspace(0, L, n + 1)
         t_range = np.linspace(0, t, m + 1)
@@ -83,6 +88,7 @@ class PDE:
         workbook.close()
 
     def plot_solution(self, L: float, n: int, t: float, m: int):
+        """plots the solution over the domain [0,L]x[0,t] with (m+1)x(n+1)"""
         # Data
         x_range = np.linspace(0, L, n + 1)
         t_range = np.linspace(0, t, m + 1)
@@ -99,24 +105,35 @@ class PDE:
 
     @abc.abstractmethod
     def integrate_dirichlet(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
+        """returns the solution for Dirichlet boundary conditions"""
         pass
 
     @abc.abstractmethod
     def integrate_neumann(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
+        """returns the solution for Neumann boundary conditions"""
         pass
 
     @abc.abstractmethod
     def integrate_mixed_1(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
+        """returns the solution for mixed 1 boundary conditions"""
         pass
 
     @abc.abstractmethod
     def integrate_mixed_2(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
+        """returns the solution for mixed 2 boundary conditions"""
         pass
 
     @abc.abstractmethod
     def node_val(self, u: np.array, k: float, i: int, j: int) -> float:
+        """computes the value of the solution at row j, column i"""
         pass
 
     @abc.abstractmethod
     def calc_k(self, dx: float, dt: float) -> float:
+        """computes the k value"""
+        pass
+
+    @abc.abstractmethod
+    def get_stable_m(self, L: float, n: int, t: float) -> int:
+        """returns an m value that satisfies a stable solution"""
         pass

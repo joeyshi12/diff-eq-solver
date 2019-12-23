@@ -11,6 +11,7 @@ class ODE:
         self.function = function
 
     def write_solution(self, L: float, n: int):
+        """writes the solution over the domain [0,L] with n iterations"""
         x = np.linspace(0, L, n)
         y = self.integrate(L, n)
         table = np.column_stack((x, y))
@@ -26,10 +27,12 @@ class ODE:
         workbook.close()
 
     def plot_solution(self, L: float, n: int):
+        """plots the solution over the domain [0,L] with n iterations"""
         x = np.linspace(0, L, n)
         y = self.integrate(L, n)
         plt.plot(x, y)
 
     @abc.abstractmethod
     def integrate(self, L: float, n: int) -> np.array:
+        """returns the solution over the domain [0,L] with n iterations"""
         pass
