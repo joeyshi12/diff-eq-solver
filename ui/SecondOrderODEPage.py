@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from math import *
 from model.SecondOrderODE import SecondOrderODE
 from ui.Page import Page
 import matplotlib.pyplot as plt

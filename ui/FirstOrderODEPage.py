@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from math import *
 import matplotlib.pyplot as plt
 from model.FirstOrderODE import FirstOrderODE
 from ui.Page import Page
@@ -26,12 +27,11 @@ class FirstOrderODEPage(Page):
         ode = FirstOrderODE(lambda x, y: x, 0)
 
         def plot_and_write():
-            f = lambda x, y: eval(f_entry.get())
-            y0 = eval(y0_entry.get())
+            ode.function = lambda x, y: eval(f_entry.get())
+            ode.initial_value = eval(y0_entry.get())
             L = eval(L_entry.get())
             n = int(n_entry.get())
-            ode.function = f
-            ode.initial_value =y0
+            ode.plot_solution(L, n)
             ode.write_solution(L, n)
             plt.show()
 
