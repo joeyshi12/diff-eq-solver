@@ -26,16 +26,17 @@ class SecondOrderODEPage(Page):
         L_entry.grid(row=4, column=1, pady=10)
         n_entry.grid(row=5, column=1, pady=10)
 
-        def plot_and_record():
-            f = lambda x, y, z: eval(f_entry.get())
-            y0 = eval(y0_entry.get())
-            z0 = eval(z0_entry.get())
+        ode = SecondOrderODE(lambda x, y, z: x, 0, 0)
+
+        def plot_and_write():
+            ode.function = lambda x, y, z: eval(f_entry.get())
+            ode.initial_value = eval(y0_entry.get())
+            ode.initial_derivative = eval(z0_entry.get())
             L = eval(L_entry.get())
             n = int(n_entry.get())
-            ode = SecondOrderODE(f, y0, z0)
             ode.plot_solution(L, n)
             ode.write_solution(L, n)
             plt.show()
 
-        plot_button = tk.Button(self, text="plot and record solution", command=plot_and_record)
-        plot_button.grid(row=6, column=1, pady=10)
+        record_button = tk.Button(self, text="plot and write solution", command=plot_and_write)
+        record_button.grid(row=6, column=1, pady=10)

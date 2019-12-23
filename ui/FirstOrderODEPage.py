@@ -23,15 +23,17 @@ class FirstOrderODEPage(Page):
         L_entry.grid(row=3, column=1, pady=10)
         n_entry.grid(row=4, column=1, pady=10)
 
-        def plot_and_record():
+        ode = FirstOrderODE(lambda x, y: x, 0)
+
+        def plot_and_write():
             f = lambda x, y: eval(f_entry.get())
             y0 = eval(y0_entry.get())
             L = eval(L_entry.get())
             n = int(n_entry.get())
-            ode = FirstOrderODE(f, y0)
-            ode.plot_solution(L, n)
+            ode.function = f
+            ode.initial_value =y0
             ode.write_solution(L, n)
             plt.show()
 
-        plot_button = tk.Button(self, text="plot and record solution", command=plot_and_record)
-        plot_button.grid(row=5, column=1, pady=10)
+        record_button = tk.Button(self, text="plot and write solution", command=plot_and_write)
+        record_button.grid(row=5, column=1, pady=10)
