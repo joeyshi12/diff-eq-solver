@@ -5,27 +5,21 @@ equations. For partial differential equations, we focus on special types of part
 heat equation, wave equation, and Laplace's equation. The solution values are organized in a table and written to an 
 excel file and the solution is visually represented on a plot generated with Matplotlib. <br>
 
+# Requirements
+
+1. numpy
+2. matplotlib
+3. xlsxwriter
+
+
 ## Progress
 - [x] First Order ODE Class
 - [x] Second Order ODE Class
 - [x] Heat Equation Class
 - [x] Wave Equation Class
 - [x] GUI
-- [ ] Good Looking GUI
 - [ ] Source term for PDE classes
 - [ ] Laplace's Equation Class
-- [ ] Schrodinger's Equation Class
-
-## Getting Started
-
-1. Clone the repository. \
-```git clone https://github.com/joeyshi12/diff-eq-solver.git```
-
-2. Install numpy and matplotlib. \
-```python -m pip install numpy``` \
-```python -m pip install matplotlib``` 
-
-3. Inside of the project folder, run main.cmd.
 
 ## Example
 
