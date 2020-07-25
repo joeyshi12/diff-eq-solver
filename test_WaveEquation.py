@@ -27,7 +27,7 @@ class TestWaveEquation(unittest.TestCase):
         n = 20
         t = 1
         m = self.wave_equation_dirichlet.get_stable_m(L, n, t)
-        u_numerical = self.wave_equation_dirichlet.integrate(L, n, t, m)
+        u_numerical = self.wave_equation_dirichlet.solve(L, n, t, m)
 
         # Test Boundaries
         for j in range(m + 1):
@@ -36,7 +36,7 @@ class TestWaveEquation(unittest.TestCase):
 
     def test_integrate_invalid(self):
         try:
-            self.wave_equation_invalid.integrate(1, 1, 1, 1)
+            self.wave_equation_invalid.solve(1, 1, 1, 1)
             self.fail("fail invalid boundary test")
         except BoundaryTypeException:
             print("pass invalid boundary test")

@@ -1,139 +1,103 @@
+import os
 import abc
-
 import xlsxwriter
 import numpy as np
+from matplotlib.animation import FuncAnimation
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 from matplotlib import cm
-
 from exception.BoundaryTypeException import BoundaryTypeException
 
 
 class PDE:
-    boundary_type: int
-    # boundary_type is an int in [0, 3]
-    # Interp. - 0: u(0,t)   = p(t),     u(L,t)   = q(t)
-    #         - 1: u_x(0,t) = p(t),     u_x(L,t) = q(t)
-    #         - 2: u(0,t)   = p(t),     u_x(L,t) = q(t)
-    #         - 3: u_x(0,t) = p(t),     u(L,t)   = q(t)
+    u: np.ndarray
+    x_range: np.ndarray
+    t_range: np.ndarray
+
+    # boundary_type is an int in [1, 4]
+    # Interp. - 1: u(0,t)   = p(t),     u(L,t)   = q(t)
+    #         - 2: u_x(0,t) = p(t),     u_x(L,t) = q(t)
+    #         - 3: u(0,t)   = p(t),     u_x(L,t) = q(t)
+    #         - 4: u_x(0,t) = p(t),     u(L,t)   = q(t)
 
     def __init__(self, boundary_type, p, q):
         self.boundary_type = boundary_type
         self.p = p
         self.q = q
 
-    def integrate(self, L: float, n: int, t: float, m: int) -> np.ndarray:
-        """returns the solution as an (m+1)x(n+1) array"""
+    def solve(self, L, n, t, m):
         dx = L / n
         dt = t / m
-        k = self.calc_k(dx, dt)
-        if self.boundary_type == 0:
-            return self.integrate_dirichlet(dx, dt, n, m, k)
-        elif self.boundary_type == 1:
-            return self.integrate_neumann(dx, dt, n, m, k)
+        self.x_range = np.arange(n + 1) * dx
+        self.t_range = np.arange(m + 1) * dt
+        k = self.k_val(dx, dt)
+        if self.boundary_type == 1:
+            self.solve_dirichlet(dx, dt, n, m, k)
         elif self.boundary_type == 2:
-            return self.integrate_mixed_1(dx, dt, n, m, k)
+            self.solve_neumann(dx, dt, n, m, k)
         elif self.boundary_type == 3:
-            return self.integrate_mixed_2(dx, dt, n, m, k)
+            self.solve_mixed_1(dx, dt, n, m, k)
+        elif self.boundary_type == 4:
+            self.solve_mixed_2(dx, dt, n, m, k)
         else:
             raise BoundaryTypeException
 
-    def add_layer_dirichlet(self, dt, j, k, n, u):
-        """computes and appends the jth layer of the solution for Dirichlet boundary conditions"""
-        u_j = [self.node_val(u, k, i, j) for i in range(1, n)]                  # nodal values
-        u_j = [self.p(j * dt)] + u_j + [self.q(j * dt)]                         # boundary values
-        u.append(u_j)
-
-    def add_layer_neumann(self, dt, dx, j, k, n, u):
-        """computes and appends the jth layer of the solution for Neumann boundary conditions"""
-        u_j = [self.node_val(u, k, i, j) for i in range(1, n + 2)]                              # nodal values
-        u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [u_j[-2] + 2 * self.q(j * dt) * dx]    # boundary values
-        u.append(u_j)
-
-    def add_layer_mixed_1(self, dt, dx, j, k, n, u):
-        """computes and appends the jth layer of the solution for mixed 1 boundary conditions"""
-        u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]              # nodal values
-        u_j = [self.p(j * dt)] + u_j + [u_j[n - 1] + 2 * self.q(j * dt) * dx]   # boundary values
-        u.append(u_j)
-
-    def add_layer_mixed_2(self, dt, dx, j, k, n, u):
-        """computes and appends the jth layer of the solution for mixed 2 boundary conditions"""
-        u_j = [self.node_val(u, k, i, j) for i in range(1, n + 1)]              # nodal values
-        u_j = [u_j[1] - 2 * self.p(j * dt) * dx] + u_j + [self.q(j * dt)]       # boundary values
-        u.append(u_j)
-
-    def write_solution(self, L: float, n: int, t: float, m: int):
-        """writes the solution over the domain [0,L]x[0,t] with (m+1)x(n+1) iterations to PDE.xlsx"""
-        # Data
-        x_range = np.linspace(0, L, n + 1)
-        t_range = np.linspace(0, t, m + 1)
-        u = self.integrate(L, n, t, m)
+    def write_solution(self):
+        m = self.u.shape[0] - 1
+        n = self.u.shape[1] - 1
         workbook = xlsxwriter.Workbook('excel_data/PDE.xlsx')
         worksheet = workbook.add_worksheet()
 
-        # x labels
         worksheet.write(0, 1, "x →")
         for i in range(n + 1):
-            worksheet.write(0, 2 + i, x_range[i])
+            worksheet.write(0, 2 + i, self.x_range[i])
 
-        # t labels
         worksheet.write(1, 0, "t ↓")
         for j in range(m + 1):
-            worksheet.write(2 + j, 0, t_range[j])
+            worksheet.write(2 + j, 0, self.t_range[j])
 
-        # u values
         for j in range(m + 1):
             for i in range(n + 1):
-                worksheet.write(j+2, i+2, u[j][i])
+                worksheet.write(j + 2, i + 2, self.u[j, i])
         workbook.close()
 
-    def plot_solution(self, L: float, n: int, t: float, m: int):
-        """plots the solution over the domain [0,L]x[0,t] with (m+1)x(n+1)"""
-        # Data
-        x_range = np.linspace(0, L, n + 1)
-        t_range = np.linspace(0, t, m + 1)
-        x_range, t_range = np.meshgrid(x_range, t_range)
-        u = self.integrate(L, n, t, m)
-
-        # Plot
+    def plot_solution(self):
+        x_mesh, t_mesh = np.meshgrid(self.x_range, self.t_range)
         fig = plt.figure()
         ax = fig.gca(projection='3d')
-        surf = ax.plot_surface(x_range, t_range, u, cmap=cm.coolwarm, linewidth=0, antialiased=False)
-
-        # Colour Bar
+        surf = ax.plot_surface(x_mesh, t_mesh, self.u, cmap=cm.coolwarm, linewidth=0, antialiased=False)
         fig.colorbar(surf, shrink=0.5, aspect=5)
 
+    def animate_solution(self):
+        fig, ax = plt.subplots()
+        ax.set_xlim(0, self.x_range[-1])
+        ax.set_ylim(np.min(self.u), np.max(self.u))
+        line, = ax.plot(0, 0)
+
+        def animation_frame(i):
+            line.set_xdata(self.x_range)
+            line.set_ydata(self.u[i, np.arange(self.x_range.size)])
+            return line,
+
+        FuncAnimation(fig, func=animation_frame, frames=np.arange(0, self.u.shape[0], 1))
+        plt.show()
+
     @abc.abstractmethod
-    def integrate_dirichlet(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
-        """returns the solution for Dirichlet boundary conditions"""
+    def solve_dirichlet(self, dx, dt, n, m, k):
         pass
 
     @abc.abstractmethod
-    def integrate_neumann(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
-        """returns the solution for Neumann boundary conditions"""
+    def solve_neumann(self, dx, dt, n, m, k):
         pass
 
     @abc.abstractmethod
-    def integrate_mixed_1(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
-        """returns the solution for mixed 1 boundary conditions"""
+    def solve_mixed_1(self, dx, dt, n, m, k):
         pass
 
     @abc.abstractmethod
-    def integrate_mixed_2(self, dx: float, dt: float, n: int, m: int, k: float) -> np.array:
-        """returns the solution for mixed 2 boundary conditions"""
+    def solve_mixed_2(self, dx, dt, n, m, k):
         pass
 
     @abc.abstractmethod
-    def node_val(self, u: np.array, k: float, i: int, j: int) -> float:
-        """computes the value of the solution at row j, column i"""
-        pass
-
-    @abc.abstractmethod
-    def calc_k(self, dx: float, dt: float) -> float:
-        """computes the k value"""
-        pass
-
-    @abc.abstractmethod
-    def get_stable_m(self, L: float, n: int, t: float) -> int:
-        """returns an m value that satisfies a stable solution"""
+    def k_val(self, dx, dt) -> float:
         pass

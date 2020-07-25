@@ -1,12 +1,10 @@
 import abc
-
 import matplotlib.pyplot as plt
 import numpy as np
 import xlsxwriter
 
 
 class ODE:
-
     def __init__(self, function):
         self.function = function
 

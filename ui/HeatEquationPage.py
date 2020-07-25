@@ -12,10 +12,10 @@ class HeatEquationPage(Page):
 
         boundary_type_variable = tk.IntVar()
         boundary_type_variable.set(value=0)
-        rb1 = tk.Radiobutton(self, text="Dirichlet", variable=boundary_type_variable, value=0, padx=10)
-        rb2 = tk.Radiobutton(self, text="Neumann", variable=boundary_type_variable, value=1, padx=10)
-        rb3 = tk.Radiobutton(self, text="Mixed 1", variable=boundary_type_variable, value=2, padx=10)
-        rb4 = tk.Radiobutton(self, text="Mixed 2", variable=boundary_type_variable, value=3, padx=10)
+        rb1 = tk.Radiobutton(self, text="Dirichlet", variable=boundary_type_variable, value=1, padx=10)
+        rb2 = tk.Radiobutton(self, text="Neumann", variable=boundary_type_variable, value=2, padx=10)
+        rb3 = tk.Radiobutton(self, text="Mixed 1", variable=boundary_type_variable, value=3, padx=10)
+        rb4 = tk.Radiobutton(self, text="Mixed 2", variable=boundary_type_variable, value=4, padx=10)
 
         rb1.grid(row=0, column=1)
         rb2.grid(row=1, column=1)
@@ -50,7 +50,7 @@ class HeatEquationPage(Page):
 
         def plot_and_write():
             pde.alpha = eval(alpha_entry.get())
-            pde.boundary_type = int(boundary_type_variable.get())
+            pde.boundary_type = boundary_type_variable.get()
             pde.p = lambda t: eval(p_entry.get())
             pde.q = lambda t: eval(q_entry.get())
             pde.f = lambda x: eval(f_entry.get())
@@ -58,9 +58,13 @@ class HeatEquationPage(Page):
             t = eval(t_entry.get())
             n = int(n_entry.get())
             m = int(pde.get_stable_m(L, n, t))
-            pde.plot_solution(L, n, t, m)
-            pde.write_solution(L, n, t, m)
+            pde.solve(L, n, t, m)
+            pde.plot_solution()
+            pde.write_solution()
             plt.show()
 
         record_button = tk.Button(self, text="plot and write solution", command=plot_and_write)
         record_button.grid(row=8, column=1, pady=10)
+
+        animate_button = tk.Button(self, text="animate", command=pde.animate_solution)
+        animate_button.grid(row=8, column=3, pady=10)

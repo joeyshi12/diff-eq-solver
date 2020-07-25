@@ -29,16 +29,18 @@ class TestHeatEquation(unittest.TestCase):
         t = 1
         m = np.ceil(2 * self.heat_equation_dirichlet.alpha * t * n ** 2 / (L ** 2))
         m = int(m)
-        u_numerical = self.heat_equation_dirichlet.integrate(L, n, t, m)
+        u_numerical = self.heat_equation_dirichlet.solve(L, n, t, m)
 
         # Test Boundaries
+        print(u_numerical)
+        print(self.heat_equation_dirichlet.p)
         for j in range(m + 1):
             self.assertEquals(u_numerical[j][0], self.heat_equation_dirichlet.p(j))
             self.assertEquals(u_numerical[j][-1], self.heat_equation_dirichlet.q(j))
 
     def test_integrate_invalid(self):
         try:
-            self.heat_equation_invalid.integrate(1, 1, 1, 1)
+            self.heat_equation_invalid.solve(1, 1, 1, 1)
             self.fail("fail invalid boundary test")
         except BoundaryTypeException:
             print("pass invalid boundary test")
