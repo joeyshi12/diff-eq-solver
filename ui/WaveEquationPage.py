@@ -86,13 +86,11 @@ class WaveEquationPage(Page):
                 return
 
             self.wave_eq.write_solution()
-            messagebox.showinfo('Differential Equation Solver', 'Your solution has been written in excel_data/PDE.xlsx')
-
+            messagebox.showinfo('Differential Equation Solver',
+                                'Your solution has been written in output/' + self.wave_eq.filename)
             self.solve_button.configure(text="Plot", command=self.wave_eq.plot_solution)
-
             self.animate_button = tk.Button(self, text="Animate", command=self.wave_eq.animate_solution)
             self.animate_button.grid(row=8, column=3, pady=10)
-
             self.reset_button = tk.Button(self, text="Reset", command=reset)
             self.reset_button.grid(row=9, column=1, pady=10)
 

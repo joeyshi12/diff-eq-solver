@@ -9,7 +9,7 @@ class TestFirstOrderODE(unittest.TestCase):
         self.test_ode = FirstOrderODE(lambda x, y: -y, 1)
 
     def test_integrate(self):
-        y_numerical = self.test_ode.solve(1, 100)
+        self.test_ode.solve(1, 100)
         x = np.linspace(0, 1, 100)
         y_analytic = np.e ** -x
 

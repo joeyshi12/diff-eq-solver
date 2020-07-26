@@ -1,20 +1,17 @@
 import numpy as np
-
 from model.ODE import ODE
 
 
 class FirstOrderODE(ODE):
-    initial_value: float
-
-    def __init__(self, function, initial_value: float):
-        super().__init__(function, "FirstOrderODESolution.xlsx")
+    def __init__(self, f, initial_value=0):
+        super().__init__(f, "FirstOrderODESolution.xlsx")
         self.initial_value = initial_value
 
-    def solve(self, L: float, n: int) -> np.array:
-        dx = L/n
-        y = []
-        y_i = self.initial_value
-        for i in range(n):
-            y.append(y_i)
-            y_i = y_i + self.function(i*dx, y_i)*dx
-        return np.array(y)
+    def solve(self, t, n):
+        """computes solution into y as an array of size n+1"""
+        dt = t / n
+        self.t_data = np.arange(n + 1) * dt
+        self.y = np.zeros(n + 1)
+        self.y[0] = self.initial_value
+        for i in range(1, n + 1):
+            self.y[i] = self.y[i - 1] + self.f(i * dt, self.y[i - 1])

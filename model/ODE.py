@@ -1,25 +1,31 @@
 import os
 import abc
-import matplotlib.pyplot as plt
-import numpy as np
 import xlsxwriter
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class ODE:
-    def __init__(self, function, filename):
-        self.function = function
+    y: np.ndarray
+    t_data: np.ndarray
+
+    def __init__(self, f, filename):
+        self.function = f
         self.filename = filename
 
-    def write_solution(self, L: float, n: int):
-        """writes the solution over the domain [0,L] with n iterations"""
-        x = np.linspace(0, L, n)
-        y = self.solve(L, n)
-        table = np.column_stack((x, y))
+    @abc.abstractmethod
+    def solve(self, t, n):
+        """computes solution into y as an array of size n+1"""
+        pass
+
+    def write_solution(self):
+        """writes the values of y into a column inside of an xlsx file named filename"""
+        table = np.column_stack((self.t_data, self.y))
         dirname = os.path.dirname(__file__)
-        workbook = xlsxwriter.Workbook(os.path.join(dirname, '..', 'excel_data', self.filename))
+        workbook = xlsxwriter.Workbook(os.path.join(dirname, '..', 'output', self.filename))
         worksheet = workbook.add_worksheet()
 
-        worksheet.write(0, 0, 'x')
+        worksheet.write(0, 0, 't')
         worksheet.write(0, 1, 'y')
         row = 1
         for x_val, y_val in table:
@@ -28,13 +34,9 @@ class ODE:
             row += 1
         workbook.close()
 
-    def plot_solution(self, L: float, n: int):
-        """plots the solution over the domain [0,L] with n iterations"""
-        x = np.linspace(0, L, n)
-        y = self.solve(L, n)
-        plt.plot(x, y)
+    def plot_solution(self):
+        """plots y onto a 2d figure as a function of t"""
+        plt.plot(self.t_data, self.y)
+        plt.title("Solution Plot")
+        plt.show()
 
-    @abc.abstractmethod
-    def solve(self, L: float, n: int) -> np.array:
-        """returns the solution over the domain [0,L] with n iterations"""
-        pass

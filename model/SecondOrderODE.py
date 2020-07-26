@@ -4,21 +4,19 @@ from model.ODE import ODE
 
 
 class SecondOrderODE(ODE):
-    initial_value: float
-    initial_derivative: float
-
-    def __init__(self, function, initial_value: float, initial_derivative: float):
-        super().__init__(function, "SecondOrderODESolution.xlsx")
+    def __init__(self, f, initial_value, initial_derivative):
+        super().__init__(f, "SecondOrderODESolution.xlsx")
         self.initial_value = initial_value
         self.initial_derivative = initial_derivative
 
-    def solve(self, L: float, n: int) -> np.array:
-        dx = L / n
-        y = []
-        y_i_prime = self.initial_derivative
-        y_i = self.initial_value
-        for i in range(n):
-            y.append(y_i)
-            y_i_prime = y_i_prime + self.function(i * dx, y_i, y_i_prime) * dx
-            y_i = y_i + y_i_prime * dx
-        return np.array(y)
+    def solve(self, t, n):
+        """computes solution into y as an array of size n+1"""
+        dt = t / n
+        self.t_data = np.arange(n + 1) * dt
+        self.y = np.zeros(n + 1)
+        y_prime = np.zeros(n + 1)
+        y_prime[0] = self.initial_derivative
+        self.y[0] = self.initial_value
+        for i in range(1, n + 1):
+            y_prime[i] = y_prime[i - 1] + self.f(i * dt, self.y[i - 1], y_prime[i - 1]) * dt
+            self.y[i] = self.y[i - 1] + (y_prime[i] + y_prime[i - 1]) * dt / 2
