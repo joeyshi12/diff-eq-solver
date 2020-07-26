@@ -7,10 +7,10 @@ class FirstOrderODE(ODE):
     initial_value: float
 
     def __init__(self, function, initial_value: float):
-        super().__init__(function)
+        super().__init__(function, "FirstOrderODESolution.xlsx")
         self.initial_value = initial_value
 
-    def integrate(self, L: float, n: int) -> np.array:
+    def solve(self, L: float, n: int) -> np.array:
         dx = L/n
         y = []
         y_i = self.initial_value

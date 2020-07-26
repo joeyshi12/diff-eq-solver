@@ -8,11 +8,11 @@ class SecondOrderODE(ODE):
     initial_derivative: float
 
     def __init__(self, function, initial_value: float, initial_derivative: float):
-        super().__init__(function)
+        super().__init__(function, "SecondOrderODESolution.xlsx")
         self.initial_value = initial_value
         self.initial_derivative = initial_derivative
 
-    def integrate(self, L: float, n: int) -> np.array:
+    def solve(self, L: float, n: int) -> np.array:
         dx = L / n
         y = []
         y_i_prime = self.initial_derivative

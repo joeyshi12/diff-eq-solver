@@ -1,12 +1,19 @@
 import tkinter as tk
+from tkinter import messagebox
 import matplotlib.pyplot as plt
-
 from math import *
+
+from exception import BoundaryTypeException
 from model.WaveEquation import WaveEquation
 from ui.Page import Page
 
 
 class WaveEquationPage(Page):
+    wave_eq: WaveEquation
+    solve_button: tk.Button
+    animate_button: tk.Button
+    reset_button: tk.Button
+
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
 
@@ -49,26 +56,45 @@ class WaveEquationPage(Page):
         t_entry.grid(row=5, column=3, pady=10)
         n_entry.grid(row=6, column=3, pady=10)
 
-        pde = WaveEquation(0, 0, lambda x: x, lambda x: x, lambda x: x, lambda x: x)
+        def reset():
+            self.animate_button.destroy()
+            self.reset_button.destroy()
+            self.solve_button.configure(text="Solve", command=solve)
 
-        def plot_and_write():
-            pde.c = eval(c_entry.get())
-            pde.boundary_type = int(boundary_type_variable.get())
-            pde.p = lambda t: eval(p_entry.get())
-            pde.q = lambda t: eval(q_entry.get())
-            pde.f = lambda x: eval(f_entry.get())
-            pde.g = lambda x: eval(g_entry.get())
-            L = eval(L_entry.get())
-            t = eval(t_entry.get())
-            n = int(n_entry.get())
-            m = int(pde.get_stable_m(L, n, t))
-            pde.solve(L, n, t, m)
-            pde.plot_solution()
-            pde.write_solution()
-            plt.show()
+        def solve():
+            try:
+                c = eval(c_entry.get())
+                boundary_type = int(boundary_type_variable.get())
+                p = lambda t: eval(p_entry.get())
+                q = lambda t: eval(q_entry.get())
+                f = lambda x: eval(f_entry.get())
+                g = lambda x: eval(g_entry.get())
+                L = eval(L_entry.get())
+                t = eval(t_entry.get())
+                n = eval(n_entry.get())
+            except SyntaxError or ValueError:
+                messagebox.showinfo("Differential Equation Solver", "Invalid value encountered in one of the entries")
+                return
 
-        record_button = tk.Button(self, text="plot and write solution", command=plot_and_write)
-        record_button.grid(row=8, column=1, pady=10)
+            self.wave_eq = WaveEquation(c, boundary_type, p, q, f, g)
+            m = int(self.wave_eq.get_stable_m(L, n, t))
 
-        animate_button = tk.Button(self, text="animate", command=pde.animate_solution)
-        animate_button.grid(row=8, column=3, pady=10)
+            try:
+                self.wave_eq.solve(L, n, t, m)
+            except BoundaryTypeException:
+                messagebox.showinfo("Differential Equation Solver", "Choose a boundary type")
+                return
+
+            self.wave_eq.write_solution()
+            messagebox.showinfo('Differential Equation Solver', 'Your solution has been written in excel_data/PDE.xlsx')
+
+            self.solve_button.configure(text="Plot", command=self.wave_eq.plot_solution)
+
+            self.animate_button = tk.Button(self, text="Animate", command=self.wave_eq.animate_solution)
+            self.animate_button.grid(row=8, column=3, pady=10)
+
+            self.reset_button = tk.Button(self, text="Reset", command=reset)
+            self.reset_button.grid(row=9, column=1, pady=10)
+
+        self.solve_button = tk.Button(self, text="Solve", command=solve)
+        self.solve_button.grid(row=8, column=1, pady=10)

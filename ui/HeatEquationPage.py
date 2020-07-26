@@ -1,12 +1,18 @@
 import tkinter as tk
+from tkinter import messagebox
 import matplotlib.pyplot as plt
-
 from math import *
 from model.HeatEquation import HeatEquation
+from exception.BoundaryTypeException import BoundaryTypeException
 from ui.Page import Page
 
 
 class HeatEquationPage(Page):
+    heat_eq: HeatEquation
+    solve_button: tk.Button
+    animate_button: tk.Button
+    reset_button: tk.Button
+
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
 
@@ -46,25 +52,44 @@ class HeatEquationPage(Page):
         t_entry.grid(row=5, column=3, pady=10)
         n_entry.grid(row=6, column=3, pady=10)
 
-        pde = HeatEquation(0, 0, lambda x: x, lambda x: x, lambda x: x)
+        def reset():
+            self.animate_button.destroy()
+            self.reset_button.destroy()
+            self.solve_button.configure(text="Solve", command=solve)
 
-        def plot_and_write():
-            pde.alpha = eval(alpha_entry.get())
-            pde.boundary_type = boundary_type_variable.get()
-            pde.p = lambda t: eval(p_entry.get())
-            pde.q = lambda t: eval(q_entry.get())
-            pde.f = lambda x: eval(f_entry.get())
-            L = eval(L_entry.get())
-            t = eval(t_entry.get())
-            n = int(n_entry.get())
-            m = int(pde.get_stable_m(L, n, t))
-            pde.solve(L, n, t, m)
-            pde.plot_solution()
-            pde.write_solution()
-            plt.show()
+        def solve():
+            try:
+                alpha = eval(alpha_entry.get())
+                boundary_type = boundary_type_variable.get()
+                p = lambda t: eval(p_entry.get())
+                q = lambda t: eval(q_entry.get())
+                f = lambda x: eval(f_entry.get())
+                L = eval(L_entry.get())
+                t = eval(t_entry.get())
+                n = eval(n_entry.get())
+            except SyntaxError or ValueError:
+                messagebox.showinfo("Differential Equation Solver", "Invalid value encountered in one of the entries")
+                return
+            self.heat_eq = HeatEquation(alpha, boundary_type, p, q, f)
+            m = int(self.heat_eq.get_stable_m(L, n, t))
 
-        record_button = tk.Button(self, text="plot and write solution", command=plot_and_write)
-        record_button.grid(row=8, column=1, pady=10)
+            try:
+                self.heat_eq.solve(L, n, t, m)
+            except BoundaryTypeException:
+                messagebox.showinfo("Differential Equation Solver", "Choose a boundary type")
+                return
 
-        animate_button = tk.Button(self, text="animate", command=pde.animate_solution)
-        animate_button.grid(row=8, column=3, pady=10)
+            self.heat_eq.write_solution()
+            messagebox.showinfo('Differential Equation Solver',
+                                'Your solution has been written in excel_data/' + self.heat_eq.filename)
+
+            self.solve_button.configure(text="Plot", command=self.heat_eq.plot_solution)
+
+            self.animate_button = tk.Button(self, text="Animate", command=self.heat_eq.animate_solution)
+            self.animate_button.grid(row=8, column=3, pady=10)
+
+            self.reset_button = tk.Button(self, text="Reset", command=reset)
+            self.reset_button.grid(row=9, column=1, pady=10)
+
+        self.solve_button = tk.Button(self, text="Solve", command=solve)
+        self.solve_button.grid(row=8, column=1, pady=10)
