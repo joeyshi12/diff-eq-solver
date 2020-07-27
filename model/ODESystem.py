@@ -24,8 +24,8 @@ class ODESystem:
         self.x[0] = self.initial_x
         self.y[0] = self.initial_y
         for i in range(1, n + 1):
-            self.x[i] = self.x[i - 1] + self.f(i * dt, self.x[i - 1], self.y[i - 1])
-            self.y[i] = self.y[i - 1] + self.g(i * dt, self.x[i - 1], self.y[i - 1])
+            self.x[i] = self.x[i - 1] + self.f(i * dt, self.x[i - 1], self.y[i - 1]) * dt
+            self.y[i] = self.y[i - 1] + self.g(i * dt, self.x[i - 1], self.y[i - 1]) * dt
 
     def write_solution(self):
         """writes the values of x and y into separate columns inside of an xlsx file named ODESystem.xlsx"""

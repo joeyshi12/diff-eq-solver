@@ -10,7 +10,7 @@ class ODE:
     t_data: np.ndarray
 
     def __init__(self, f, filename):
-        self.function = f
+        self.f = f
         self.filename = filename
 
     @abc.abstractmethod
@@ -37,6 +37,5 @@ class ODE:
     def plot_solution(self):
         """plots y onto a 2d figure as a function of t"""
         plt.plot(self.t_data, self.y)
-        plt.title("Solution Plot")
         plt.show()
 

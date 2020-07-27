@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+from numpy import pi, e, sin, cos, exp
 import matplotlib.pyplot as plt
-from math import *
-
 from exception import BoundaryTypeException
 from model.WaveEquation import WaveEquation
 from ui.Page import Page

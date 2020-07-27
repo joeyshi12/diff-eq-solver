@@ -71,7 +71,6 @@ class PDE:
         ax = fig.gca(projection='3d')
         surf = ax.plot_surface(x_mesh, t_mesh, self.u, cmap=cm.coolwarm, linewidth=0, antialiased=False)
         fig.colorbar(surf, shrink=0.5, aspect=5)
-        plt.title("Solution Plot")
         plt.show()
 
     def animate_solution(self):

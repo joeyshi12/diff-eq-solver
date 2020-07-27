@@ -1,12 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
-from math import *
+from numpy import pi, e, sin, cos, exp
 from model.ODESystem import ODESystem
 from ui.Page import Page
 
 
 class ODESystemPage(Page):
-    ode: ODESystem
+    ode_system: ODESystem
     solve_button: tk.Button
     reset_button: tk.Button
 
@@ -49,12 +49,12 @@ class ODESystemPage(Page):
                 messagebox.showinfo("Differential Equation Solver", "Invalid value encountered in one of the entries")
                 return
 
-            self.ode = ODESystem(f, g, initial_x, initial_y)
-            self.ode.solve(t, n)
-            self.ode.write_solution()
+            self.ode_system = ODESystem(f, g, initial_x, initial_y)
+            self.ode_system.solve(t, n)
+            self.ode_system.write_solution()
             messagebox.showinfo('Differential Equation Solver',
                                 'Your solution has been written in output/ODESystem.xlsx')
-            self.solve_button.configure(text="Plot", command=self.ode.plot_solution)
+            self.solve_button.configure(text="Plot", command=self.ode_system.plot_solution)
             self.solve_button.grid(row=5, column=1, pady=10)
             self.reset_button = tk.Button(self, text="Reset", command=reset)
             self.reset_button.grid(row=7, column=1, pady=10)

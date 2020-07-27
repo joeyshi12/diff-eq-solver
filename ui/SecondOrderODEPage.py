@@ -1,13 +1,13 @@
 import tkinter as tk
 from tkinter import messagebox
-from math import *
+from numpy import pi, e, sin, cos, exp
 from model.SecondOrderODE import SecondOrderODE
 from ui.Page import Page
 import matplotlib.pyplot as plt
 
 
 class SecondOrderODEPage(Page):
-    ode: SecondOrderODE
+    second_order_ode: SecondOrderODE
     solve_button: tk.Button
     reset_button: tk.Button
 
@@ -46,12 +46,12 @@ class SecondOrderODEPage(Page):
                 messagebox.showinfo("Differential Equation Solver", "Invalid value encountered in one of the entries")
                 return
 
-            self.ode = SecondOrderODE(f, initial_value, initial_derivative)
-            self.ode.solve(t, n)
-            self.ode.write_solution()
+            self.second_order_ode = SecondOrderODE(f, initial_value, initial_derivative)
+            self.second_order_ode.solve(t, n)
+            self.second_order_ode.write_solution()
             messagebox.showinfo('Differential Equation Solver',
-                                'Your solution has been written in output/' + self.ode.filename)
-            self.solve_button.configure(text="Plot", command=self.ode.plot_solution)
+                                'Your solution has been written in output/' + self.second_order_ode.filename)
+            self.solve_button.configure(text="Plot", command=self.second_order_ode.plot_solution)
             self.reset_button = tk.Button(self, text="Reset", command=reset)
             self.reset_button.grid(row=8, column=1, pady=10)
 
