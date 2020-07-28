@@ -1,6 +1,6 @@
 import numpy as np
 
-from model.PDE import PDE
+from model.pde import PDE
 
 
 class WaveEquation(PDE):
@@ -57,7 +57,7 @@ class WaveEquation(PDE):
         self.u[:2, 0] = self.u[:2, 1] - 2 * self.p(np.arange(-1, 1) * dt) * dx
         self.u[2:, -1] = self.q(np.arange(1, m + 1) * dt)
         for j in range(2, m + 2):
-            self.u[j, 1:n + 2] = self.node_val(k, np.arange(n + 1), j)
+            self.u[j, 1:n + 1] = self.node_val(k, np.arange(n), j)
             self.u[j, 0] = self.u[j, 1] - 2 * self.p(j * dt) * dx
         self.u = np.delete(self.u, 0, axis=0)
         self.u = np.delete(self.u, 0, axis=1)

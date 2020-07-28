@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from numpy import pi, e, sin, cos, exp
-from model.ODESystem import ODESystem
-from ui.Page import Page
+from model.ode_system import ODESystem
+from ui.page import Page
 
 
 class ODESystemPage(Page):

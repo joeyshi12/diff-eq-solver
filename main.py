@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from ui.MainView import MainView
+from ui.mainview import MainView
 
 if __name__ == "__main__":
     root = tk.Tk()

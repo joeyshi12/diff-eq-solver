@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from numpy import pi, e, sin, cos, exp
-from model.FirstOrderODE import FirstOrderODE
-from ui.Page import Page
+from model.first_order_ode import FirstOrderODE
+from ui.page import Page
 
 
 class FirstOrderODEPage(Page):

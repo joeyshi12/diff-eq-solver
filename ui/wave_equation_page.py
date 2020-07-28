@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 from numpy import pi, e, sin, cos, exp
 import matplotlib.pyplot as plt
-from exception import BoundaryTypeException
-from model.WaveEquation import WaveEquation
-from ui.Page import Page
+from exception import boundary_type_exception
+from model.wave_equation import WaveEquation
+from ui.page import Page
 
 
 class WaveEquationPage(Page):
@@ -80,7 +80,7 @@ class WaveEquationPage(Page):
 
             try:
                 self.wave_eq.solve(L, n, t, m)
-            except BoundaryTypeException:
+            except boundary_type_exception:
                 messagebox.showinfo("Differential Equation Solver", "Choose a boundary type")
                 return
 

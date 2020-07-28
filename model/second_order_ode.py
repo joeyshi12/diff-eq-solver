@@ -1,6 +1,6 @@
 import numpy as np
 
-from model.ODE import ODE
+from model.ode import ODE
 
 
 class SecondOrderODE(ODE):

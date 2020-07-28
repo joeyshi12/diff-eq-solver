@@ -1,10 +1,10 @@
 import tkinter as tk
 
-from ui.FirstOrderODEPage import FirstOrderODEPage
-from ui.ODESystemPage import ODESystemPage
-from ui.HeatEquationPage import HeatEquationPage
-from ui.SecondOrderODEPage import SecondOrderODEPage
-from ui.WaveEquationPage import WaveEquationPage
+from ui.first_order_ode_page import FirstOrderODEPage
+from ui.ode_system_page import ODESystemPage
+from ui.heat_equation_page import HeatEquationPage
+from ui.second_order_ode_page import SecondOrderODEPage
+from ui.wave_equation_page import WaveEquationPage
 
 
 class MainView(tk.Frame):

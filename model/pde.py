@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from mpl_toolkits import mplot3d
 from matplotlib import cm
-from exception.BoundaryTypeException import BoundaryTypeException
+from exception.boundary_type_exception import BoundaryTypeException
 
 
 class PDE:

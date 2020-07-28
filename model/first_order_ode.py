@@ -1,5 +1,5 @@
 import numpy as np
-from model.ODE import ODE
+from model.ode import ODE
 
 
 class FirstOrderODE(ODE):
@@ -14,4 +14,4 @@ class FirstOrderODE(ODE):
         self.y = np.zeros(n + 1)
         self.y[0] = self.initial_value
         for i in range(1, n + 1):
-            self.y[i] = self.y[i - 1] + self.f(i * dt, self.y[i - 1])
+            self.y[i] = self.y[i - 1] + self.f(i * dt, self.y[i - 1]) * dt

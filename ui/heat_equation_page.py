@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 from numpy import pi, e, sin, cos, exp
 import matplotlib.pyplot as plt
-from model.HeatEquation import HeatEquation
-from exception.BoundaryTypeException import BoundaryTypeException
-from ui.Page import Page
+from model.heat_equation import HeatEquation
+from exception.boundary_type_exception import BoundaryTypeException
+from ui.page import Page
 
 
 class HeatEquationPage(Page):

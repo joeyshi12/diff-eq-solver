@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from numpy import pi, e, sin, cos, exp
-from model.SecondOrderODE import SecondOrderODE
-from ui.Page import Page
+from model.second_order_ode import SecondOrderODE
+from ui.page import Page
 import matplotlib.pyplot as plt
 
 
