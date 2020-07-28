@@ -4,7 +4,7 @@ from model.ode import ODE
 
 class FirstOrderODE(ODE):
     def __init__(self, f, initial_value=0):
-        super().__init__(f, "FirstOrderODESolution.xlsx")
+        super().__init__(f, "first_order_ode_solution.xlsx")
         self.initial_value = initial_value
 
     def solve(self, t, n):

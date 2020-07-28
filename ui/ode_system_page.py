@@ -53,7 +53,7 @@ class ODESystemPage(Page):
             self.ode_system.solve(t, n)
             self.ode_system.write_solution()
             messagebox.showinfo('Differential Equation Solver',
-                                'Your solution has been written in output/ODESystem.xlsx')
+                                'Your solution has been written in output/ode_system_solution.xlsx')
             self.solve_button.configure(text="Plot", command=self.ode_system.plot_solution)
             self.solve_button.grid(row=5, column=1, pady=10)
             self.reset_button = tk.Button(self, text="Reset", command=reset)

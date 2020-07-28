@@ -28,10 +28,10 @@ class ODESystem:
             self.y[i] = self.y[i - 1] + self.g(i * dt, self.x[i - 1], self.y[i - 1]) * dt
 
     def write_solution(self):
-        """writes the values of x and y into separate columns inside of an xlsx file named ODESystem.xlsx"""
+        """writes the values of x and y into separate columns inside of an xlsx file named ode_system_solution.xlsx"""
         table = np.column_stack((self.t_data, self.x, self.y))
         dirname = os.path.dirname(__file__)
-        workbook = xlsxwriter.Workbook(os.path.join(dirname, '..', 'output', 'ODESystem.xlsx'))
+        workbook = xlsxwriter.Workbook(os.path.join(dirname, '..', 'output', 'ode_system_solution.xlsx'))
         worksheet = workbook.add_worksheet()
         worksheet.write(0, 0, 't')
         worksheet.write(0, 1, 'x')

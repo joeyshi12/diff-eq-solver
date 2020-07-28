@@ -6,7 +6,7 @@ from model.pde import PDE
 class WaveEquation(PDE):
     def __init__(self, c, boundary_type, p, q, f, g):
         self.c = c
-        super().__init__(boundary_type, p, q, "WaveEqSolution.xlsx")
+        super().__init__(boundary_type, p, q, "wave_equation_solution.xlsx")
         self.f = f
         self.g = g
 

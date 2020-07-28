@@ -5,7 +5,7 @@ from model.ode import ODE
 
 class SecondOrderODE(ODE):
     def __init__(self, f, initial_value, initial_derivative):
-        super().__init__(f, "SecondOrderODESolution.xlsx")
+        super().__init__(f, "second_order_ode_solution.xlsx")
         self.initial_value = initial_value
         self.initial_derivative = initial_derivative
 

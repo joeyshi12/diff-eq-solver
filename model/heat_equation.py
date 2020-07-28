@@ -5,7 +5,7 @@ from model.pde import PDE
 class HeatEquation(PDE):
     def __init__(self, alpha, boundary_type, p, q, f):
         self.alpha = alpha
-        super().__init__(boundary_type, p, q, "HeatEqSolution.xlsx")
+        super().__init__(boundary_type, p, q, "heat_equation_solution.xlsx")
         self.f = f
 
     def solve_dirichlet(self, dx, dt, n, m, k):
