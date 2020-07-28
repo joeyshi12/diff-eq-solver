@@ -12,7 +12,7 @@ excel file and the solution is visually represented on a plot generated with Mat
 3. xlsxwriter
 
 
-## Progress
+## Features
 - [x] First Order ODE Class
 - [x] Second Order ODE Class
 - [x] Heat Equation Class
