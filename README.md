@@ -19,7 +19,7 @@ excel file and the solution is visually represented on a plot generated with Mat
 - [x] Wave Equation Class
 - [x] GUI
 - [x] Time-step animations for PDE
-- [ ] Time-step animations for ODE
+- [x] Time-step animations for ODE
 - [x] 2-variable First Order Differential System Class
 - [ ] Source term for PDE classes
 - [ ] Laplace's Equation Class
