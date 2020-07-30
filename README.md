@@ -12,11 +12,12 @@ excel file and the solution is visually represented on a plot generated with Mat
 3. xlsxwriter
 
 
-## Features
+## Implemented
 - [x] First Order ODE Class
 - [x] Second Order ODE Class
 - [x] Heat Equation Class
 - [x] Wave Equation Class
+- [x] Unit Tests
 - [x] GUI
 - [x] Time-step animations for PDE
 - [x] Time-step animations for ODE
