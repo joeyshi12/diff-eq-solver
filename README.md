@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/joeyshi12/diff-eq-solver)
+
 # diff-eq-solver
 
 This program uses various finite difference methods to solve ordinary differential equations and partial differential 
