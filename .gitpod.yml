@@ -3,4 +3,4 @@ image:
 
 tasks:
   - init: pip3 install -r requirements.txt
-    command: 'echo "TODO: Replace with command to start project"'
+    command: jupyter notebook --NotebookApp.allow_origin=\'$(gp url 8888)\'
