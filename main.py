@@ -1,14 +1,18 @@
 import os
 import tkinter as tk
-from ui.mainview import MainView
+from frontend.mainview import MainView
+
+
+def main():
+    root = tk.Tk()
+    root.resizable(width=False, height=False)
+    root.title("Differential Equation Solver")
+    root.iconbitmap(os.path.join('assets/icon.ico'))
+    root.geometry("552x540")
+    main_view = MainView(root)
+    main_view.pack(side="top", fill="both", expand=True)
+    root.mainloop()
+
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("Differential Equation Solver")
-    dirname = os.path.dirname(__file__)
-    photo = tk.PhotoImage(file=os.path.join(dirname, 'data', 'chiken.png'))
-    root.iconphoto(False, photo)
-    root.geometry("490x420")
-    main = MainView(root)
-    main.pack(side="top", fill="both", expand=True)
-    root.mainloop()
+    main()

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/DifferentialEquationSolver.iml" filepath="$PROJECT_DIR$/.idea/DifferentialEquationSolver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/diff-eq-solver.iml" filepath="$PROJECT_DIR$/.idea/diff-eq-solver.iml" />
     </modules>
   </component>
 </project>

@@ -1,6 +1,0 @@
-image:
-  file: .gitpod.Dockerfile
-
-tasks:
-  - init: pip3 install -r requirements.txt
-    command: jupyter notebook --NotebookApp.allow_origin=\'$(gp url 8888)\'

@@ -1,0 +1,21 @@
+{
+  "c": 1,
+  "length": 1.571,
+  "time": 4,
+  "samples": 20,
+  "boundary_condition": {
+    "left": {
+      "type": "N",
+      "values": "t/2"
+    },
+    "right": {
+      "type": "D",
+      "values": "0"
+    }
+  },
+  "initial_condition": {
+    "values": "sin(3*x)",
+    "derivatives": "x"
+  },
+  "source": "exp(-t)*sin(x) + 1"
+}
