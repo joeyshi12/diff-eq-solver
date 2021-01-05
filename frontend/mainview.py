@@ -31,7 +31,7 @@ class MainView(tk.Frame):
             page.place(in_=container, x=0, y=20, relwidth=1, relheight=1)
 
         buttons = [tk.Button(button_frame, text=key, font=("Arial", 10, "bold"), foreground="#FFFFFF",
-                             background="#4F5D75", command=pages[key].lift, width=15) for key in pages.keys()]
+                             background="#4F5D75", command=pages[key].lift, width=16) for key in pages.keys()]
         for i in range(len(buttons)):
             buttons[i].grid(row=0, column=i)
 
