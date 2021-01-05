@@ -6,7 +6,7 @@ from backend.differential_equation import TimeDependent1D, InvalidQuery
 class HeatEquation1D(TimeDependent1D):
     def __init__(self, query):
         if not self.is_valid(query):
-            raise InvalidQuery
+            raise InvalidQuery("received invalid query")
         super().__init__(query["boundary_condition"])
         initial_cond = lambda x: eval(query["initial_condition"])
         if "source" in query:

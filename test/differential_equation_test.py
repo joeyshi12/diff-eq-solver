@@ -1,5 +1,4 @@
 from os import listdir
-from os.path import join
 import unittest
 import json
 from backend.first_order_ode import FirstOrderODE
@@ -13,7 +12,7 @@ class DifferentialEquationTest(unittest.TestCase):
         self.queries = {}
         for f in listdir("queries"):
             name = f.split(".")[0]
-            with open(join("queries", f)) as file:
+            with open("queries/" + f) as file:
                 self.queries[name] = json.load(file)
 
     def test_solve(self):
@@ -27,7 +26,7 @@ class DifferentialEquationTest(unittest.TestCase):
             else:
                 diff_eq = FirstOrderODE(self.queries[name])
             diff_eq.solve()
-            diff_eq.record_solution("../test/outputs/" + name + ".xlsx")
+            diff_eq.record_solution("outputs/" + name + ".xlsx")
         return True
 
 

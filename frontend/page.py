@@ -2,12 +2,14 @@ import tkinter as tk
 
 
 class Page(tk.Frame):
-    bgcolor = '#BFC0C0'
     font = ("Verdana", 10)
 
     def __init__(self, root):
         tk.Frame.__init__(self, root)
-        self.configure(background=self.bgcolor)
+        self.fig = root.fig
+        self.canvas = root.canvas
+        self.bgcolour = root.bgcolour
+        self.configure(background=self.bgcolour)
 
     def show(self):
         self.lift()

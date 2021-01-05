@@ -6,7 +6,7 @@ from backend.differential_equation import ODE, InvalidQuery
 class FirstOrderODE(ODE):
     def __init__(self, query):
         if not self.is_valid(query):
-            raise InvalidQuery
+            raise InvalidQuery("received invalid query")
         N = query["samples"]
         self.dt = query["time"] / (N - 1)
         self.source = lambda t, x: eval(query["source"])
@@ -18,6 +18,5 @@ class FirstOrderODE(ODE):
 
     def solve(self):
         N = self.solution.size
-        x = np.arange(N) * self.dt
         for i in range(1, N):
             self.solution[i] = self.solution[i - 1] + self.source(i * self.dt, self.solution[i - 1]) * self.dt

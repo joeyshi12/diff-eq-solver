@@ -6,7 +6,7 @@ from backend.differential_equation import TimeDependent1D, InvalidQuery
 class WaveEquation1D(TimeDependent1D):
     def __init__(self, query):
         if not self.is_valid(query):
-            raise InvalidQuery
+            raise InvalidQuery("received invalid query")
         super().__init__(query["boundary_condition"])
         initial_values = lambda x: eval(query["initial_condition"]["values"])
         initial_derivatives = lambda x: eval(query["initial_condition"]["derivatives"])

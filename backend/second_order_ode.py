@@ -6,7 +6,7 @@ from backend.differential_equation import ODE, InvalidQuery
 class SecondOrderODE(ODE):
     def __init__(self, query):
         if not self.is_valid(query):
-            raise InvalidQuery
+            raise InvalidQuery("received invalid query")
         N = query["samples"]
         self.dt = query["time"] / (N - 1)
         self.derivative = query["initial_derivative"]

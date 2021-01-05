@@ -8,7 +8,7 @@ def main():
     root.resizable(width=False, height=False)
     root.title("Differential Equation Solver")
     root.iconbitmap(os.path.join('assets/icon.ico'))
-    root.geometry("552x540")
+    root.geometry("1068x600")
     main_view = MainView(root)
     main_view.pack(side="top", fill="both", expand=True)
     root.mainloop()
