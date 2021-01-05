@@ -11,9 +11,9 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 
 
 ## Implemented
-- [x] First and Second Order ODE solvers 
+- [x] First and Second order ODE solvers 
 - [x] 1D Heat Equation solver
-- [x] 1D wave Equation solver
+- [x] 1D Wave Equation solver
 - [x] Tkinter GUI
 - [x] Animations for time dependent PDEs
 - [x] Solver for system of differential equations
