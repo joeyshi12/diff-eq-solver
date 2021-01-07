@@ -12,8 +12,8 @@ class WaveEquationPage(Page):
     animate_button: tk.Button
     play_button: tk.Button
     pause_button: tk.Button
-    anim: object = None
     file_name: str = "wave_equation_1d.xlsx"
+    anim = None
 
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
@@ -105,9 +105,8 @@ class WaveEquationPage(Page):
         self.display()
 
     def display(self):
-        self.fig.clf()
         if self.anim:
-            self.anim.event_source.stop()
+            self.pause_animation()
             self.anim = None
         self.fig.clf()
         self.animate_button.configure(command=self.get_animation)

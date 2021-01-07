@@ -12,7 +12,8 @@ class HeatEquationPage(Page):
     animate_button: tk.Button
     play_button: tk.Button
     pause_button: tk.Button
-    anim: object = None
+    file_name: str = "heat_equation_1d.xlsx"
+    anim = None
 
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
@@ -89,7 +90,7 @@ class HeatEquationPage(Page):
         try:
             self.diff_eq = HeatEquation1D(self.form_query())
             self.diff_eq.solve()
-            self.diff_eq.record_solution("outputs/heat_eq_1d.xlsx")
+            self.diff_eq.record_solution("outputs/" + self.file_name)
         except Exception as err:
             messagebox.showinfo("Differential Equation Solver", err)
             return
@@ -101,10 +102,10 @@ class HeatEquationPage(Page):
         self.display()
 
     def display(self):
-        self.fig.clf()
         if self.anim:
-            self.anim.event_source.stop()
+            self.pause_animation()
             self.anim = None
+        self.fig.clf()
         self.animate_button.configure(command=self.get_animation)
         self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
         self.diff_eq.display(self.fig)
