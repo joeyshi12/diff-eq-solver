@@ -105,6 +105,7 @@ class WaveEquationPage(Page):
         self.display()
 
     def display(self):
+        self.fig.clf()
         if self.anim:
             self.anim.event_source.stop()
             self.anim = None

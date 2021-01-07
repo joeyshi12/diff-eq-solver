@@ -101,10 +101,10 @@ class HeatEquationPage(Page):
         self.display()
 
     def display(self):
+        self.fig.clf()
         if self.anim:
             self.anim.event_source.stop()
             self.anim = None
-        self.fig.clf()
         self.animate_button.configure(command=self.get_animation)
         self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
         self.diff_eq.display(self.fig)
