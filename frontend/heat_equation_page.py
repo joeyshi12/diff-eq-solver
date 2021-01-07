@@ -104,7 +104,6 @@ class HeatEquationPage(Page):
     def display(self):
         if self.anim:
             self.pause_animation()
-            self.anim = None
         self.fig.clf()
         self.animate_button.configure(command=self.get_animation)
         self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
