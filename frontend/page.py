@@ -9,9 +9,9 @@ class Page(tk.Frame):
         self.fig = root.fig
         self.canvas = root.canvas
         self.bgcolour = root.bgcolour
-        self.pause = root.pause_animation
+        self.root = root
         self.configure(background=self.bgcolour)
 
     def show(self):
-        self.pause()
+        self.root.pause_animation()
         self.lift()

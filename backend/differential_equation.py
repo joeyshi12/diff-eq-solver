@@ -81,7 +81,7 @@ class TimeDependent1D(DifferentialEquation, ABC):
     def get_animation(self, fig: Figure):
         K, N = self.solution.shape
         ax = fig.add_subplot()
-        Axes.set_xlim(ax, left=0, right=N * self.dx)
+        Axes.set_xlim(ax, left=0, right=(N - 1) * self.dx)
         Axes.set_ylim(ax, bottom=np.min(self.solution), top=np.max(self.solution))
         ax.set_xlabel("x [length]")
         ax.set_ylabel("u(x, t)")

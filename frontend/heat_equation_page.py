@@ -72,7 +72,7 @@ class HeatEquationPage(Page):
         self.play_button = tk.Button(self, text="Play", font=self.font, width=10, command=self.play_animation)
         self.pause_button = tk.Button(self, text="Pause", font=self.font, width=10, command=self.pause_animation)
 
-    def form_query(self):
+    def extract_diff_eq(self):
         query = {"alpha": float(self.entries["alpha"].get()),
                  "length": float(self.entries["length"].get()),
                  "time": float(self.entries["time"].get()),
@@ -84,11 +84,11 @@ class HeatEquationPage(Page):
                  "initial_condition": self.entries["initial_condition"].get()}
         if self.entries["source"].get():
             query["source"] = self.entries["source"].get()
-        return query
+        return HeatEquation1D(query)
 
     def solve(self):
         try:
-            self.diff_eq = HeatEquation1D(self.form_query())
+            self.diff_eq = self.extract_diff_eq()
             self.diff_eq.solve()
             self.diff_eq.record_solution("outputs/" + self.file_name)
         except Exception as err:

@@ -39,6 +39,6 @@ class MainView(tk.Frame):
 
     def pause_animation(self):
         if self.pages["Heat Equation"].anim:
-            self.pages["Heat Equation"].pause_animation()
+            self.pages["Heat Equation"].display()
         elif self.pages["Wave Equation"].anim:
-            self.pages["Wave Equation"].pause_animation()
+            self.pages["Wave Equation"].display()
