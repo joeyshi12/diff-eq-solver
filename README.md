@@ -16,7 +16,6 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 - [x] 1D Wave Equation solver
 - [x] Tkinter GUI
 - [x] Animations for time dependent PDEs
-- [x] Solver for system of differential equations
 - [ ] Poisson Equation solver
 
 ## Snapshots
