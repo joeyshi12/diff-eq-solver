@@ -13,5 +13,5 @@ class Page(tk.Frame):
         self.configure(background=self.bgcolour)
 
     def show(self):
-        self.root.pause_animation()
+        self.root.reset_canvas()
         self.lift()

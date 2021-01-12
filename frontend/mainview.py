@@ -37,8 +37,6 @@ class MainView(tk.Frame):
 
         self.pages["First Order ODE"].show()
 
-    def pause_animation(self):
-        if self.pages["Heat Equation"].anim:
-            self.pages["Heat Equation"].display()
-        elif self.pages["Wave Equation"].anim:
-            self.pages["Wave Equation"].display()
+    def reset_canvas(self):
+        self.pages["Heat Equation"].reset()
+        self.pages["Wave Equation"].reset()

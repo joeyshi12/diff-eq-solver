@@ -5,7 +5,7 @@ from frontend.page import Page
 
 
 class WaveEquationPage(Page):
-    diff_eq: WaveEquation1D
+    diff_eq: WaveEquation1D = None
     entries: dict
     solve_button: tk.Button
     display_button: tk.Button
@@ -131,3 +131,13 @@ class WaveEquationPage(Page):
         self.pause_button.grid(row=12, column=3, pady=6, sticky="e")
         self.play_button.grid_forget()
         self.anim.event_source.start()
+
+    def reset(self):
+        if self.anim:
+            self.pause_animation()
+            self.anim = None
+        if self.diff_eq:
+            self.play_button.grid_forget()
+            self.animate_button.grid(row=12, column=3, pady=6, sticky="e")
+            self.fig.clf()
+            self.canvas.draw()

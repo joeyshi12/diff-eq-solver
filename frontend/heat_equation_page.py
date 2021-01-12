@@ -5,7 +5,7 @@ from frontend.page import Page
 
 
 class HeatEquationPage(Page):
-    diff_eq: HeatEquation1D
+    diff_eq: HeatEquation1D = None
     entries: dict
     solve_button: tk.Button
     display_button: tk.Button
@@ -128,3 +128,12 @@ class HeatEquationPage(Page):
         self.pause_button.grid(row=11, column=3, pady=6, sticky="e")
         self.play_button.grid_forget()
         self.anim.event_source.start()
+
+    def reset(self):
+        if self.anim:
+            self.pause_animation()
+        if self.diff_eq:
+            self.play_button.grid_forget()
+            self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
+            self.fig.clf()
+            self.canvas.draw()
