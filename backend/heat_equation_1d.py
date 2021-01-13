@@ -15,7 +15,7 @@ class HeatEquation1D(TimeDependent1D):
             self.source = lambda t, x: 0
         N = query["samples"]
         self.dx = query["length"] / (N - 1)
-        K = 2 * np.int(2 * query["time"] / self.dx ** 2) + 1
+        K = 2 * np.int(2 * query["alpha"] * query["time"] / self.dx ** 2) + 1
         self.dt = query["time"] / (K - 1)
         r = query["alpha"] * self.dt / self.dx ** 2
         self.D = np.zeros((N - 2, N))
