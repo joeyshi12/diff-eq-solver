@@ -1,6 +1,7 @@
 from enum import Enum, auto
 from tkinter import messagebox, StringVar, Label
 from tkinter.ttk import Radiobutton, Button, Entry
+from typing import Union, Dict
 
 from src.differential_equation_messages import DifferentialEquationMessages
 from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType
@@ -23,7 +24,7 @@ class HeatEquationFields(Enum):
 
 class HeatEquationForm(DifferentialEquationForm):
     current_equation: HeatEquation
-    entries: dict
+    field_entry_map: Dict[HeatEquationFields, Union[Entry, StringVar]]
     solve_button: Button
     display_button: Button
     animate_button: Button
@@ -79,7 +80,7 @@ class HeatEquationForm(DifferentialEquationForm):
                 row=i, column=0, padx=18, pady=6, sticky="w")
             Label(self, text=param_symbols[i] + " = ", font=self.font, background=self.bgcolour).grid(
                 row=i, column=1, pady=6, sticky="e")
-            self.entries[param_ids[i]].grid(row=i, column=2, columnspan=2)
+            self.field_entry_map[param_ids[i]].grid(row=i, column=2, columnspan=2)
 
     def initialize_boundary_type_widgets(self):
         self.fieldEntryMap[HeatEquationFields.LEFT_BOUNDARY_TYPE] = StringVar(value=BoundaryType.DIRICHLET)
@@ -91,7 +92,8 @@ class HeatEquationForm(DifferentialEquationForm):
             background=self.bgcolour,
             activebackground=self.bgcolour,
             variable=self.fieldEntryMap.get(HeatEquationFields.LEFT_BOUNDARY_TYPE),
-            value=BoundaryType.DIRICHLET).grid(row=0, column=1, sticky="w")
+            value=BoundaryType.DIRICHLET
+        ).grid(row=0, column=1, sticky="w")
         Radiobutton(
             self,
             text=DifferentialEquationMessages.neumann,
@@ -99,7 +101,8 @@ class HeatEquationForm(DifferentialEquationForm):
             background=self.bgcolour,
             activebackground=self.bgcolour,
             variable=self.fieldEntryMap.get(HeatEquationFields.LEFT_BOUNDARY_TYPE),
-            value=BoundaryType.NEUMANN).grid(row=0, column=2, sticky="w")
+            value=BoundaryType.NEUMANN
+        ).grid(row=0, column=2, sticky="w")
         Radiobutton(
             self,
             text=DifferentialEquationMessages.dirichlet,
@@ -107,7 +110,8 @@ class HeatEquationForm(DifferentialEquationForm):
             background=self.bgcolour,
             activebackground=self.bgcolour,
             variable=self.fieldEntryMap.get(HeatEquationFields.RIGHT_BOUNDARY_TYPE),
-            value=BoundaryType.DIRICHLET).grid(row=1, column=1, sticky="w")
+            value=BoundaryType.DIRICHLET
+        ).grid(row=1, column=1, sticky="w")
         Radiobutton(
             self,
             text=DifferentialEquationMessages.neumann,
@@ -115,30 +119,31 @@ class HeatEquationForm(DifferentialEquationForm):
             background=self.bgcolour,
             activebackground=self.bgcolour,
             variable=self.fieldEntryMap.get(HeatEquationFields.RIGHT_BOUNDARY_TYPE),
-            value=BoundaryType.NEUMANN).grid(row=1, column=2, sticky="w")
+            value=BoundaryType.NEUMANN
+        ).grid(row=1, column=2, sticky="w")
 
     def place_buttons(self):
-        self.solve_button = tk.Button(self, text="Solve", font=self.font, width=10, command=self.solve)
+        self.solve_button = Button(self, text="Solve", font=self.font, width=10, command=self.solve)
         self.solve_button.grid(row=10, column=2, pady=6, sticky="w")
-        self.display_button = tk.Button(self, text="Display", font=self.font, width=10)
-        self.animate_button = tk.Button(self, text="Animate", font=self.font, width=10)
-        self.play_button = tk.Button(self, text="Play", font=self.font, width=10, command=self.play_animation)
-        self.pause_button = tk.Button(self, text="Pause", font=self.font, width=10, command=self.pause_animation)
+        self.display_button = Button(self, text="Display", font=self.font, width=10)
+        self.animate_button = Button(self, text="Animate", font=self.font, width=10)
+        self.play_button = Button(self, text="Play", font=self.font, width=10, command=self.play_animation)
+        self.pause_button = Button(self, text="Pause", font=self.font, width=10, command=self.pause_animation)
 
     def build_equation(self):
         boundary_conditions = BoundaryConditions(
-            BoundaryCondition(self.entries["left_type"].get(), self.entries["left_values"].get()),
-            BoundaryCondition(self.entries["right_type"].get(), self.entries["right_values"].get())
+            BoundaryCondition(self.field_entry_map["left_type"].get(), self.field_entry_map["left_values"].get()),
+            BoundaryCondition(self.field_entry_map["right_type"].get(), self.field_entry_map["right_values"].get())
         )
         return HeatEquation(
             HeatEquationMetadata(
                 boundary_conditions,
-                float(self.entries["alpha"].get()),
-                float(self.entries["length"].get()),
-                float(self.entries["time"].get()),
-                int(self.entries["samples"].get()),
-                self.entries["initial_condition"].get(),
-                self.entries["source"].get() if not self.entries["source"].get() else "0"
+                float(self.field_entry_map["alpha"].get()),
+                float(self.field_entry_map["length"].get()),
+                float(self.field_entry_map["time"].get()),
+                int(self.field_entry_map["samples"].get()),
+                self.field_entry_map["initial_condition"].get(),
+                self.field_entry_map["source"].get() if not self.field_entry_map["source"].get() else "0"
             )
         )
 

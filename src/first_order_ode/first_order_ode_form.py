@@ -17,50 +17,38 @@ class FirstOrderODEFields(Enum):
 
 class FirstOrderODEForm(DifferentialEquationForm):
     current_equation: FirstOrderODE
-    fieldEntryMap: Dict[FirstOrderODEFields, Entry]
+    field_entry_map: Dict[FirstOrderODEFields, Entry]
 
     def __init__(self, main_view):
         DifferentialEquationForm.__init__(self, main_view)
 
     def initialize_widgets(self):
-        fields = [
-            FirstOrderODEFields.SOURCE,
-            FirstOrderODEFields.INITIAL_VALUE,
-            FirstOrderODEFields.TIME,
-            FirstOrderODEFields.SAMPLES
-        ]
-        display_names = [
+        self.field_entry_map[FirstOrderODEFields.SOURCE] = self.create_field_entry(
             DifferentialEquationMessages.source_term,
+            DifferentialEquationMessages.source_term_symbol, 0
+        )
+        self.field_entry_map[FirstOrderODEFields.INITIAL_VALUE] = self.create_field_entry(
             DifferentialEquationMessages.initial_value,
+            DifferentialEquationMessages.initial_value_symbol, 1
+        )
+        self.field_entry_map[FirstOrderODEFields.TIME] = self.create_field_entry(
             DifferentialEquationMessages.time_interval,
-            DifferentialEquationMessages.samples
-        ]
-        symbol_names = [
-            DifferentialEquationMessages.source_term_symbol,
-            DifferentialEquationMessages.initial_value_symbol,
-            DifferentialEquationMessages.time_interval_symbol,
-            DifferentialEquationMessages.samples_symbol
-        ]
-        self.fieldEntryMap = {field: Entry(self, font=self.font) for field in fields}
-        for i in range(len(fields)):
-            Label(self, text=f"{display_names[i]}:", font=self.font, background=self.bgcolour).grid(
-                row=i, column=0, padx=18, pady=10, sticky="w")
-            Label(self, text=f"{symbol_names[i]} = ", font=self.font, background=self.bgcolour).grid(
-                row=i, column=1, padx=0, pady=10, sticky="e")
-            self.fieldEntryMap.get(fields[i]).grid(row=i, column=2, pady=0)
+            DifferentialEquationMessages.time_interval_symbol, 2
+        )
+        self.field_entry_map[FirstOrderODEFields.SAMPLES] = self.create_field_entry(
+            DifferentialEquationMessages.samples,
+            DifferentialEquationMessages.samples_symbol, 3
+        )
         Button(self, text="Solve", font=self.font, width=10, command=self.solve).grid(
             row=5, column=2, pady=10, sticky="w")
-
-    def clear_form(self):
-        pass
 
     def build_equation(self):
         return FirstOrderODE(
             FirstOrderODEMetadata(
-                self.fieldEntryMap.get(FirstOrderODEFields.SOURCE).get(),
-                float(self.fieldEntryMap.get(FirstOrderODEFields.INITIAL_VALUE).get()),
-                int(self.fieldEntryMap.get(FirstOrderODEFields.SAMPLES).get()),
-                float(self.fieldEntryMap.get(FirstOrderODEFields.TIME).get())
+                self.field_entry_map.get(FirstOrderODEFields.SOURCE).get(),
+                float(self.field_entry_map.get(FirstOrderODEFields.INITIAL_VALUE).get()),
+                int(self.field_entry_map.get(FirstOrderODEFields.SAMPLES).get()),
+                float(self.field_entry_map.get(FirstOrderODEFields.TIME).get())
             )
         )
 

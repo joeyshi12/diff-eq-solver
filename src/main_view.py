@@ -1,4 +1,6 @@
-import tkinter as tk
+from tkinter import RIGHT, BOTH
+from tkinter.ttk import Button, Frame
+
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -9,17 +11,17 @@ from src.second_order_ode.second_order_ode_form import SecondOrderODEForm
 from src.wave_equation.wave_equation_form import WaveEquationForm
 
 
-class MainView(tk.Frame):
+class MainView(Frame):
     bgcolour: str = '#BFC0C0'
 
     def __init__(self, window):
-        tk.Frame.__init__(self, master=window)
+        Frame.__init__(self, master=window)
         self.figure = Figure(figsize=(6, 1), dpi=91.4)
         self.canvas = FigureCanvasTkAgg(self.figure, self)
-        self.canvas.get_tk_widget().pack(side=tk.RIGHT, fill=tk.BOTH)
-        nav_bar_frame = tk.Frame(self)
+        self.canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
+        nav_bar_frame = Frame(self)
         nav_bar_frame.pack(side="top", fill="x", expand=False)
-        container = tk.Frame(self)
+        container = Frame(self)
         container.configure(background=self.bgcolour)
         container.pack(side="top", fill="both", expand=True)
 
@@ -36,9 +38,9 @@ class MainView(tk.Frame):
         self.initialize_nav_bar(nav_bar_frame)
         self.first_order_ode_form.show()
 
-    def initialize_nav_bar(self, nav_bar_frame: tk.Frame):
+    def initialize_nav_bar(self, nav_bar_frame: Frame):
         font = ("Arial", 10, "bold")
-        tk.Button(
+        Button(
             nav_bar_frame,
             text="First Order ODE",
             font=font,
@@ -47,7 +49,7 @@ class MainView(tk.Frame):
             command=lambda: self.switch_form(self.first_order_ode_form),
             width=16
         ).grid(row=0, column=0)
-        tk.Button(
+        Button(
             nav_bar_frame,
             text="Second Order ODE",
             font=font,
@@ -56,7 +58,7 @@ class MainView(tk.Frame):
             command=lambda: self.switch_form(self.second_order_ode_form),
             width=16
         ).grid(row=0, column=1)
-        tk.Button(
+        Button(
             nav_bar_frame,
             text="Heat Equation",
             font=font,
@@ -65,7 +67,7 @@ class MainView(tk.Frame):
             command=lambda: self.switch_form(self.heat_equation_form),
             width=16
         ).grid(row=0, column=2)
-        tk.Button(
+        Button(
             nav_bar_frame,
             text="Wave Equation",
             font=font,
