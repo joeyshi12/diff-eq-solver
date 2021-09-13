@@ -1,10 +1,10 @@
 from os import listdir
 import unittest
 import json
-from backend.first_order_ode import FirstOrderODE
-from backend.second_order_ode import SecondOrderODE
-from backend.heat_equation_1d import HeatEquation1D
-from backend.wave_equation_1d import WaveEquation1D
+from src.solver.first_order_ode_solver import FirstOrderODESolver
+from src.solver.second_order_ode_solver import SecondOrderODESolver
+from src.solver.heat_equation_solver import HeatEquationSolver
+from src.solver.wave_equation_1d import WaveEquation1D
 
 
 class DifferentialEquationTest(unittest.TestCase):
@@ -18,15 +18,15 @@ class DifferentialEquationTest(unittest.TestCase):
     def test_solve(self):
         for name in self.queries.keys():
             if "initial_derivative" in self.queries[name]:
-                diff_eq = SecondOrderODE(self.queries[name])
+                diff_eq = SecondOrderODESolver(self.queries[name])
             elif "alpha" in self.queries[name]:
-                diff_eq = HeatEquation1D(self.queries[name])
+                diff_eq = HeatEquationSolver(self.queries[name])
             elif "c" in self.queries[name]:
                 diff_eq = WaveEquation1D(self.queries[name])
             else:
-                diff_eq = FirstOrderODE(self.queries[name])
-            diff_eq.solve()
-            diff_eq.record_solution("outputs/" + name + ".xlsx")
+                diff_eq = FirstOrderODESolver(self.queries[name])
+            diff_eq.compute_solution()
+            diff_eq.save_solution("outputs/" + name + ".xlsx")
         return True
 
 

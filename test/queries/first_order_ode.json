@@ -1,6 +1,10 @@
 {
-  "samples": 50,
-  "time": 4,
-  "initial_value": 1,
-  "source": "-4 * x"
+  "id": "FirstOrder",
+  "type": "FirstOrder",
+  "metadata": {
+    "samples": 50,
+    "time": 4,
+    "initial_value": 1,
+    "source": "-4 * x"
+  }
 }

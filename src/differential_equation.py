@@ -6,36 +6,42 @@ from matplotlib.figure import Figure
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
-
-class InvalidQuery(Exception):
-    pass
+from src.differential_equation_metadata import DifferentialEquationMetadata, BoundedEquationMetadata, BoundaryType
 
 
 class DifferentialEquation:
+    metadata: DifferentialEquationMetadata
     solution: np.ndarray
 
-    @abstractmethod
-    def is_valid(self, query):
-        return
+    def __init__(self, metadata: DifferentialEquationMetadata):
+        self.validate_metadata(metadata)
+        self.metadata = metadata
+
+    def get_solution(self):
+        return self.solution
 
     @abstractmethod
-    def solve(self):
-        return
+    def compute_solution(self) -> np.ndarray:
+        raise NotImplementedError
 
     @abstractmethod
-    def display(self, fig):
-        return
+    def initialize_figure(self, figure: Figure):
+        raise NotImplementedError
 
     @abstractmethod
-    def record_solution(self, path):
-        return
+    def save_solution(self, path):
+        raise NotImplementedError
+
+    @abstractmethod
+    def validate_metadata(self, metadata: DifferentialEquationMetadata):
+        raise NotImplementedError
 
 
 class ODE(DifferentialEquation, ABC):
     dt: float
 
-    def display(self, fig: Figure):
-        ax = fig.add_subplot()
+    def initialize_figure(self, figure: Figure):
+        ax = figure.add_subplot()
         N = self.solution.size
         ax.plot(np.arange(N) * self.dt, self.solution)
         ax.set_xlabel("t [time]")
@@ -43,7 +49,7 @@ class ODE(DifferentialEquation, ABC):
         ax.plot()
         ax.set_title("Solution: x(t)")
 
-    def record_solution(self, path):
+    def save_solution(self, path):
         N = self.solution.size
         table = np.column_stack((np.arange(N) * self.dt, self.solution))
         workbook = xlsxwriter.Workbook(path)
@@ -58,25 +64,27 @@ class ODE(DifferentialEquation, ABC):
         workbook.close()
 
 
-class TimeDependent1D(DifferentialEquation, ABC):
+class BoundedEquation(DifferentialEquation, ABC):
+    metadata: BoundedEquationMetadata
+    left_values: '(t: float) -> float'
+    right_values: '(t: float) -> float'
     dt: float
     dx: float
 
-    def __init__(self, boundary_condition):
-        self.left_type = boundary_condition["left"]["type"]
-        self.right_type = boundary_condition["right"]["type"]
-        self.left_values = lambda t: eval(boundary_condition["left"]["values"])
-        self.right_values = lambda t: eval(boundary_condition["right"]["values"])
+    def __init__(self, metadata: DifferentialEquationMetadata):
+        super().__init__(metadata)
+        self.left_values = lambda t: eval(self.metadata.boundary_conditions.left.values)
+        self.right_values = lambda t: eval(self.metadata.boundary_conditions.right.values)
 
-    def display(self, fig):
+    def initialize_figure(self, figure):
         K, N = self.solution.shape
         x, t = np.meshgrid(np.arange(N) * self.dx, np.arange(K) * self.dt)
-        ax = fig.gca(projection='3d')
+        ax = figure.gca(projection='3d')
         ax.set_xlabel('x [length]')
         ax.set_ylabel('t [time]')
         ax.set_zlabel('u(x, t)')
         surf = ax.plot_surface(x, t, self.solution, cmap=cm.coolwarm, linewidth=0, antialiased=False)
-        fig.colorbar(surf, shrink=0.5, aspect=5)
+        figure.colorbar(surf, shrink=0.5, aspect=5)
 
     def get_animation(self, fig: Figure):
         K, N = self.solution.shape
@@ -97,7 +105,7 @@ class TimeDependent1D(DifferentialEquation, ABC):
         anim = animation.FuncAnimation(fig, update_plot, frames=K, blit=True, interval=20)
         return anim
 
-    def record_solution(self, path):
+    def save_solution(self, path):
         K, N = self.solution.shape
         t = np.arange(K) * self.dt
         x = np.arange(N) * self.dx
@@ -114,12 +122,12 @@ class TimeDependent1D(DifferentialEquation, ABC):
                 worksheet.write(k + 2, i + 2, self.solution[k, i])
         workbook.close()
 
-    def _solve_boundary(self, k):
-        if self.left_type == "D":
+    def fill_boundary_values(self, k):
+        if self.metadata.boundary_conditions.left.type == BoundaryType.DIRICHLET:
             self.solution[k, 0] = self.left_values(k * self.dt)
         else:
             self.solution[k, 0] = self.solution[k, 1] - self.left_values(k * self.dt) * self.dx
-        if self.right_type == "D":
+        if self.metadata.boundary_conditions.right.type == BoundaryType.DIRICHLET:
             self.solution[k, -1] = self.right_values(k * self.dt)
         else:
             self.solution[k, -1] = self.solution[k, -2] + self.right_values(k * self.dt) * self.dx
