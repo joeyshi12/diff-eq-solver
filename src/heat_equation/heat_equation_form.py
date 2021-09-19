@@ -5,7 +5,7 @@ from typing import Union
 import src.heat_equation.heat_equation_messages as messages
 import src.tkinter_config as config
 from src.differential_equation_form import DifferentialEquationForm
-from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, HeatEquationMetadata
+from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType
 from src.equation_form_builder import EquationFormBuilder
 from src.heat_equation.heat_equation import HeatEquation
 
@@ -76,12 +76,13 @@ class HeatEquationForm(DifferentialEquationForm):
         self.pause_button = Button(self, text="Pause", font=config.details_font, width=10, command=self.pause_animation)
 
     def build_equation(self):
+        left_boundary_type = BoundaryType(self.field_entry_map[HeatEquationFields.LEFT_BOUNDARY_TYPE].get())
+        right_boundary_type = BoundaryType(self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_TYPE].get())
         boundary_conditions = BoundaryConditions(
-            BoundaryCondition(self.field_entry_map[HeatEquationFields.LEFT_BOUNDARY_TYPE].get(),
+            BoundaryCondition(left_boundary_type,
                               self.field_entry_map[HeatEquationFields.LEFT_BOUNDARY_VALUES].get()),
-            BoundaryCondition(self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_TYPE].get(),
-                              self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_VALUES].get())
-        )
+            BoundaryCondition(right_boundary_type,
+                              self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_VALUES].get()))
         source = self.field_entry_map[HeatEquationFields.SOURCE].get()
         return HeatEquation(
             HeatEquationMetadata(
