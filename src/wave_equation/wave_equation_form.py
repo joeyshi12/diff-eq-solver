@@ -33,7 +33,6 @@ class WaveEquationForm(DifferentialEquationForm):
     animate_button: Button
     play_button: Button
     pause_button: Button
-    file_name: str = "wave_equation_1d.xlsx"
     anim = None
 
     def __init__(self, frame, fig, canvas):
@@ -107,7 +106,7 @@ class WaveEquationForm(DifferentialEquationForm):
         try:
             self.diff_eq = self.extract_diff_eq()
             self.diff_eq.compute_solution()
-            self.diff_eq.save_solution("outputs/" + self.file_name)
+            self.diff_eq.save_solution(f"{self.data_folder_path}/wave_equation_1d.xlsx")
             messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
             self.display_button.configure(command=self.display)
             self.display_button.grid(row=11, column=3, pady=6, sticky="e")
