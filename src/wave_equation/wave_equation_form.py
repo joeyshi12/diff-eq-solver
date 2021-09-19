@@ -1,96 +1,104 @@
-import tkinter as tk
-from tkinter import messagebox
+from enum import auto, Enum
+from tkinter import messagebox, Button, Entry, Variable
+from typing import Union
 
-from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, WaveEquationMetadata
+import src.tkinter_config as config
+import src.wave_equation.wave_equation_messages as messages
 from src.differential_equation_form import DifferentialEquationForm
+from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, WaveEquationMetadata
+from src.equation_form_builder import EquationFormBuilder
 from src.wave_equation.wave_equation import WaveEquation
 
 
+class WaveEquationFields(Enum):
+    LEFT_BOUNDARY_TYPE = auto()
+    RIGHT_BOUNDARY_TYPE = auto()
+    LEFT_BOUNDARY_VALUES = auto()
+    RIGHT_BOUNDARY_VALUES = auto()
+    INITIAL_VALUES = auto()
+    INITIAL_DERIVATIVES = auto()
+    SOURCE = auto()
+    WAVE_SPEED = auto()
+    ALPHA = auto()
+    LENGTH = auto()
+    TIME = auto()
+    SAMPLES = auto()
+
+
 class WaveEquationForm(DifferentialEquationForm):
+    field_entry_map: dict[WaveEquationFields, Union[Entry, Variable]]
     diff_eq: WaveEquation = None
-    entries: dict
-    solve_button: tk.Button
-    display_button: tk.Button
-    animate_button: tk.Button
-    play_button: tk.Button
-    pause_button: tk.Button
+    solve_button: Button
+    display_button: Button
+    animate_button: Button
+    play_button: Button
+    pause_button: Button
     file_name: str = "wave_equation_1d.xlsx"
     anim = None
 
-    def __init__(self, main_view):
-        DifferentialEquationForm.__init__(self, main_view)
-        param_ids = ["left_type",
-                     "right_type",
-                     "left_values",
-                     "right_values",
-                     "initial_values",
-                     "initial_derivatives",
-                     "source",
-                     "c",
-                     "length",
-                     "time",
-                     "samples"]
-        param_names = ["Left boundary type",
-                       "Right boundary type",
-                       "Left boundary values",
-                       "Right boundary values",
-                       "Initial values",
-                       "Initial Derivatives",
-                       "Source term (optional)",
-                       "Wave speed",
-                       "Length",
-                       "Time interval",
-                       "Samples"]
-        param_symbols = [None, None, "\u03C6₁(t)", "\u03C6₂(t)", "u(0, x)", "∂u(0, x)/∂t", "s(t, x)", "c", "L", "T", "N"]
-        self.place_labels_and_entries(param_ids, param_names, param_symbols)
-        self.place_radio_buttons()
+    def __init__(self, frame, fig, canvas):
+        DifferentialEquationForm.__init__(self, frame, fig, canvas)
+
+    def initialize_widgets(self):
+        builder: EquationFormBuilder[WaveEquationFields] = EquationFormBuilder[WaveEquationFields](self)
+        builder.build_boundary_type_section(WaveEquationFields.LEFT_BOUNDARY_TYPE,
+                                            WaveEquationFields.RIGHT_BOUNDARY_TYPE)
+        builder.build_entry_row(WaveEquationFields.LEFT_BOUNDARY_VALUES,
+                                messages.left_boundary_values,
+                                messages.left_boundary_values_symbol, 2)
+        builder.build_entry_row(WaveEquationFields.RIGHT_BOUNDARY_VALUES,
+                                messages.right_boundary_values,
+                                messages.right_boundary_values_symbol, 3)
+        builder.build_entry_row(WaveEquationFields.INITIAL_VALUES,
+                                messages.initial_values,
+                                messages.initial_values_symbol, 4)
+        builder.build_entry_row(WaveEquationFields.INITIAL_DERIVATIVES,
+                                messages.initial_derivatives,
+                                messages.initial_derivatives_symbol, 5)
+        builder.build_entry_row(WaveEquationFields.SOURCE,
+                                messages.source_term,
+                                messages.source_term_symbol, 6)
+        builder.build_entry_row(WaveEquationFields.WAVE_SPEED,
+                                messages.wave_speed,
+                                messages.wave_speed_symbol, 7)
+        builder.build_entry_row(WaveEquationFields.LENGTH,
+                                messages.length,
+                                messages.length_symbol, 8)
+        builder.build_entry_row(WaveEquationFields.TIME,
+                                messages.time_interval,
+                                messages.time_interval_symbol, 9)
+        builder.build_entry_row(WaveEquationFields.SAMPLES,
+                                messages.samples,
+                                messages.samples_symbol, 10)
+        self.field_entry_map = builder.get_field_entry_map()
         self.place_buttons()
 
-    def place_labels_and_entries(self, param_ids, param_names, param_symbols):
-        self.entries = {param_ids[i]: tk.Entry(self, font=self.font, width=24) for i in range(2, len(param_ids))}
-        self.entries["left_type"] = tk.StringVar(value="D")
-        self.entries["right_type"] = tk.StringVar(value="D")
-        for i in range(len(param_names)):
-            tk.Label(self, text=param_names[i] + ":", font=self.font,
-                     background=self.bgcolour).grid(row=i, column=0, padx=18, pady=6, sticky="w")
-            if param_symbols[i]:
-                tk.Label(self, text=param_symbols[i] + " = ", font=self.font,
-                         background=self.bgcolour).grid(row=i, column=1, pady=6, sticky="e")
-                self.entries[param_ids[i]].grid(row=i, column=2, columnspan=2)
-
     def place_buttons(self):
-        self.solve_button = tk.Button(self, text="Solve", font=self.font, width=10, command=self.solve)
+        self.solve_button = Button(self, text="Solve", font=config.details_font, width=10, command=self.solve)
         self.solve_button.grid(row=11, column=2, pady=6, sticky="w")
-        self.display_button = tk.Button(self, text="Display", font=self.font, width=10)
-        self.animate_button = tk.Button(self, text="Animate", font=self.font, width=10)
-        self.play_button = tk.Button(self, text="Play", font=self.font, width=10, command=self.play_animation)
-        self.pause_button = tk.Button(self, text="Pause", font=self.font, width=10, command=self.pause_animation)
-
-    def place_radio_buttons(self):
-        tk.Radiobutton(self, text="Dirichlet", font=self.font, background=self.bgcolour, activebackground=self.bgcolour,
-                       variable=self.entries["left_type"], value="D").grid(row=0, column=1, sticky="w")
-        tk.Radiobutton(self, text="Neumann", font=self.font, background=self.bgcolour, activebackground=self.bgcolour,
-                       variable=self.entries["left_type"], value="N").grid(row=0, column=2, sticky="w")
-        tk.Radiobutton(self, text="Dirichlet", font=self.font, background=self.bgcolour, activebackground=self.bgcolour,
-                       variable=self.entries["right_type"], value="D").grid(row=1, column=1, sticky="w")
-        tk.Radiobutton(self, text="Neumann", font=self.font, background=self.bgcolour, activebackground=self.bgcolour,
-                       variable=self.entries["right_type"], value="N").grid(row=1, column=2, sticky="w")
+        self.display_button = Button(self, text="Display", font=config.details_font, width=10)
+        self.animate_button = Button(self, text="Animate", font=config.details_font, width=10)
+        self.play_button = Button(self, text="Play", font=config.details_font, width=10, command=self.play_animation)
+        self.pause_button = Button(self, text="Pause", font=config.details_font, width=10, command=self.pause_animation)
 
     def extract_diff_eq(self):
         boundary_conditions = BoundaryConditions(
-            BoundaryCondition(self.entries["left_type"].get(), self.entries["left_values"].get()),
-            BoundaryCondition(self.entries["right_type"].get(), self.entries["right_values"].get())
+            BoundaryCondition(self.field_entry_map[WaveEquationFields.LEFT_BOUNDARY_TYPE].get(),
+                              self.field_entry_map[WaveEquationFields.LEFT_BOUNDARY_VALUES].get()),
+            BoundaryCondition(self.field_entry_map[WaveEquationFields.RIGHT_BOUNDARY_TYPE].get(),
+                              self.field_entry_map[WaveEquationFields.RIGHT_BOUNDARY_VALUES].get())
         )
+        source = self.field_entry_map[WaveEquationFields.SOURCE].get()
         return WaveEquation(
             WaveEquationMetadata(
                 boundary_conditions,
-                eval(self.entries["c"].get()),
-                eval(self.entries["length"].get()),
-                eval(self.entries["time"].get()),
-                int(self.entries["samples"].get()),
-                self.entries["initial_values"].get(),
-                self.entries["initial_derivatives"].get(),
-                self.entries["source"].get() if not self.entries["source"].get() else "0"
+                eval(self.field_entry_map[WaveEquationFields.WAVE_SPEED].get()),
+                eval(self.field_entry_map[WaveEquationFields.LENGTH].get()),
+                eval(self.field_entry_map[WaveEquationFields.TIME].get()),
+                int(self.field_entry_map[WaveEquationFields.SAMPLES].get()),
+                self.field_entry_map[WaveEquationFields.INITIAL_VALUES].get(),
+                self.field_entry_map[WaveEquationFields.INITIAL_DERIVATIVES].get(),
+                source if source else "0"
             )
         )
 

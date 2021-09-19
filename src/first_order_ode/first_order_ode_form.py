@@ -1,11 +1,13 @@
 from enum import Enum, auto
-from tkinter import messagebox, Label, Entry, Button
+from tkinter import messagebox, Entry, Button
 from typing import Dict
 
-from src.differential_equation_messages import DifferentialEquationMessages
-from src.differential_equation_metadata import FirstOrderODEMetadata
-from src.first_order_ode.first_order_ode import FirstOrderODE
+import src.first_order_ode.first_order_ode_messages as messages
+import src.tkinter_config as config
 from src.differential_equation_form import DifferentialEquationForm
+from src.differential_equation_metadata import FirstOrderODEMetadata
+from src.equation_form_builder import EquationFormBuilder
+from src.first_order_ode.first_order_ode import FirstOrderODE
 
 
 class FirstOrderODEFields(Enum):
@@ -19,27 +21,25 @@ class FirstOrderODEForm(DifferentialEquationForm):
     current_equation: FirstOrderODE
     field_entry_map: Dict[FirstOrderODEFields, Entry]
 
-    def __init__(self, main_view):
-        DifferentialEquationForm.__init__(self, main_view)
+    def __init__(self, frame, fig, canvas):
+        DifferentialEquationForm.__init__(self, frame, fig, canvas)
 
     def initialize_widgets(self):
-        self.field_entry_map[FirstOrderODEFields.SOURCE] = self.create_field_entry(
-            DifferentialEquationMessages.source_term,
-            DifferentialEquationMessages.source_term_symbol, 0
-        )
-        self.field_entry_map[FirstOrderODEFields.INITIAL_VALUE] = self.create_field_entry(
-            DifferentialEquationMessages.initial_value,
-            DifferentialEquationMessages.initial_value_symbol, 1
-        )
-        self.field_entry_map[FirstOrderODEFields.TIME] = self.create_field_entry(
-            DifferentialEquationMessages.time_interval,
-            DifferentialEquationMessages.time_interval_symbol, 2
-        )
-        self.field_entry_map[FirstOrderODEFields.SAMPLES] = self.create_field_entry(
-            DifferentialEquationMessages.samples,
-            DifferentialEquationMessages.samples_symbol, 3
-        )
-        Button(self, text="Solve", font=self.font, width=10, command=self.solve).grid(
+        builder: EquationFormBuilder[FirstOrderODEFields] = EquationFormBuilder[FirstOrderODEFields](self)
+        builder.build_entry_row(FirstOrderODEFields.SOURCE,
+                                messages.source_term,
+                                messages.source_term_symbol, 0)
+        builder.build_entry_row(FirstOrderODEFields.INITIAL_VALUE,
+                                messages.initial_value,
+                                messages.initial_value_symbol, 1)
+        builder.build_entry_row(FirstOrderODEFields.TIME,
+                                messages.time_interval,
+                                messages.time_interval_symbol, 2)
+        builder.build_entry_row(FirstOrderODEFields.SAMPLES,
+                                messages.samples,
+                                messages.samples_symbol, 3)
+        self.field_entry_map = builder.get_field_entry_map()
+        Button(self, text="Solve", font=config.details_font, width=10, command=self.solve).grid(
             row=5, column=2, pady=10, sticky="w")
 
     def build_equation(self):

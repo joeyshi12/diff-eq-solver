@@ -1,0 +1,11 @@
+source_term = "Source term"
+initial_value = "Initial value"
+initial_derivative: str = "Initial Derivative"
+time_interval = "Time interval"
+samples = "Samples"
+
+source_term_symbol: str = "f(t, x, y=x')"
+initial_value_symbol = "x(0)"
+initial_derivative_symbol: str = "x'(0)"
+time_interval_symbol = "T"
+samples_symbol = "N"
