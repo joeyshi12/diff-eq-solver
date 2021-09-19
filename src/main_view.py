@@ -39,10 +39,10 @@ class MainView(Frame):
         container = Frame(self)
         container.configure(background=config.details_background)
         container.pack(side="top", fill="both", expand=True)
-        self.first_order_ode_form.place(in_=container, x=0, y=20, relwidth=1, relheight=1)
-        self.second_order_ode_form.place(in_=container, x=0, y=20, relwidth=1, relheight=1)
-        self.heat_equation_form.place(in_=container, x=0, y=20, relwidth=1, relheight=1)
-        self.wave_equation_form.place(in_=container, x=0, y=20, relwidth=1, relheight=1)
+        self.first_order_ode_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
+        self.second_order_ode_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
+        self.heat_equation_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
+        self.wave_equation_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
 
     def place_nav_bar_button(self, frame: Frame, display_name: str, target_form: DifferentialEquationForm, column: int):
         Button(frame,

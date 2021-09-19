@@ -1,4 +1,4 @@
-from tkinter import Frame, Entry, Variable, Label, StringVar, Radiobutton
+from tkinter import Frame, Entry, Variable, Label, StringVar, Radiobutton, Button
 from typing import Generic, TypeVar, Union
 
 from src.differential_equation_metadata import BoundaryType
@@ -26,11 +26,23 @@ class EquationFormBuilder(Generic[T]):
         self.__place_label("Right Boundary Type", 1, 0, 18, "w")
         self.__build_boundary_type_row(right_boundary_type_field, 1)
 
-    def get_field_entry_map(self):
+    def create_button(self, text: str, callback: '() -> None' = None) -> Button:
+        button = Button(
+            master=self.frame,
+            text=text,
+            font=config.details_font,
+            width=10,
+            command=callback
+        )
+        if callback is not None:
+            button.bind("<Button-1>", callback)
+        return button
+
+    def get_field_entry_map(self) -> dict[T, Union[Entry, Variable]]:
         return self.__field_entry_map
 
     def __place_label(self, text: str, row: int, column: int, horizontal_padding: int, sticky: str):
-        Label(self.frame,
+        Label(master=self.frame,
               text=text,
               font=config.details_font,
               background=config.details_background).grid(
@@ -40,14 +52,14 @@ class EquationFormBuilder(Generic[T]):
         self.__field_entry_map[boundary_type_field] = StringVar(value=BoundaryType.DIRICHLET.value)
         self.__place_radio_button("dirichlet",
                                   self.__field_entry_map[boundary_type_field],
-                                  row, 1,
-                                  BoundaryType.DIRICHLET.value)
+                                  BoundaryType.DIRICHLET.value,
+                                  row, 1)
         self.__place_radio_button("neumann",
                                   self.__field_entry_map[boundary_type_field],
-                                  row, 2,
-                                  BoundaryType.NEUMANN.value)
+                                  BoundaryType.NEUMANN.value,
+                                  row, 2)
 
-    def __place_radio_button(self, text: str, variable: Variable, row: int, column: int, value: str):
+    def __place_radio_button(self, text: str, variable: Variable, value: str, row: int, column: int):
         Radiobutton(master=self.frame,
                     text=text,
                     font=config.details_font,

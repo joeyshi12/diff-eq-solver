@@ -19,7 +19,7 @@ class SecondOrderODEFields(Enum):
 
 
 class SecondOrderODEForm(DifferentialEquationForm):
-    current_equation: SecondOrderODE
+    equation: SecondOrderODE
     field_entry_map: Dict[SecondOrderODEFields, Entry]
 
     def __init__(self, frame, fig, canvas):
@@ -47,7 +47,7 @@ class SecondOrderODEForm(DifferentialEquationForm):
             row=5, column=2, pady=10, sticky="w"
         )
 
-    def extract_diff_eq(self):
+    def get_equation(self):
         return SecondOrderODE(
             SecondOrderODEMetadata(
                 self.field_entry_map.get(SecondOrderODEFields.SOURCE).get(),
@@ -60,12 +60,12 @@ class SecondOrderODEForm(DifferentialEquationForm):
 
     def solve(self):
         try:
-            self.current_equation = self.extract_diff_eq()
-            self.current_equation.compute_solution()
-            self.current_equation.save_solution(f"{self.data_folder_path}/second_order_ode.xlsx")
+            self.equation = self.get_equation()
+            self.equation.compute_solution()
+            self.equation.save_solution(f"{self.data_folder_path}/second_order_ode.xlsx")
             messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
             self.fig.clf()
-            self.current_equation.initialize_figure(self.fig)
+            self.equation.initialize_figure(self.fig)
             self.canvas.draw()
         except Exception as err:
             messagebox.showinfo("Differential Equation Solver", err)

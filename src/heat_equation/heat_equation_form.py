@@ -3,7 +3,6 @@ from tkinter import messagebox, StringVar, Button, Entry
 from typing import Union
 
 import src.heat_equation.heat_equation_messages as messages
-import src.tkinter_config as config
 from src.differential_equation_form import DifferentialEquationForm
 from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType
 from src.equation_form_builder import EquationFormBuilder
@@ -24,7 +23,7 @@ class HeatEquationFields(Enum):
 
 
 class HeatEquationForm(DifferentialEquationForm):
-    current_equation: HeatEquation
+    equation: HeatEquation
     field_entry_map: dict[HeatEquationFields, Union[Entry, StringVar]]
     solve_button: Button
     display_button: Button
@@ -38,6 +37,10 @@ class HeatEquationForm(DifferentialEquationForm):
 
     def build_form(self):
         builder: EquationFormBuilder[HeatEquationFields] = EquationFormBuilder[HeatEquationFields](self)
+        self.build_entries(builder)
+        self.build_buttons(builder)
+
+    def build_entries(self, builder: EquationFormBuilder[HeatEquationFields]):
         builder.build_boundary_type_section(HeatEquationFields.LEFT_BOUNDARY_TYPE,
                                             HeatEquationFields.RIGHT_BOUNDARY_TYPE)
         builder.build_entry_row(HeatEquationFields.LEFT_BOUNDARY_VALUES,
@@ -65,17 +68,16 @@ class HeatEquationForm(DifferentialEquationForm):
                                 messages.samples,
                                 messages.samples_symbol, 9)
         self.field_entry_map = builder.get_field_entry_map()
-        self.place_buttons()
 
-    def place_buttons(self):
-        self.solve_button = Button(self, text="Solve", font=config.details_font, width=10, command=self.solve)
+    def build_buttons(self, builder: EquationFormBuilder[HeatEquationFields]):
+        self.solve_button = builder.create_button("Solve", callback=self.solve)
+        self.display_button = builder.create_button("Display")
+        self.animate_button = builder.create_button("Animate")
+        self.play_button = builder.create_button("Play", callback=self.play_animation)
+        self.pause_button = builder.create_button("Pause", callback=self.pause_animation)
         self.solve_button.grid(row=10, column=2, pady=6, sticky="w")
-        self.display_button = Button(self, text="Display", font=config.details_font, width=10)
-        self.animate_button = Button(self, text="Animate", font=config.details_font, width=10)
-        self.play_button = Button(self, text="Play", font=config.details_font, width=10, command=self.play_animation)
-        self.pause_button = Button(self, text="Pause", font=config.details_font, width=10, command=self.pause_animation)
 
-    def build_equation(self):
+    def get_equation(self):
         left_boundary_type = BoundaryType(self.field_entry_map[HeatEquationFields.LEFT_BOUNDARY_TYPE].get())
         right_boundary_type = BoundaryType(self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_TYPE].get())
         boundary_conditions = BoundaryConditions(
@@ -98,9 +100,9 @@ class HeatEquationForm(DifferentialEquationForm):
 
     def solve(self):
         try:
-            self.current_equation = self.build_equation()
-            self.current_equation.compute_solution()
-            self.current_equation.save_solution(f"{self.data_folder_path}/heat_equation_1d.xlsx")
+            self.equation = self.get_equation()
+            self.equation.compute_solution()
+            self.equation.save_solution(f"{self.data_folder_path}/heat_equation_1d.xlsx")
             messagebox.showinfo("Error", "Your solution has been recorded")
             self.display_button.configure(command=self.display)
             self.display_button.grid(row=10, column=3, pady=6, sticky="e")
@@ -115,34 +117,34 @@ class HeatEquationForm(DifferentialEquationForm):
             self.pause_animation()
         self.fig.clf()
         self.animate_button.configure(command=self.get_animation)
-        self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
-        self.current_equation.initialize_figure(self.fig)
+        self.animate_button.grid(row=11, column=2, pady=6, sticky="e")
+        self.equation.initialize_figure(self.fig)
         self.canvas.draw()
         self.play_button.grid_forget()
         self.pause_button.grid_forget()
 
     def get_animation(self):
         self.fig.clf()
-        self.anim = self.current_equation.get_animation(self.fig)
+        self.anim = self.equation.get_animation(self.fig)
         self.canvas.draw()
-        self.pause_button.grid(row=11, column=3, pady=6, sticky="e")
+        self.pause_button.grid(row=11, column=2, pady=6, sticky="e")
         self.animate_button.grid_forget()
 
     def pause_animation(self):
-        self.play_button.grid(row=11, column=3, pady=6, sticky="e")
+        self.play_button.grid(row=11, column=2, pady=6, sticky="e")
         self.pause_button.grid_forget()
         self.anim.event_source.stop()
 
     def play_animation(self):
-        self.pause_button.grid(row=11, column=3, pady=6, sticky="e")
+        self.pause_button.grid(row=11, column=2, pady=6, sticky="e")
         self.play_button.grid_forget()
         self.anim.event_source.start()
 
     def clear_form(self):
         if self.anim:
             self.pause_animation()
-        if self.current_equation:
+        if self.equation:
             self.play_button.grid_forget()
-            self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
+            self.animate_button.grid(row=11, column=2, pady=6, sticky="e")
             self.fig.clf()
             self.canvas.draw()

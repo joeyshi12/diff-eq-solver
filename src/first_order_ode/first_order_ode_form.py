@@ -18,7 +18,7 @@ class FirstOrderODEFields(Enum):
 
 
 class FirstOrderODEForm(DifferentialEquationForm):
-    current_equation: FirstOrderODE
+    equation: FirstOrderODE
     field_entry_map: Dict[FirstOrderODEFields, Entry]
 
     def __init__(self, frame, fig, canvas):
@@ -42,7 +42,7 @@ class FirstOrderODEForm(DifferentialEquationForm):
         Button(self, text="Solve", font=config.details_font, width=10, command=self.solve).grid(
             row=5, column=2, pady=10, sticky="w")
 
-    def build_equation(self):
+    def get_equation(self):
         return FirstOrderODE(
             FirstOrderODEMetadata(
                 self.field_entry_map.get(FirstOrderODEFields.SOURCE).get(),
@@ -54,12 +54,12 @@ class FirstOrderODEForm(DifferentialEquationForm):
 
     def solve(self):
         try:
-            self.current_equation = self.build_equation()
-            self.current_equation.compute_solution()
-            self.current_equation.save_solution(f"${self.data_folder_path}/first_order_ode.xlsx")
+            self.equation = self.get_equation()
+            self.equation.compute_solution()
+            self.equation.save_solution(f"${self.data_folder_path}/first_order_ode.xlsx")
             messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
             self.fig.clf()
-            self.current_equation.initialize_figure(self.fig)
+            self.equation.initialize_figure(self.fig)
             self.canvas.draw()
         except Exception as err:
             messagebox.showinfo("Differential Equation Solver", err)
