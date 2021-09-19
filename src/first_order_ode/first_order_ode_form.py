@@ -1,9 +1,8 @@
 from enum import Enum, auto
-from tkinter import messagebox, Entry, Button
+from tkinter import messagebox, Entry
 from typing import Dict
 
 import src.first_order_ode.first_order_ode_messages as messages
-import src.tkinter_config as config
 from src.differential_equation_form import DifferentialEquationForm
 from src.differential_equation_metadata import FirstOrderODEMetadata
 from src.equation_form_builder import EquationFormBuilder
@@ -39,8 +38,7 @@ class FirstOrderODEForm(DifferentialEquationForm):
                                 messages.samples,
                                 messages.samples_symbol, 3)
         self.field_entry_map = builder.get_field_entry_map()
-        Button(self, text="Solve", font=config.details_font, width=10, command=self.solve).grid(
-            row=5, column=2, pady=10, sticky="w")
+        builder.create_button("Solve", callback=self.solve).grid(row=5, column=2, pady=10, sticky="w")
 
     def get_equation(self):
         return FirstOrderODE(
