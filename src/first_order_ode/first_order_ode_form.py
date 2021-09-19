@@ -52,7 +52,7 @@ class FirstOrderODEForm(DifferentialEquationForm):
             )
         )
 
-    async def solve(self):
+    def solve(self):
         try:
             self.current_equation = self.build_equation()
             self.current_equation.compute_solution()

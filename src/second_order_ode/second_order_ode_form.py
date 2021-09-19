@@ -43,7 +43,7 @@ class SecondOrderODEForm(DifferentialEquationForm):
                                 messages.samples,
                                 messages.samples_symbol, 4)
         self.field_entry_map = builder.get_field_entry_map()
-        Button(self, text="Solve", font=config.details_background, width=10, command=self.solve).grid(
+        Button(self, text="Solve", font=config.details_font, width=10, command=self.solve).grid(
             row=5, column=2, pady=10, sticky="w"
         )
 
