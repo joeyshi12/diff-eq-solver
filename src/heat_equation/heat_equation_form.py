@@ -117,7 +117,7 @@ class HeatEquationForm(DifferentialEquationForm):
             self.pause_animation()
         self.fig.clf()
         self.animate_button.configure(command=self.get_animation)
-        self.animate_button.grid(row=11, column=2, pady=6, sticky="e")
+        self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
         self.equation.initialize_figure(self.fig)
         self.canvas.draw()
         self.play_button.grid_forget()
@@ -127,16 +127,16 @@ class HeatEquationForm(DifferentialEquationForm):
         self.fig.clf()
         self.anim = self.equation.get_animation(self.fig)
         self.canvas.draw()
-        self.pause_button.grid(row=11, column=2, pady=6, sticky="e")
+        self.pause_button.grid(row=11, column=3, pady=6, sticky="e")
         self.animate_button.grid_forget()
 
     def pause_animation(self):
-        self.play_button.grid(row=11, column=2, pady=6, sticky="e")
+        self.play_button.grid(row=11, column=3, pady=6, sticky="e")
         self.pause_button.grid_forget()
         self.anim.event_source.stop()
 
     def play_animation(self):
-        self.pause_button.grid(row=11, column=2, pady=6, sticky="e")
+        self.pause_button.grid(row=11, column=3, pady=6, sticky="e")
         self.play_button.grid_forget()
         self.anim.event_source.start()
 
@@ -145,6 +145,6 @@ class HeatEquationForm(DifferentialEquationForm):
             self.pause_animation()
         if self.equation:
             self.play_button.grid_forget()
-            self.animate_button.grid(row=11, column=2, pady=6, sticky="e")
+            self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
             self.fig.clf()
             self.canvas.draw()

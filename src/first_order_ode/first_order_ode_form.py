@@ -54,7 +54,7 @@ class FirstOrderODEForm(DifferentialEquationForm):
         try:
             self.equation = self.get_equation()
             self.equation.compute_solution()
-            self.equation.save_solution(f"${self.data_folder_path}/first_order_ode.xlsx")
+            self.equation.save_solution(f"{self.data_folder_path}/first_order_ode.xlsx")
             messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
             self.fig.clf()
             self.equation.initialize_figure(self.fig)

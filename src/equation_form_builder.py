@@ -32,10 +32,9 @@ class EquationFormBuilder(Generic[T]):
             text=text,
             font=config.details_font,
             width=10,
-            command=callback
         )
         if callback is not None:
-            button.bind("<Button-1>", callback)
+            button.configure(command=callback)
         return button
 
     def get_field_entry_map(self) -> dict[T, Union[Entry, Variable]]:
