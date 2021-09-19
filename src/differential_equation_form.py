@@ -11,12 +11,12 @@ class DifferentialEquationForm(Frame):
         Frame.__init__(self, master=frame)
         self.fig = fig
         self.canvas = canvas
-        self.initialize_widgets()
+        self.build_form()
         self.configure(background=config.details_background)
 
     def show(self):
         self.lift()
 
     @abstractmethod
-    def initialize_widgets(self):
+    def build_form(self):
         raise NotImplementedError

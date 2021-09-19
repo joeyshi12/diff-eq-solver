@@ -36,7 +36,7 @@ class HeatEquationForm(DifferentialEquationForm):
     def __init__(self, frame, fig, canvas):
         DifferentialEquationForm.__init__(self, frame, fig, canvas)
 
-    def initialize_widgets(self):
+    def build_form(self):
         builder: EquationFormBuilder[HeatEquationFields] = EquationFormBuilder[HeatEquationFields](self)
         builder.build_boundary_type_section(HeatEquationFields.LEFT_BOUNDARY_TYPE,
                                             HeatEquationFields.RIGHT_BOUNDARY_TYPE)

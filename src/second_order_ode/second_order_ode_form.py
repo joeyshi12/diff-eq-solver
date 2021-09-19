@@ -25,7 +25,7 @@ class SecondOrderODEForm(DifferentialEquationForm):
     def __init__(self, frame, fig, canvas):
         DifferentialEquationForm.__init__(self, frame, fig, canvas)
 
-    def initialize_widgets(self):
+    def build_form(self):
         builder: EquationFormBuilder[SecondOrderODEFields] = EquationFormBuilder[SecondOrderODEFields](self)
         builder.build_entry_row(SecondOrderODEFields.SOURCE,
                                 messages.source_term,

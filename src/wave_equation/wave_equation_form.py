@@ -39,7 +39,7 @@ class WaveEquationForm(DifferentialEquationForm):
     def __init__(self, frame, fig, canvas):
         DifferentialEquationForm.__init__(self, frame, fig, canvas)
 
-    def initialize_widgets(self):
+    def build_form(self):
         builder: EquationFormBuilder[WaveEquationFields] = EquationFormBuilder[WaveEquationFields](self)
         builder.build_boundary_type_section(WaveEquationFields.LEFT_BOUNDARY_TYPE,
                                             WaveEquationFields.RIGHT_BOUNDARY_TYPE)
