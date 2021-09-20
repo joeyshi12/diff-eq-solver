@@ -15,10 +15,10 @@ class EquationFormBuilder(Generic[T]):
         self.__field_entry_map = dict()
 
     def build_entry_row(self, field: T, display_name: str, symbol_name: str, row: int):
-        self.__field_entry_map[field] = Entry(master=self.frame, font=config.details_font)
+        self.__field_entry_map[field] = Entry(master=self.frame, font=config.details_font, width=24)
         self.__place_label(f"{display_name}:", row, 0, 18, "w")
         self.__place_label(f"{symbol_name} = ", row, 1, 0, "e")
-        self.__field_entry_map[field].grid(row=row, column=2, pady=0)
+        self.__field_entry_map[field].grid(row=row, column=2, columnspan=2)
 
     def build_boundary_type_section(self, left_boundary_type_field: T, right_boundary_type_field: T):
         self.__place_label("Left Boundary Type", 0, 0, 18, "w")
@@ -49,11 +49,11 @@ class EquationFormBuilder(Generic[T]):
 
     def __build_boundary_type_row(self, boundary_type_field: T, row: int):
         self.__field_entry_map[boundary_type_field] = StringVar(value=BoundaryType.DIRICHLET.value)
-        self.__place_radio_button("dirichlet",
+        self.__place_radio_button("Dirichlet",
                                   self.__field_entry_map[boundary_type_field],
                                   BoundaryType.DIRICHLET.value,
                                   row, 1)
-        self.__place_radio_button("neumann",
+        self.__place_radio_button("Neumann",
                                   self.__field_entry_map[boundary_type_field],
                                   BoundaryType.NEUMANN.value,
                                   row, 2)
