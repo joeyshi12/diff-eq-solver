@@ -1,3 +1,5 @@
 numpy~=1.20.3
 matplotlib~=3.4.2
 xlsxwriter~=3.0.1
+pillow
+pyparsing
