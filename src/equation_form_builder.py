@@ -1,5 +1,5 @@
 from tkinter import Frame, Entry, Variable, Label, StringVar, Radiobutton, Button
-from typing import Generic, TypeVar, Union
+from typing import Generic, TypeVar, Union, Callable
 
 from src.differential_equation_metadata import BoundaryType
 import src.tkinter_config as config
@@ -26,7 +26,7 @@ class EquationFormBuilder(Generic[T]):
         self.__place_label("Right Boundary Type", 1, 0, 18, "w")
         self.__build_boundary_type_row(right_boundary_type_field, 1)
 
-    def create_button(self, text: str, callback: '() -> None' = None) -> Button:
+    def create_button(self, text: str, callback: Callable[[], None] = None) -> Button:
         button = Button(
             master=self.frame,
             text=text,

@@ -1,3 +1,5 @@
+from typing import Callable
+
 import numpy as np
 from src.differential_equation_metadata import FirstOrderODEMetadata
 from src.differential_equation import ODE
@@ -5,7 +7,7 @@ from src.differential_equation import ODE
 
 class FirstOrderODE(ODE):
     metadata: FirstOrderODEMetadata
-    source: '(t: float, x: float) -> float'
+    source: Callable[[float, float], float]  # (t: float, x: float) -> float
 
     def __init__(self, metadata: FirstOrderODEMetadata):
         super().__init__(metadata)

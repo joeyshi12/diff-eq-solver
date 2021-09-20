@@ -1,3 +1,5 @@
+from typing import Callable
+
 import numpy as np
 from src.differential_equation_metadata import HeatEquationMetadata
 from src.differential_equation import BoundedEquation
@@ -8,7 +10,7 @@ class HeatEquation(BoundedEquation):
 
     def __init__(self, metadata: HeatEquationMetadata):
         super().__init__(metadata)
-        initial_cond: '(x: float) -> float' = lambda x: eval(metadata.initial_values)
+        initial_cond: Callable[[float], float] = lambda x: eval(metadata.initial_values)
         self.source = lambda t, x: eval(metadata.source)
         N = metadata.samples
         self.dx = metadata.length / (N - 1)

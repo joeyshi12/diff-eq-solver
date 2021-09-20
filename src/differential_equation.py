@@ -1,4 +1,6 @@
 from abc import abstractmethod, ABC
+from typing import Callable
+
 import xlsxwriter
 import numpy as np
 from matplotlib import animation, cm
@@ -66,8 +68,8 @@ class ODE(DifferentialEquation, ABC):
 
 class BoundedEquation(DifferentialEquation, ABC):
     metadata: BoundedEquationMetadata
-    left_values: '(t: float) -> float'
-    right_values: '(t: float) -> float'
+    left_values: Callable[[float], float]  # (t: float) -> float
+    right_values: Callable[[float], float]  # (t: float) -> float
     dt: float
     dx: float
 

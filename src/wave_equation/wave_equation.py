@@ -1,3 +1,5 @@
+from typing import Callable
+
 import numpy as np
 from src.differential_equation_metadata import WaveEquationMetadata
 from src.differential_equation import BoundedEquation
@@ -8,8 +10,8 @@ class WaveEquation(BoundedEquation):
 
     def __init__(self, metadata: WaveEquationMetadata):
         super().__init__(metadata)
-        initial_values: '(x: float) -> float' = lambda x: eval(metadata.initial_values)
-        initial_derivatives: '(x: float) -> float' = lambda x: eval(metadata.initial_derivatives)
+        initial_values: Callable[[float], float] = lambda x: eval(metadata.initial_values)
+        initial_derivatives: Callable[[float], float] = lambda x: eval(metadata.initial_derivatives)
         self.source = lambda t, x: eval(metadata.source)
         N = metadata.samples
         self.dx = metadata.length / (N - 1)
