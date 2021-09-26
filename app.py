@@ -1,10 +1,10 @@
-import tkinter as tk
+from tkinter import Tk
 
 from src.main_view import MainView
 
 
 def main():
-    app = tk.Tk(className="Differential Equation Solver")
+    app = Tk(className="Differential Equation Solver")
     app.resizable(width=False, height=False)
     # app.iconbitmap('assets/icon.ico')
     app.geometry("1100x600")

@@ -2,10 +2,6 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-class DifferentialEquationMetadata:
-    pass
-
-
 class BoundaryType(Enum):
     DIRICHLET = "DIRICHLET"
     NEUMANN = "NEUMANN"
@@ -24,23 +20,17 @@ class BoundaryConditions:
 
 
 @dataclass
-class BoundedEquationMetadata(DifferentialEquationMetadata):
+class BoundedEquationMetadata:
     boundary_conditions: BoundaryConditions
-
-
-@dataclass
-class FirstOrderODEMetadata(DifferentialEquationMetadata):
-    source: str
-    initial_value: float
+    length: float
     samples: int
     time: float
 
 
 @dataclass
-class SecondOrderODEMetadata(DifferentialEquationMetadata):
+class OrdinaryDifferentialEquationMetadata:
     source: str
-    initial_value: float
-    initial_derivative: float
+    initial_derivatives: list[float]
     samples: int
     time: float
 
@@ -48,19 +38,13 @@ class SecondOrderODEMetadata(DifferentialEquationMetadata):
 @dataclass
 class HeatEquationMetadata(BoundedEquationMetadata):
     alpha: float
-    length: float
-    time: float
-    samples: int
     initial_values: str
     source: str = "0"
 
 
 @dataclass
 class WaveEquationMetadata(BoundedEquationMetadata):
-    c: float
-    length: float
-    time: float
-    samples: int
+    wave_speed: float
     initial_values: str
     initial_derivatives: str
     source: str = "0"

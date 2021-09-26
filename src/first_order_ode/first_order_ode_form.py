@@ -1,12 +1,12 @@
 from enum import Enum, auto
-from tkinter import messagebox, Entry
+from tkinter import messagebox, Entry, Frame
 from typing import Dict
 
 import src.first_order_ode.first_order_ode_messages as messages
 from src.differential_equation_form import DifferentialEquationForm
-from src.differential_equation_metadata import FirstOrderODEMetadata
+from src.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
 from src.equation_form_builder import EquationFormBuilder
-from src.first_order_ode.first_order_ode import FirstOrderODE
+from src.first_order_ode.first_order_ode_service import FirstOrderODEService
 
 
 class FirstOrderODEFields(Enum):
@@ -17,11 +17,12 @@ class FirstOrderODEFields(Enum):
 
 
 class FirstOrderODEForm(DifferentialEquationForm):
-    equation: FirstOrderODE
+    equation_service: FirstOrderODEService
     field_entry_map: Dict[FirstOrderODEFields, Entry]
 
-    def __init__(self, frame, fig, canvas):
-        DifferentialEquationForm.__init__(self, frame, fig, canvas)
+    def __init__(self, frame: Frame, canvas, equation_service: FirstOrderODEService):
+        DifferentialEquationForm.__init__(self, frame, canvas)
+        self.equation_service = equation_service
 
     def build_form(self):
         builder: EquationFormBuilder[FirstOrderODEFields] = EquationFormBuilder[FirstOrderODEFields](self)
@@ -40,24 +41,19 @@ class FirstOrderODEForm(DifferentialEquationForm):
         self.field_entry_map = builder.get_field_entry_map()
         builder.create_button("Solve", callback=self.solve).grid(row=5, column=2, pady=10, sticky="w")
 
-    def get_equation(self):
-        return FirstOrderODE(
-            FirstOrderODEMetadata(
-                self.field_entry_map.get(FirstOrderODEFields.SOURCE).get(),
-                float(self.field_entry_map.get(FirstOrderODEFields.INITIAL_VALUE).get()),
-                int(self.field_entry_map.get(FirstOrderODEFields.SAMPLES).get()),
-                float(self.field_entry_map.get(FirstOrderODEFields.TIME).get())
-            )
+    def get_equation_metadata(self):
+        return OrdinaryDifferentialEquationMetadata(
+            self.field_entry_map.get(FirstOrderODEFields.SOURCE).get(),
+            [float(self.field_entry_map.get(FirstOrderODEFields.INITIAL_VALUE).get())],
+            int(self.field_entry_map.get(FirstOrderODEFields.SAMPLES).get()),
+            float(self.field_entry_map.get(FirstOrderODEFields.TIME).get())
         )
 
     def solve(self):
         try:
-            self.equation = self.get_equation()
-            self.equation.compute_solution()
-            self.equation.save_solution(f"{self.data_folder_path}/first_order_ode.xlsx")
+            metadata = self.get_equation_metadata()
+            self.equation_service.compute_and_update_solution(metadata)
             messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
-            self.fig.clf()
-            self.equation.initialize_figure(self.fig)
             self.canvas.draw()
         except Exception as err:
             messagebox.showinfo("Differential Equation Solver", err)

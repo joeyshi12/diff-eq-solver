@@ -1,12 +1,12 @@
 from enum import Enum, auto
-from tkinter import messagebox, StringVar, Button, Entry
+from tkinter import messagebox, StringVar, Button, Entry, Frame
 from typing import Union
 
 import src.heat_equation.heat_equation_messages as messages
 from src.differential_equation_form import DifferentialEquationForm
 from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType
 from src.equation_form_builder import EquationFormBuilder
-from src.heat_equation.heat_equation import HeatEquation
+from src.heat_equation.heat_equation_service import HeatEquationService
 
 
 class HeatEquationFields(Enum):
@@ -14,7 +14,7 @@ class HeatEquationFields(Enum):
     RIGHT_BOUNDARY_TYPE = auto()
     LEFT_BOUNDARY_VALUES = auto()
     RIGHT_BOUNDARY_VALUES = auto()
-    INITIAL_CONDITION = auto()
+    INITIAL_VALUES = auto()
     SOURCE = auto()
     ALPHA = auto()
     LENGTH = auto()
@@ -23,20 +23,20 @@ class HeatEquationFields(Enum):
 
 
 class HeatEquationForm(DifferentialEquationForm):
-    equation: HeatEquation
+    equation_service: HeatEquationService
     field_entry_map: dict[HeatEquationFields, Union[Entry, StringVar]]
     solve_button: Button
     display_button: Button
     animate_button: Button
     play_button: Button
     pause_button: Button
-    anim = None
 
-    def __init__(self, frame, fig, canvas):
-        DifferentialEquationForm.__init__(self, frame, fig, canvas)
+    def __init__(self, frame: Frame, canvas, equation_service):
+        DifferentialEquationForm.__init__(self, frame, canvas)
+        self.equation_service = equation_service
 
     def build_form(self):
-        builder: EquationFormBuilder[HeatEquationFields] = EquationFormBuilder[HeatEquationFields](self)
+        builder = EquationFormBuilder[HeatEquationFields](self)
         self.build_entries(builder)
         self.build_buttons(builder)
 
@@ -49,7 +49,7 @@ class HeatEquationForm(DifferentialEquationForm):
         builder.build_entry_row(HeatEquationFields.RIGHT_BOUNDARY_VALUES,
                                 messages.right_boundary_values,
                                 messages.right_boundary_type_symbol, 3)
-        builder.build_entry_row(HeatEquationFields.INITIAL_CONDITION,
+        builder.build_entry_row(HeatEquationFields.INITIAL_VALUES,
                                 messages.initial_values,
                                 messages.initial_values_symbol, 4)
         builder.build_entry_row(HeatEquationFields.SOURCE,
@@ -86,24 +86,20 @@ class HeatEquationForm(DifferentialEquationForm):
             BoundaryCondition(right_boundary_type,
                               self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_VALUES].get()))
         source = self.field_entry_map[HeatEquationFields.SOURCE].get()
-        return HeatEquation(
-            HeatEquationMetadata(
-                boundary_conditions,
-                float(self.field_entry_map[HeatEquationFields.ALPHA].get()),
-                float(self.field_entry_map[HeatEquationFields.LENGTH].get()),
-                float(self.field_entry_map[HeatEquationFields.TIME].get()),
-                int(self.field_entry_map[HeatEquationFields.SAMPLES].get()),
-                self.field_entry_map[HeatEquationFields.INITIAL_CONDITION].get(),
-                source if source else "0"
-            )
+        return HeatEquationMetadata(
+            boundary_conditions,
+            float(self.field_entry_map[HeatEquationFields.LENGTH].get()),
+            int(self.field_entry_map[HeatEquationFields.SAMPLES].get()),
+            float(self.field_entry_map[HeatEquationFields.TIME].get()),
+            float(self.field_entry_map[HeatEquationFields.ALPHA].get()),
+            self.field_entry_map[HeatEquationFields.INITIAL_VALUES].get(),
+            source if source else "0"
         )
 
     def solve(self):
         try:
-            self.equation = self.get_equation()
-            self.equation.compute_solution()
-            self.equation.save_solution(f"{self.data_folder_path}/heat_equation_1d.xlsx")
-            messagebox.showinfo("Error", "Your solution has been recorded")
+            self.equation_service.compute_and_update_solution(self.get_equation())
+            messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
             self.display_button.configure(command=self.display)
             self.display_button.grid(row=10, column=3, pady=6, sticky="e")
             self.animate_button.configure(command=self.get_animation)
@@ -113,19 +109,18 @@ class HeatEquationForm(DifferentialEquationForm):
             messagebox.showinfo("Differential Equation Solver", err)
 
     def display(self):
-        if self.anim:
-            self.pause_animation()
-        self.fig.clf()
+        self.pause_animation()
+        self.canvas.figure.clf()
         self.animate_button.configure(command=self.get_animation)
         self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
-        self.equation.initialize_figure(self.fig)
+        self.equation_service.render_current_solution()
         self.canvas.draw()
         self.play_button.grid_forget()
         self.pause_button.grid_forget()
 
     def get_animation(self):
-        self.fig.clf()
-        self.anim = self.equation.get_animation(self.fig)
+        self.equation_service.main_figure.clf()
+        self.equation_service.show_animation()
         self.canvas.draw()
         self.pause_button.grid(row=11, column=3, pady=6, sticky="e")
         self.animate_button.grid_forget()
@@ -133,18 +128,18 @@ class HeatEquationForm(DifferentialEquationForm):
     def pause_animation(self):
         self.play_button.grid(row=11, column=3, pady=6, sticky="e")
         self.pause_button.grid_forget()
-        self.anim.event_source.stop()
+        self.equation_service.pause_animation()
 
     def play_animation(self):
         self.pause_button.grid(row=11, column=3, pady=6, sticky="e")
         self.play_button.grid_forget()
-        self.anim.event_source.start()
+        self.equation_service.play_animation()
 
     def clear_form(self):
-        if self.anim:
+        if self.equation_service.animation:
             self.pause_animation()
-        if self.equation:
+        if self.equation_service.solution:
             self.play_button.grid_forget()
             self.animate_button.grid(row=11, column=3, pady=6, sticky="e")
-            self.fig.clf()
+            self.equation_service.main_figure.clf()
             self.canvas.draw()

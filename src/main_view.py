@@ -6,22 +6,26 @@ from matplotlib.figure import Figure
 import src.tkinter_config as config
 from src.differential_equation_form import DifferentialEquationForm
 from src.first_order_ode.first_order_ode_form import FirstOrderODEForm
+from src.first_order_ode.first_order_ode_service import FirstOrderODEService
 from src.heat_equation.heat_equation_form import HeatEquationForm
+from src.heat_equation.heat_equation_service import HeatEquationService
 from src.second_order_ode.second_order_ode_form import SecondOrderODEForm
+from src.second_order_ode.second_order_ode_service import SecondOrderODEService
 from src.wave_equation.wave_equation_form import WaveEquationForm
+from src.wave_equation.wave_equation_service import WaveEquationService
 
 
 class MainView(Frame):
     def __init__(self, app: Tk):
         Frame.__init__(self, master=app)
         self.figure = Figure(figsize=(6, 1), dpi=91.4)
-        self.canvas = FigureCanvasTkAgg(self.figure, self)
-        self.canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
+        canvas = FigureCanvasTkAgg(self.figure, self)
+        canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
 
-        self.first_order_ode_form = FirstOrderODEForm(self, self.figure, self.canvas)
-        self.second_order_ode_form = SecondOrderODEForm(self, self.figure, self.canvas)
-        self.heat_equation_form = HeatEquationForm(self, self.figure, self.canvas)
-        self.wave_equation_form = WaveEquationForm(self, self.figure, self.canvas)
+        self.first_order_ode_form = FirstOrderODEForm(self, canvas, FirstOrderODEService(self.figure))
+        self.second_order_ode_form = SecondOrderODEForm(self, canvas, SecondOrderODEService(self.figure))
+        self.heat_equation_form = HeatEquationForm(self, canvas, HeatEquationService(self.figure))
+        self.wave_equation_form = WaveEquationForm(self, canvas, WaveEquationService(self.figure))
 
         self.build_nav_bar()
         self.build_details_container()
