@@ -2,11 +2,12 @@ from enum import auto, Enum
 from tkinter import messagebox, Button, Entry, Variable, Frame
 from typing import Union
 
-import src.wave_equation.wave_equation_messages as messages
-from src.differential_equation_form import DifferentialEquationForm
+import src.messages.common_messages as common_messages
+import src.messages.wave_equation_messages as messages
 from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, WaveEquationMetadata, BoundaryType
-from src.equation_form_builder import EquationFormBuilder
-from src.wave_equation.wave_equation_service import WaveEquationService
+from src.forms.differential_equation_form import DifferentialEquationForm
+from src.forms.equation_form_builder import EquationFormBuilder
+from src.services.wave_equation_service import WaveEquationService
 
 
 class WaveEquationFields(Enum):
@@ -28,11 +29,8 @@ class WaveEquationForm(DifferentialEquationForm):
     field_entry_map: dict[WaveEquationFields, Union[Entry, Variable]]
     equation_service: WaveEquationService = None
     solve_button: Button
-    display_button: Button
-    animate_button: Button
-    play_button: Button
-    pause_button: Button
-    anim = None
+    render_plot_button: Button
+    toggle_animation_button: Button
 
     def __init__(self, frame: Frame, canvas, equation_service: WaveEquationService):
         DifferentialEquationForm.__init__(self, frame, canvas)
@@ -76,12 +74,11 @@ class WaveEquationForm(DifferentialEquationForm):
         self.field_entry_map = builder.get_field_entry_map()
 
     def build_buttons(self, builder: EquationFormBuilder[WaveEquationFields]):
-        self.solve_button = builder.create_button("Solve", callback=self.solve)
+        self.solve_button = builder.create_button(common_messages.solve, callback=self.solve)
+        self.render_plot_button = builder.create_button(common_messages.show_plot, callback=self.handle_render_plot)
+        self.toggle_animation_button = builder.create_button(common_messages.play,
+                                                             callback=self.handle_toggle_animation)
         self.solve_button.grid(row=11, column=2, pady=6, sticky="w")
-        self.display_button = builder.create_button("Display")
-        self.animate_button = builder.create_button("Animate")
-        self.play_button = builder.create_button("Play", callback=self.play_animation)
-        self.pause_button = builder.create_button("Pause", callback=self.pause_animation)
 
     def get_equation_metadata(self):
         left_boundary_type = BoundaryType(self.field_entry_map[WaveEquationFields.LEFT_BOUNDARY_TYPE].get())
@@ -106,49 +103,28 @@ class WaveEquationForm(DifferentialEquationForm):
     def solve(self):
         try:
             self.equation_service.compute_and_update_solution(self.get_equation_metadata())
-            messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
-            self.display_button.configure(command=self.display)
-            self.animate_button.configure(command=self.get_animation)
-            self.display_button.grid(row=11, column=3, pady=6, sticky="e")
-            self.animate_button.grid(row=12, column=3, pady=6, sticky="e")
-            self.display()
+            messagebox.showinfo(common_messages.app_name,
+                                common_messages.solution_recorded_message.format(self.equation_service.table_path))
+            self.render_plot_button.grid(row=11, column=3, pady=6, sticky="e")
+            self.toggle_animation_button.grid(row=12, column=3, pady=6, sticky="e")
         except Exception as err:
-            messagebox.showinfo("Differential Equation Solver", err)
+            messagebox.showinfo(common_messages.app_name, err)
 
-    def display(self):
-        if self.anim:
-            self.pause_animation()
-        self.equation_service.main_figure.clf()
-        self.animate_button.configure(command=self.get_animation)
-        self.animate_button.grid(row=12, column=3, pady=6, sticky="e")
+    def handle_render_plot(self):
+        self.toggle_animation_button.configure(text=common_messages.play)
         self.equation_service.render_current_solution()
         self.canvas.draw()
-        self.play_button.grid_forget()
-        self.pause_button.grid_forget()
 
-    def get_animation(self):
-        self.equation_service.main_figure.clf()
-        self.anim = self.equation_service.show_animation()
+    def handle_toggle_animation(self):
+        self.equation_service.toggle_animation()
         self.canvas.draw()
-        self.pause_button.grid(row=12, column=2, pady=6, sticky="e")
-        self.animate_button.grid_forget()
-
-    def pause_animation(self):
-        self.play_button.grid(row=12, column=2, pady=6, sticky="e")
-        self.pause_button.grid_forget()
-        self.anim.event_source.stop()
-
-    def play_animation(self):
-        self.pause_button.grid(row=12, column=2, pady=6, sticky="e")
-        self.play_button.grid_forget()
-        self.anim.event_source.start()
+        if self.equation_service.is_animation_playing():
+            self.toggle_animation_button.configure(text=common_messages.pause)
+        else:
+            self.toggle_animation_button.configure(text=common_messages.play)
 
     def reset(self):
-        if self.anim:
-            self.pause_animation()
-            self.anim = None
-        if self.equation_service:
-            self.play_button.grid_forget()
-            self.animate_button.grid(row=12, column=2, pady=6, sticky="e")
-            self.equation_service.main_figure.clf()
-            self.canvas.draw()
+        self.equation_service.clear_solution()
+        self.canvas.draw()
+        self.render_plot_button.grid_forget()
+        self.toggle_animation_button.grid_forget()

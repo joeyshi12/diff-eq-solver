@@ -1,10 +1,11 @@
+import timeit
 from typing import Callable
 
 import numpy as np
 from matplotlib.figure import Figure
 
 from src.differential_equation_metadata import WaveEquationMetadata, BoundaryType
-from src.differential_equation_service import BoundedEquationService
+from src.services.differential_equation_service import BoundedEquationService
 
 
 class WaveEquationService(BoundedEquationService):
@@ -14,6 +15,7 @@ class WaveEquationService(BoundedEquationService):
         super().__init__(main_figure, "WaveEquation")
 
     def compute_solution(self, metadata: WaveEquationMetadata) -> np.ndarray:
+        start_time = timeit.default_timer()
         initial_values: Callable[[float], float] = lambda x: eval(metadata.initial_values)
         initial_derivatives: Callable[[float], float] = lambda x: eval(metadata.initial_derivatives)
         source: Callable[[float, float], float] = lambda t, x: eval(metadata.source)
@@ -42,6 +44,8 @@ class WaveEquationService(BoundedEquationService):
             solution[k, 0] = left_values(T) if is_left_dirichlet else solution[k, 1] - left_values(T) * dx
             solution[k, -1] = right_values(T) if is_right_dirichlet else solution[k, -2] + right_values(T) * dx
 
+        total_time = timeit.default_timer() - start_time
+        print(f"computing wave equation solution took {total_time} seconds")
         return solution
 
     def validate_metadata(self, metadata: WaveEquationMetadata):

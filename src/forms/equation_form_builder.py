@@ -1,8 +1,9 @@
 from tkinter import Frame, Entry, Variable, Label, StringVar, Radiobutton, Button
-from typing import Generic, TypeVar, Union, Callable
+from typing import Generic, TypeVar, Union, Callable, Optional
 
-from src.differential_equation_metadata import BoundaryType
+import src.messages.common_messages as common_messages
 import src.tkinter_config as config
+from src.differential_equation_metadata import BoundaryType
 
 T = TypeVar('T')
 
@@ -21,12 +22,12 @@ class EquationFormBuilder(Generic[T]):
         self.__field_entry_map[field].grid(row=row, column=2, columnspan=2)
 
     def build_boundary_type_section(self, left_boundary_type_field: T, right_boundary_type_field: T):
-        self.__place_label("Left Boundary Type", 0, 0, 18, "w")
+        self.__place_label(common_messages.left_boundary_type, 0, 0, 18, "w")
         self.__build_boundary_type_row(left_boundary_type_field, 0)
-        self.__place_label("Right Boundary Type", 1, 0, 18, "w")
+        self.__place_label(common_messages.right_boundary_type, 1, 0, 18, "w")
         self.__build_boundary_type_row(right_boundary_type_field, 1)
 
-    def create_button(self, text: str, callback: Callable[[], None] = None) -> Button:
+    def create_button(self, text: str, callback: Optional[Callable[[], None]] = None) -> Button:
         button = Button(
             master=self.frame,
             text=text,
@@ -49,11 +50,11 @@ class EquationFormBuilder(Generic[T]):
 
     def __build_boundary_type_row(self, boundary_type_field: T, row: int):
         self.__field_entry_map[boundary_type_field] = StringVar(value=BoundaryType.DIRICHLET.value)
-        self.__place_radio_button("Dirichlet",
+        self.__place_radio_button(common_messages.dirichlet,
                                   self.__field_entry_map[boundary_type_field],
                                   BoundaryType.DIRICHLET.value,
                                   row, 1)
-        self.__place_radio_button("Neumann",
+        self.__place_radio_button(common_messages.neumann,
                                   self.__field_entry_map[boundary_type_field],
                                   BoundaryType.NEUMANN.value,
                                   row, 2)

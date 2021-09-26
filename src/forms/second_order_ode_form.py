@@ -2,11 +2,12 @@ from enum import Enum, auto
 from tkinter import messagebox, Entry, Frame
 from typing import Dict
 
-import src.second_order_ode.second_order_ode_messages as messages
-from src.differential_equation_form import DifferentialEquationForm
+import src.messages.common_messages as common_messages
+import src.messages.second_order_ode_messages as messages
 from src.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
-from src.equation_form_builder import EquationFormBuilder
-from src.second_order_ode.second_order_ode_service import SecondOrderODEService
+from src.forms.differential_equation_form import DifferentialEquationForm
+from src.forms.equation_form_builder import EquationFormBuilder
+from src.services.second_order_ode_service import SecondOrderODEService
 
 
 class SecondOrderODEFields(Enum):
@@ -43,7 +44,7 @@ class SecondOrderODEForm(DifferentialEquationForm):
                                 messages.samples,
                                 messages.samples_symbol, 4)
         self.field_entry_map = builder.get_field_entry_map()
-        builder.create_button("Solve", callback=self.solve).grid(row=5, column=2, pady=10, sticky="w")
+        builder.create_button(common_messages.solve, callback=self.solve).grid(row=5, column=2, pady=10, sticky="w")
 
     def get_equation_metadata(self):
         initial_derivatives = [
@@ -61,7 +62,11 @@ class SecondOrderODEForm(DifferentialEquationForm):
         try:
             metadata = self.get_equation_metadata()
             self.equation_service.compute_and_update_solution(metadata)
-            messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
+            messagebox.showinfo(common_messages.app_name,
+                                common_messages.solution_recorded_message.format(self.equation_service.table_path))
             self.canvas.draw()
         except Exception as err:
-            messagebox.showinfo("Differential Equation Solver", err)
+            messagebox.showinfo(common_messages.app_name, err)
+
+    def reset(self):
+        self.equation_service.clear_figure()

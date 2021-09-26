@@ -2,11 +2,6 @@ import json
 from os import listdir
 from unittest import TestCase, main
 
-from src.first_order_ode.first_order_ode_service import FirstOrderODEService
-from src.heat_equation.heat_equation_service import HeatEquationService
-from src.second_order_ode.second_order_ode_service import SecondOrderODEService
-from src.wave_equation.wave_equation_service import WaveEquationService
-
 
 class DifferentialEquationTest(TestCase):
     def setUp(self) -> None:

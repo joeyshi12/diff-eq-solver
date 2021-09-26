@@ -1,14 +1,17 @@
 from tkinter import Tk
 
+import src.messages.common_messages as common_messages
 from src.main_view import MainView
+from src.services.service_provider import ServiceProvider
 
 
 def main():
-    app = Tk(className="Differential Equation Solver")
+    app = Tk(className=common_messages.app_name)
     app.resizable(width=False, height=False)
     # app.iconbitmap('assets/icon.ico')
     app.geometry("1100x600")
-    MainView(app).pack(side="top", fill="both", expand=True)
+    provider = ServiceProvider()
+    MainView(app, provider).pack(side="top", fill="both", expand=True)
     app.mainloop()
 
 

@@ -16,9 +16,10 @@ class DifferentialEquationForm(Frame):
         self.build_form()
         self.configure(background=config.details_background)
 
-    def show(self):
-        self.lift()
-
     @abstractmethod
     def build_form(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def reset(self):
         raise NotImplementedError

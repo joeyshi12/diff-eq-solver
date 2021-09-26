@@ -1,10 +1,11 @@
+import timeit
 from typing import Callable
 
 import numpy as np
 from matplotlib.figure import Figure
 
 from src.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
-from src.differential_equation_service import OrdinaryDifferentialEquationService
+from src.services.differential_equation_service import OrdinaryDifferentialEquationService
 
 
 class FirstOrderODEService(OrdinaryDifferentialEquationService):
@@ -12,6 +13,7 @@ class FirstOrderODEService(OrdinaryDifferentialEquationService):
         super().__init__(main_figure, "FirstOrderODE")
 
     def compute_solution(self, metadata: OrdinaryDifferentialEquationMetadata) -> np.ndarray:
+        start_time = timeit.default_timer()
         N = metadata.samples
         dt = metadata.time / (N - 1)
         source: Callable[[float, float], float] = lambda t, x: eval(metadata.source)
@@ -19,6 +21,8 @@ class FirstOrderODEService(OrdinaryDifferentialEquationService):
         solution[0] = metadata.initial_derivatives[0]
         for i in range(1, N):
             solution[i] = solution[i - 1] + source(i * dt, solution[i - 1]) * dt
+        total_time = timeit.default_timer() - start_time
+        print(f"computing first order ode solution took {total_time} seconds")
         return solution
 
     def validate_metadata(self, metadata: OrdinaryDifferentialEquationMetadata):

@@ -1,8 +1,3 @@
-dirichlet = "Dirichlet"
-neumann = "Neumann"
-
-left_boundary_type = "Left boundary type"
-right_boundary_type = "Right boundary type"
 left_boundary_values = "Left boundary values"
 right_boundary_values = "Right boundary values"
 initial_values = "Initial Values"

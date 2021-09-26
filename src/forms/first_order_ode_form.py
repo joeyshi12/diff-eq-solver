@@ -1,12 +1,13 @@
 from enum import Enum, auto
-from tkinter import messagebox, Entry, Frame
+from tkinter import messagebox, Entry, Frame, Button
 from typing import Dict
 
-import src.first_order_ode.first_order_ode_messages as messages
-from src.differential_equation_form import DifferentialEquationForm
+import src.messages.common_messages as common_messages
+import src.messages.first_order_ode_messages as messages
 from src.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
-from src.equation_form_builder import EquationFormBuilder
-from src.first_order_ode.first_order_ode_service import FirstOrderODEService
+from src.forms.differential_equation_form import DifferentialEquationForm
+from src.forms.equation_form_builder import EquationFormBuilder
+from src.services.first_order_ode_service import FirstOrderODEService
 
 
 class FirstOrderODEFields(Enum):
@@ -39,7 +40,8 @@ class FirstOrderODEForm(DifferentialEquationForm):
                                 messages.samples,
                                 messages.samples_symbol, 3)
         self.field_entry_map = builder.get_field_entry_map()
-        builder.create_button("Solve", callback=self.solve).grid(row=5, column=2, pady=10, sticky="w")
+        button: Button = builder.create_button(common_messages.solve, callback=self.solve)
+        button.grid(row=5, column=2, pady=10, sticky="w")
 
     def get_equation_metadata(self):
         return OrdinaryDifferentialEquationMetadata(
@@ -53,7 +55,11 @@ class FirstOrderODEForm(DifferentialEquationForm):
         try:
             metadata = self.get_equation_metadata()
             self.equation_service.compute_and_update_solution(metadata)
-            messagebox.showinfo("Differential Equation Solver", "Your solution has been recorded")
+            messagebox.showinfo(common_messages.app_name,
+                                common_messages.solution_recorded_message.format(self.equation_service.table_path))
             self.canvas.draw()
         except Exception as err:
-            messagebox.showinfo("Differential Equation Solver", err)
+            messagebox.showinfo(common_messages.app_name, err)
+
+    def reset(self):
+        self.equation_service.clear_figure()
