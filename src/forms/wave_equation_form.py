@@ -27,7 +27,7 @@ class WaveEquationFields(Enum):
 
 class WaveEquationForm(DifferentialEquationForm):
     field_entry_map: dict[WaveEquationFields, Union[Entry, Variable]]
-    equation_service: WaveEquationService = None
+    equation_service: WaveEquationService
     solve_button: Button
     render_plot_button: Button
     toggle_animation_button: Button

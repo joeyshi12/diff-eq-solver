@@ -10,7 +10,7 @@ class DifferentialEquationForm(Frame):
     data_folder_path: str = "./data"
     canvas: FigureCanvasTkAgg
 
-    def __init__(self, frame, canvas):
+    def __init__(self, frame: Frame, canvas: FigureCanvasTkAgg):
         Frame.__init__(self, master=frame)
         self.canvas = canvas
         self.build_form()
