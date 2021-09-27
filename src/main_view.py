@@ -1,6 +1,7 @@
 from tkinter import RIGHT, BOTH, Tk, Frame, Button
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 
 import src.tkinter_config as config
 from src.forms.differential_equation_form import DifferentialEquationForm
@@ -8,7 +9,10 @@ from src.forms.first_order_ode_form import FirstOrderODEForm
 from src.forms.heat_equation_form import HeatEquationForm
 from src.forms.second_order_ode_form import SecondOrderODEForm
 from src.forms.wave_equation_form import WaveEquationForm
-from src.services.service_provider import ServiceProvider
+from src.services.first_order_ode_service import FirstOrderODEService
+from src.services.heat_equation_service import HeatEquationService
+from src.services.second_order_ode_service import SecondOrderODEService
+from src.services.wave_equation_service import WaveEquationService
 
 
 class MainView(Frame):
@@ -18,20 +22,21 @@ class MainView(Frame):
     wave_equation_form: WaveEquationForm
     selected_form: DifferentialEquationForm = None
 
-    def __init__(self, app: Tk, provider: ServiceProvider):
+    def __init__(self, app: Tk):
         Frame.__init__(self, master=app)
-        self.initialize_forms(provider)
+        self.figure = Figure(figsize=(6, 1), dpi=91.4)
+        self.initialize_forms()
         self.build_nav_bar()
         self.build_details_container()
         self.handle_select_form(self.first_order_ode_form)
 
-    def initialize_forms(self, provider: ServiceProvider):
-        canvas = FigureCanvasTkAgg(provider.main_figure, self)
+    def initialize_forms(self):
+        canvas = FigureCanvasTkAgg(self.figure, self)
         canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
-        self.first_order_ode_form = FirstOrderODEForm(self, canvas, provider.first_order_ode_service)
-        self.second_order_ode_form = SecondOrderODEForm(self, canvas, provider.second_order_ode_service)
-        self.heat_equation_form = HeatEquationForm(self, canvas, provider.heat_equation)
-        self.wave_equation_form = WaveEquationForm(self, canvas, provider.wave_equation)
+        self.first_order_ode_form = FirstOrderODEForm(self, canvas, FirstOrderODEService(self.figure))
+        self.second_order_ode_form = SecondOrderODEForm(self, canvas, SecondOrderODEService(self.figure))
+        self.heat_equation_form = HeatEquationForm(self, canvas, HeatEquationService(self.figure))
+        self.wave_equation_form = WaveEquationForm(self, canvas, WaveEquationService(self.figure))
 
     def build_nav_bar(self):
         nav_bar_frame = Frame(self)
@@ -56,6 +61,7 @@ class MainView(Frame):
                font=config.nav_bar_font,
                foreground=config.nav_bar_foreground,
                background=config.nav_bar_background,
+               activebackground=config.details_background,
                command=lambda: self.handle_select_form(target_form),
                width=config.nav_bar_button_width).grid(row=0, column=column)
 

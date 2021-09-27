@@ -30,6 +30,11 @@ class DifferentialEquationService(Generic[T], ABC):
         self.update_solution(metadata, self.solution)
         self.render_current_solution()
 
+    def clear_solution(self):
+        self.metadata = None
+        self.solution = None
+        self.clear_figure()
+
     def clear_figure(self):
         self.main_figure.clf()
 
@@ -150,12 +155,6 @@ class BoundedEquationService(DifferentialEquationService[BoundedEquationMetadata
             for i in range(N):
                 worksheet.write(k + 2, i + 2, solution[k, i])
         workbook.close()
-
-    def clear_solution(self):
-        self.metadata = None
-        self.solution = None
-        self.clear_animation()
-        self.clear_figure()
 
     def clear_animation(self):
         if self.__animation:

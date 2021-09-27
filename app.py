@@ -2,7 +2,6 @@ from tkinter import Tk
 
 import src.messages.common_messages as common_messages
 from src.main_view import MainView
-from src.services.service_provider import ServiceProvider
 
 
 def main():
@@ -10,8 +9,7 @@ def main():
     app.resizable(width=False, height=False)
     # app.iconbitmap('assets/icon.ico')
     app.geometry("1100x600")
-    provider = ServiceProvider()
-    MainView(app, provider).pack(side="top", fill="both", expand=True)
+    MainView(app).pack(side="top", fill="both", expand=True)
     app.mainloop()
 
 

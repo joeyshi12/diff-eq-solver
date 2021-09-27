@@ -125,6 +125,7 @@ class WaveEquationForm(DifferentialEquationForm):
 
     def reset(self):
         self.equation_service.clear_solution()
+        self.equation_service.clear_animation()
         self.canvas.draw()
         self.render_plot_button.grid_forget()
         self.toggle_animation_button.grid_forget()

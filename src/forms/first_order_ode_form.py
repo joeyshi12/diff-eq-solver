@@ -62,4 +62,5 @@ class FirstOrderODEForm(DifferentialEquationForm):
             messagebox.showinfo(common_messages.app_name, err)
 
     def reset(self):
-        self.equation_service.clear_figure()
+        self.equation_service.clear_solution()
+        self.canvas.draw()
