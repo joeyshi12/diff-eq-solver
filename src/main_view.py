@@ -4,28 +4,39 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 import src.tkinter_config as config
-from src.differential_equation_form import DifferentialEquationForm
-from src.first_order_ode.first_order_ode_form import FirstOrderODEForm
-from src.heat_equation.heat_equation_form import HeatEquationForm
-from src.second_order_ode.second_order_ode_form import SecondOrderODEForm
-from src.wave_equation.wave_equation_form import WaveEquationForm
+from src.forms.differential_equation_form import DifferentialEquationForm
+from src.forms.first_order_ode_form import FirstOrderODEForm
+from src.forms.heat_equation_form import HeatEquationForm
+from src.forms.second_order_ode_form import SecondOrderODEForm
+from src.forms.wave_equation_form import WaveEquationForm
+from src.services.first_order_ode_service import FirstOrderODEService
+from src.services.heat_equation_service import HeatEquationService
+from src.services.second_order_ode_service import SecondOrderODEService
+from src.services.wave_equation_service import WaveEquationService
 
 
 class MainView(Frame):
+    first_order_ode_form: FirstOrderODEForm
+    second_order_ode_form: SecondOrderODEForm
+    heat_equation_form: HeatEquationForm
+    wave_equation_form: WaveEquationForm
+    selected_form: DifferentialEquationForm = None
+
     def __init__(self, app: Tk):
         Frame.__init__(self, master=app)
         self.figure = Figure(figsize=(6, 1), dpi=91.4)
-        self.canvas = FigureCanvasTkAgg(self.figure, self)
-        self.canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
-
-        self.first_order_ode_form = FirstOrderODEForm(self, self.figure, self.canvas)
-        self.second_order_ode_form = SecondOrderODEForm(self, self.figure, self.canvas)
-        self.heat_equation_form = HeatEquationForm(self, self.figure, self.canvas)
-        self.wave_equation_form = WaveEquationForm(self, self.figure, self.canvas)
-
+        self.initialize_forms()
         self.build_nav_bar()
         self.build_details_container()
-        self.first_order_ode_form.show()
+        self.handle_select_form(self.first_order_ode_form)
+
+    def initialize_forms(self):
+        canvas = FigureCanvasTkAgg(self.figure, self)
+        canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
+        self.first_order_ode_form = FirstOrderODEForm(self, canvas, FirstOrderODEService(self.figure))
+        self.second_order_ode_form = SecondOrderODEForm(self, canvas, SecondOrderODEService(self.figure))
+        self.heat_equation_form = HeatEquationForm(self, canvas, HeatEquationService(self.figure))
+        self.wave_equation_form = WaveEquationForm(self, canvas, WaveEquationService(self.figure))
 
     def build_nav_bar(self):
         nav_bar_frame = Frame(self)
@@ -44,18 +55,20 @@ class MainView(Frame):
         self.heat_equation_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
         self.wave_equation_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
 
-    def place_nav_bar_button(self, frame: Frame, display_name: str, target_form: DifferentialEquationForm, column: int):
+    def place_nav_bar_button(self, frame: Frame, text: str, target_form: DifferentialEquationForm, column: int):
         Button(frame,
-               text=display_name,
+               text=text,
                font=config.nav_bar_font,
                foreground=config.nav_bar_foreground,
                background=config.nav_bar_background,
-               command=lambda: self.switch_form(target_form),
+               activebackground=config.details_background,
+               command=lambda: self.handle_select_form(target_form),
                width=config.nav_bar_button_width).grid(row=0, column=column)
 
-    def switch_form(self, form: DifferentialEquationForm):
-        self.figure.clf()
-        form.lift()
-
-    def clear_canvas(self):
-        self.heat_equation_form.clear_form()
+    def handle_select_form(self, form: DifferentialEquationForm):
+        if self.selected_form == form:
+            return
+        if self.selected_form:
+            self.selected_form.reset()
+        self.selected_form = form
+        self.selected_form.lift()
