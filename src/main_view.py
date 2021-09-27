@@ -61,7 +61,6 @@ class MainView(Frame):
                font=config.nav_bar_font,
                foreground=config.nav_bar_foreground,
                background=config.nav_bar_background,
-               activebackground=config.details_background,
                command=lambda: self.handle_select_form(target_form),
                width=config.nav_bar_button_width).grid(row=0, column=column)
 
