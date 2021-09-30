@@ -91,10 +91,10 @@ class WaveEquationForm(DifferentialEquationForm):
         source = self.field_entry_map[WaveEquationFields.SOURCE].get()
         return WaveEquationMetadata(
             boundary_conditions,
-            eval(self.field_entry_map[WaveEquationFields.WAVE_SPEED].get()),
-            eval(self.field_entry_map[WaveEquationFields.LENGTH].get()),
-            eval(self.field_entry_map[WaveEquationFields.TIME].get()),
+            float(self.field_entry_map[WaveEquationFields.LENGTH].get()),
             int(self.field_entry_map[WaveEquationFields.SAMPLES].get()),
+            float(self.field_entry_map[WaveEquationFields.TIME].get()),
+            float(self.field_entry_map[WaveEquationFields.WAVE_SPEED].get()),
             self.field_entry_map[WaveEquationFields.INITIAL_VALUES].get(),
             self.field_entry_map[WaveEquationFields.INITIAL_DERIVATIVES].get(),
             source if source else "0"
