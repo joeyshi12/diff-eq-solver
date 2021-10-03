@@ -24,19 +24,19 @@ class MainView(Frame):
 
     def __init__(self, app: Tk):
         Frame.__init__(self, master=app)
-        self.figure = Figure(figsize=(6, 1), dpi=91.4)
         self.initialize_forms()
         self.build_nav_bar()
         self.build_details_container()
         self.handle_select_form(self.first_order_ode_form)
 
     def initialize_forms(self):
-        canvas = FigureCanvasTkAgg(self.figure, self)
+        figure = Figure(figsize=(6, 1), dpi=91.4)
+        canvas = FigureCanvasTkAgg(figure, self)
         canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
-        self.first_order_ode_form = FirstOrderODEForm(self, canvas, FirstOrderODEService(self.figure))
-        self.second_order_ode_form = SecondOrderODEForm(self, canvas, SecondOrderODEService(self.figure))
-        self.heat_equation_form = HeatEquationForm(self, canvas, HeatEquationService(self.figure))
-        self.wave_equation_form = WaveEquationForm(self, canvas, WaveEquationService(self.figure))
+        self.first_order_ode_form = FirstOrderODEForm(self, canvas, FirstOrderODEService(figure))
+        self.second_order_ode_form = SecondOrderODEForm(self, canvas, SecondOrderODEService(figure))
+        self.heat_equation_form = HeatEquationForm(self, canvas, HeatEquationService(figure))
+        self.wave_equation_form = WaveEquationForm(self, canvas, WaveEquationService(figure))
 
     def build_nav_bar(self):
         nav_bar_frame = Frame(self)
