@@ -10,7 +10,7 @@ from src.services.differential_equation_service import BoundedEquationService
 
 class HeatEquationService(BoundedEquationService):
     def __init__(self, main_figure: Figure):
-        super().__init__(main_figure, "HeatEquation")
+        super().__init__(main_figure)
 
     def compute_solution(self, metadata: HeatEquationMetadata) -> np.ndarray:
         start_time = timeit.default_timer()
