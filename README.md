@@ -7,7 +7,7 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 ## Requirements
 1. numpy
 2. matplotlib
-3. xlsxwriter
+3. openpyxl
 
 ## Snapshots
 <div>
