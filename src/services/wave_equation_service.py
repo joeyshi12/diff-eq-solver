@@ -12,7 +12,7 @@ class WaveEquationService(BoundedEquationService):
     metadata: WaveEquationMetadata
 
     def __init__(self, main_figure: Figure):
-        super().__init__(main_figure, "WaveEquation")
+        super().__init__(main_figure)
 
     def compute_solution(self, metadata: WaveEquationMetadata) -> np.ndarray:
         start_time = timeit.default_timer()

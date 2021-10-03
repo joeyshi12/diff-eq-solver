@@ -9,6 +9,7 @@ right_boundary_type = "Right Boundary Type"
 
 # Button text
 solve = "Solve"
+export = "Export"
 show_plot = "Show Plot"
 play = "Play"
 pause = "Pause"

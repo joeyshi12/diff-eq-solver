@@ -10,7 +10,7 @@ from src.services.differential_equation_service import OrdinaryDifferentialEquat
 
 class SecondOrderODEService(OrdinaryDifferentialEquationService):
     def __init__(self, main_figure: Figure):
-        super().__init__(main_figure, "SecondOrderODE")
+        super().__init__(main_figure)
 
     def compute_solution(self, metadata: OrdinaryDifferentialEquationMetadata) -> np.ndarray:
         start_time = timeit.default_timer()

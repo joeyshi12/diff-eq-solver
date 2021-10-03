@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from tkinter import messagebox, Entry, Frame
+from tkinter import Entry, Frame, Button
 from typing import Dict
 
 import src.messages.common_messages as common_messages
@@ -21,10 +21,10 @@ class SecondOrderODEFields(Enum):
 class SecondOrderODEForm(DifferentialEquationForm):
     equation_service: SecondOrderODEService
     field_entry_map: Dict[SecondOrderODEFields, Entry]
+    export_button: Button
 
     def __init__(self, frame: Frame, canvas, equation_service: SecondOrderODEService):
-        DifferentialEquationForm.__init__(self, frame, canvas)
-        self.equation_service = equation_service
+        DifferentialEquationForm.__init__(self, frame, canvas, equation_service)
 
     def build_form(self):
         builder: EquationFormBuilder[SecondOrderODEFields] = EquationFormBuilder[SecondOrderODEFields](self)
@@ -44,7 +44,9 @@ class SecondOrderODEForm(DifferentialEquationForm):
                                 messages.samples,
                                 messages.samples_symbol, 4)
         self.field_entry_map = builder.get_field_entry_map()
-        builder.create_button(common_messages.solve, callback=self.solve).grid(row=5, column=2, pady=10, sticky="w")
+        builder.create_button(common_messages.solve,
+                              callback=self.solve_equation).grid(row=5, column=2, pady=10, sticky="w")
+        self.export_button = builder.create_button(common_messages.export, callback=self.export_solution)
 
     def get_equation_metadata(self):
         initial_derivatives = [
@@ -58,16 +60,10 @@ class SecondOrderODEForm(DifferentialEquationForm):
             float(self.field_entry_map.get(SecondOrderODEFields.TIME).get())
         )
 
-    def solve(self):
-        try:
-            metadata = self.get_equation_metadata()
-            self.equation_service.compute_and_update_solution(metadata)
-            messagebox.showinfo(common_messages.app_name,
-                                common_messages.solution_recorded_message.format(self.equation_service.table_path))
-            self.canvas.draw()
-        except Exception as err:
-            messagebox.showinfo(common_messages.app_name, err)
+    def on_solve(self):
+        self.export_button.grid(row=6, column=2, sticky="w")
 
     def reset(self):
         self.equation_service.clear_solution()
+        self.export_button.grid_forget()
         self.canvas.draw()

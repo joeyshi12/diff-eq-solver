@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from tkinter import messagebox, StringVar, Button, Entry, Frame
+from tkinter import StringVar, Button, Entry, Frame
 from typing import Union
 
 import src.messages.common_messages as common_messages
@@ -27,12 +27,12 @@ class HeatEquationForm(DifferentialEquationForm):
     equation_service: HeatEquationService
     field_entry_map: dict[HeatEquationFields, Union[Entry, StringVar]]
     solve_button: Button
+    export_button: Button
     render_plot_button: Button
     toggle_animation_button: Button
 
     def __init__(self, frame: Frame, canvas, equation_service):
-        DifferentialEquationForm.__init__(self, frame, canvas)
-        self.equation_service = equation_service
+        DifferentialEquationForm.__init__(self, frame, canvas, equation_service)
 
     def build_form(self):
         builder = EquationFormBuilder[HeatEquationFields](self)
@@ -69,7 +69,8 @@ class HeatEquationForm(DifferentialEquationForm):
         self.field_entry_map = builder.get_field_entry_map()
 
     def build_buttons(self, builder: EquationFormBuilder[HeatEquationFields]):
-        self.solve_button = builder.create_button(common_messages.solve, callback=self.solve)
+        self.solve_button = builder.create_button(common_messages.solve, callback=self.solve_equation)
+        self.export_button = builder.create_button(common_messages.export, callback=self.export_solution)
         self.render_plot_button = builder.create_button(common_messages.show_plot, callback=self.handle_render_plot)
         self.toggle_animation_button = builder.create_button(common_messages.play,
                                                              callback=self.handle_toggle_animation)
@@ -94,16 +95,10 @@ class HeatEquationForm(DifferentialEquationForm):
             source if source else "0"
         )
 
-    def solve(self):
-        try:
-            self.equation_service.compute_and_update_solution(self.get_equation_metadata())
-            messagebox.showinfo(common_messages.app_name,
-                                common_messages.solution_recorded_message.format(self.equation_service.table_path))
-            self.render_plot_button.grid(row=10, column=3, pady=6, sticky="e")
-            self.toggle_animation_button.grid(row=11, column=3, pady=6, sticky="e")
-            self.canvas.draw()
-        except Exception as err:
-            messagebox.showinfo(common_messages.app_name, err)
+    def on_solve(self):
+        self.render_plot_button.grid(row=10, column=3, pady=6, sticky="e")
+        self.toggle_animation_button.grid(row=11, column=3, pady=6, sticky="e")
+        self.export_button.grid(row=12, column=3, pady=6, sticky="e")
 
     def handle_render_plot(self):
         self.toggle_animation_button.configure(text=common_messages.play)
@@ -124,3 +119,4 @@ class HeatEquationForm(DifferentialEquationForm):
         self.canvas.draw()
         self.render_plot_button.grid_forget()
         self.toggle_animation_button.grid_forget()
+        self.export_button.grid_forget()
