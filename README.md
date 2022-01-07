@@ -14,8 +14,8 @@ python3 app.py
 ```
 
 ## Snapshots
-<div>
-  <img src="https://user-images.githubusercontent.com/46363213/103636054-49198100-4efe-11eb-9599-5342bed58229.PNG" width=50%">
-  <img src="https://user-images.githubusercontent.com/46363213/104314394-37038980-548e-11eb-8201-bb81363df220.PNG" width=50%>
-  <img src="https://user-images.githubusercontent.com/46363213/103533938-d8f9f500-4e42-11eb-9012-603e7f2cfd01.gif" width=50%>
-</div>
+<p align="center">
+  <img src="./images/demo_fig_1.PNG" style="width: 30rem;">
+  <img src="./images/demo_fig_3.PNG" style="width: 30rem;">
+  <img src="./images/demo_fig_2.gif" style="width: 30rem;">
+</p>
