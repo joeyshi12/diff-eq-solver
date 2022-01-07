@@ -15,7 +15,7 @@ python3 app.py
 
 ## Snapshots
 <p align="center">
-  <img src="./images/demo_fig_1.PNG" style="width: 300px;">
-  <img src="./images/demo_fig_3.PNG" style="width: 300px;">
-  <img src="./images/demo_fig_2.gif" style="width: 300px;">
+  <img src="./images/demo_fig_1.PNG" style="width: 400px;">
+  <img src="./images/demo_fig_3.PNG" style="width: 400px;">
+  <img src="./images/demo_fig_2.gif" style="width: 400px;">
 </p>
