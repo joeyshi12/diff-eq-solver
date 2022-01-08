@@ -30,10 +30,10 @@ All of following differential equations are currently supported:
 
 ## First Order Differential Equation Solving Algorithm
 We let `x(t)` be the solution function and defined first order differential equation problems by
-* `x' = f(t, x)`
+* `x' = f(t, x)`, `0 <= t <= T`
 * `x0 = x(0)`
 
-where `f(t, x)` is an arbitrary function of `(t, x)` and `x0` is some constant. The user is allowed to specify these parameters and also defined the range of the solution `0 < t < T` and the points in the solution array `len(x) = N > 0`.
+where `f(t, x)` is an arbitrary function of `(t, x)` and `x0` is some constant. The user is allowed to specify these parameters and also defined the range of the solution `0 <= t <= T` and the points in the solution array `len(x) = N > 0`.
 
 Let `dt = T / (N - 1)`. If we have a 'small' value of `dt`, we can approximate the derivative using the forward difference: `x'(t) = (x(t + dt) - x(t)) / dt`. Thus, `x(t + dt) = x(t) + f(t, x(t)) * dt`.
 
@@ -49,7 +49,6 @@ x[N - 1] = x[N - 2] + f((N - 2) * dt, x[N - 2]) * dt
 We can write this more simply as:
 ```python
 x[0] = x0
-dt = T / (N - 1)
 
 for i in range(1, N):
   x[i] = x[i - 1] + f((i - 1) * dt, x[i - 1]) * dt
@@ -57,7 +56,7 @@ for i in range(1, N):
 
 ## Second Order Differential Equation Solving Algorithm
 We let `x(t)` be the solution function for the differential equation defined by
-* `y' = f(t, x, y)`
+* `y' = f(t, x, y)`, `0 <= t <= T`
 * `y = x'`
 * `x0 = x(0)`
 * `y0 = x'(0)`
@@ -81,7 +80,6 @@ y[N - 1] = y[N - 2] + f((N - 2) * dt, x[N - 2], y[N - 2]) * dt
 We can write this more simply as:
 ```python
 x[0], y[0] = x0, y0
-dt = T / (N - 1)
 
 for i in range(1, N):
   x[i] = x[i - 1] + y[i - 1] * dt
@@ -89,6 +87,11 @@ for i in range(1, N):
 ```
 
 ## One-dimensional Heat Equation Solving Algorithm
+We let `u(t, x)` be the solution function for the differential equation defined by
+* u(x, t)
+* Φ1(t) (Left Dirichlet BC)
+* Φ2(t) (Right Dirichlet BC)
+
 TODO
 
 ## One-dimensional Wave Equation Solving Algorithm
