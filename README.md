@@ -29,9 +29,13 @@ All of following differential equations are currently supported:
 - [One-dimensional Wave Equation](#one-dimensional-wave-equation-solving-algorithm)
 
 ## First Order Differential Equation Solving Algorithm
-We let `x(t)` be the solution function and defined first order differential equation problems by `x'(t) = f(t, x)`, `x0 = x(0)`, where `f(t, x)` is an arbitrary function of `(t, x)` and `x0` is some constant. The user is allowed to specify these parameters and also defined the range of the solution `0 < t < T` and the points in the solution array `len(x) = N > 0`.
+We let `x(t)` be the solution function and defined first order differential equation problems by
+* `x' = f(t, x)`
+* `x0 = x(0)`
 
-Let `dt = T / (N - 1)`. If we have a 'small' value of `dt`, we can approximate the derivative using the forward difference: `x'(t) = (x(t + dt) - x(t)) / dt`. Thus, `x(t + dt) = x(t) + f(t, x) * dt`.
+where `f(t, x)` is an arbitrary function of `(t, x)` and `x0` is some constant. The user is allowed to specify these parameters and also defined the range of the solution `0 < t < T` and the points in the solution array `len(x) = N > 0`.
+
+Let `dt = T / (N - 1)`. If we have a 'small' value of `dt`, we can approximate the derivative using the forward difference: `x'(t) = (x(t + dt) - x(t)) / dt`. Thus, `x(t + dt) = x(t) + f(t, x(t)) * dt`.
 
 So, we may iteratively compute values for `x[i] = x(i * dt)` from `i = 0` to `i = N - 1` as such:
 ```python
@@ -44,17 +48,45 @@ x[N - 1] = x[N - 2] + f((N - 2) * dt, x[N - 2]) * dt
 
 We can write this more simply as:
 ```python
-x = np.zeros(N)
 x[0] = x0
 dt = T / (N - 1)
 
-for i in range(N):
-  x[i + 1] = x[i] + f(i * dt, x[i]) * dt
+for i in range(1, N):
+  x[i] = x[i - 1] + f((i - 1) * dt, x[i - 1]) * dt
 ```
 
-
 ## Second Order Differential Equation Solving Algorithm
-TODO
+We let `x(t)` be the solution function for the differential equation defined by
+* `y' = f(t, x, y)`
+* `y = x'`
+* `x0 = x(0)`
+* `y0 = x'(0)`
+
+where `f(t, x, y)` is an arbitrary function of `(t, x, y)` and `x0`, `y0` are some constants. As with the [first order differential equation solving algorithm](#first-order-differential-equation-solving-algorithm), we can derive `x'(t + dt) = x'(t) + f(t, x(t), y(t)) * dt` by using the forward difference approximation, where `dt = T / (N - 1)`. 
+
+So, we may iteratively compute values for `x[i] = x(i * dt)` from `i = 0` to `i = N - 1` as such:
+```python
+x[0] = x0
+y[0] = y0
+
+x[1] = x[0] + y[0] * dt
+y[1] = y[0] + f(0, x[0], y[0]) * dt
+
+...
+
+x[N - 1] = x[N - 2] + y[N - 2] * dt
+y[N - 1] = y[N - 2] + f((N - 2) * dt, x[N - 2], y[N - 2]) * dt
+```
+
+We can write this more simply as:
+```python
+x[0], y[0] = x0, y0
+dt = T / (N - 1)
+
+for i in range(1, N):
+  x[i] = x[i - 1] + y[i - 1] * dt
+  y[i] = y[i - 1] + f((i - 1) * dt, x[i - 1], y[i - 1]) * dt
+```
 
 ## One-dimensional Heat Equation Solving Algorithm
 TODO
