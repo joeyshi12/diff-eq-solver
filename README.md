@@ -29,70 +29,98 @@ All of following differential equations are currently supported:
 - [One-dimensional Wave Equation](#one-dimensional-wave-equation-solving-algorithm)
 
 ## First Order Differential Equation Solving Algorithm
-We let `x(t)` be the solution function and defined first order differential equation problems by
-* `x' = f(t, x)`, `0 <= t <= T`
-* `x0 = x(0)`
+First order differential equations problems can be written as the following initial value problem:
+* `x' = f(t, x)`, `0 < t <= T`
+* `x0 = x(0)` [initial value]
 
-where `f(t, x)` is an arbitrary function of `(t, x)` and `x0` is some constant. The user is allowed to specify these parameters and also defined the range of the solution `0 <= t <= T` and the points in the solution array `len(x) = N > 0`.
+Let `x[i] = x(i * dt)` for `i = 0` to `i = N - 1`, where `dt = T / (N - 1)`. For `dt` 'small' enough, we can approximate the derivative `x'(t)` using the forward difference:
 
-Let `dt = T / (N - 1)`. If we have a 'small' value of `dt`, we can approximate the derivative using the forward difference: `x'(t) = (x(t + dt) - x(t)) / dt`. Thus, `x(t + dt) = x(t) + f(t, x(t)) * dt`.
-
-So, we may iteratively compute values for `x[i] = x(i * dt)` from `i = 0` to `i = N - 1` as such:
-```python
-x[0] = x0
-x[1] = x[0] + f(0, x[0]) * dt
-x[2] = x[1] + f(dt, x[1]) * dt
-...
-x[N - 1] = x[N - 2] + f((N - 2) * dt, x[N - 2]) * dt
+```
+x'(t) = [x(t + dt) - x(t)] / dt = f(t, x)
+x(t + dt) = x(t) + f(t, x) * dt
 ```
 
-We can write this more simply as:
-```python
-x[0] = x0
+Then, we can compute all values of `x[i]` with the following:
+```
+x[i] = { x[i - 1] + f(i * dt, x) * dt    0 < i <= N - 1
+       { x0                              i = 0
+```
 
+So, the algorithm simplifies to the following:
+```python
+x = np.zeros(N)
+x[0] = x0
 for i in range(1, N):
   x[i] = x[i - 1] + f((i - 1) * dt, x[i - 1]) * dt
 ```
+[[full code implementation](./src/services/first_order_ode_service.py)]
 
 ## Second Order Differential Equation Solving Algorithm
-We let `x(t)` be the solution function for the differential equation defined by
-* `y' = f(t, x, y)`, `0 <= t <= T`
+Second order differential equation problems can be written as the following initial value problem:
+* `y' = f(t, x, y)`, `0 < t <= T`
 * `y = x'`
-* `x0 = x(0)`
-* `y0 = x'(0)`
+* `x0 = x(0)` [initial value]
+* `y0 = x'(0)` [initial derivative]
 
-where `f(t, x, y)` is an arbitrary function of `(t, x, y)` and `x0`, `y0` are some constants. As with the [first order differential equation solving algorithm](#first-order-differential-equation-solving-algorithm), we can derive `x'(t + dt) = x'(t) + f(t, x(t), y(t)) * dt` by using the forward difference approximation, where `dt = T / (N - 1)`.
-
-So, we may iteratively compute values for `x[i] = x(i * dt)` from `i = 0` to `i = N - 1` as such:
-```python
-x[0] = x0
-y[0] = y0
-
-x[1] = x[0] + y[0] * dt
-y[1] = y[0] + f(0, x[0], y[0]) * dt
-
-...
-
-x[N - 1] = x[N - 2] + y[N - 2] * dt
-y[N - 1] = y[N - 2] + f((N - 2) * dt, x[N - 2], y[N - 2]) * dt
+Let `x[i] = x(i * dt)` and `y[i] = y(i * dt)` for `i = 0` to `i = N - 1`, where `dt = T / (N - 1)`. As with the [first order ode problem](#first-order-differential-equation-solving-algorithm), for `dt` small enough, we can use the forward difference approximation to obtain
+```
+y(t) = y(t - dt) + f(t - dt, x(t - dt), y(t - dt)) * dt
 ```
 
-We can write this more simply as:
-```python
-x[0], y[0] = x0, y0
+Again, we can use the forward difference approximation `y(t) =  x'(t) = [x(t + dt) - x(t)] / dt` to get
+```
+x(t + dt) = x(t) + y(t) * dt
+```
 
+So, we can compute all values of `x[i]` and `y[i]` with the following:
+```
+x[i] = { x[i - 1] + y[i - 1] * dt   0 < i <= N - 1
+       { x0                         i = 0
+
+y[i] = { y[i - 1] + f(i * dt, x[i - 1], y[i - 1]) * dt    0 < i <= N - 1
+       { y0                                               i = 0
+```
+
+Thus, the algorithm simplifies to the following:
+```python
+x, y = np.zeros([2, N])
+x[0], y[0] = x0, y0
 for i in range(1, N):
   x[i] = x[i - 1] + y[i - 1] * dt
   y[i] = y[i - 1] + f((i - 1) * dt, x[i - 1], y[i - 1]) * dt
 ```
+[[full code implementation](./src/services/second_order_ode_service.py)]
 
 ## One-dimensional Heat Equation Solving Algorithm
 We let `u(t, x)` be the solution function for the differential equation defined by
-* u(x, t)
-* Φ1(t) (Left Dirichlet BC)
-* Φ2(t) (Right Dirichlet BC)
+* `u_{t}(t, x) = α * u_{xx}(t, x) + S(t, x)`, `0 < x <= L`, `0 < t <= T`
+* `u(t, 0) = Φ_1(t)` (Left Dirichlet Boundary Condition)
+* `u_{t}(t, L) = Φ_2(t)` (Right Neumann Boundary Condition)
+* `u(0, x) = f(x)` (initial values)
 
-TODO
+Let `u[i][j] = u(i * dt, j * dx)` for `i = 0` to `i = K - 1` and `j = 0` to `j = N - 1` for `dt = T / (K - 1)` and `dx = L / (N - 1)`. For `dt` small enough, we can approximate `u_{t}(t, x)` with the forward difference:
+```
+u_{t}(t, x) = [u(t + dt, x) - u(t, x)] / dt
+```
+
+For `dx` small enough, we can approximate `u_{xx}(t, x)` with the second order central difference:
+```
+u_{xx}(t, x) = [u(t, x + dx) - 2 * u(t, x) + u(t, x - dx)] / (dx ** 2)
+```
+
+So after substituting and rearranging `u_{xx}`, `u_{t}` in `u_{t}(t, x) = α * u_{xx}(t, x) + S(t, x)`, we get
+```
+u(t + dt, x) = u(t, x) + (α * dt / dx ** 2) * (u(t, x + dx) - 2 * u(t, x) + u(t, x - dx)) + S(t, x) * dt
+```
+
+Thus, we can compute all values of `u[i][j]` with the following:
+```
+u[i][j] = { u[i - 1, j] + (α * dt / dx ** 2) * (u[i - 1, j + 1] - 2 * u[i - 1, j] + u[i - 1, j - 1]) + S(i * dt, j * dx) * dt   0 < i <= K - 1, 0 < j < N - 1
+          { Φ_1(i * dt)                                                                                                         j = N - 1
+          { u[i, j - 2] + Φ_2(i * dt) * dt                                                                                      j = 0
+          { f(j * dx)                                                                                                           i = 0
+```
+
 
 ## One-dimensional Wave Equation Solving Algorithm
 TODO
