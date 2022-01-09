@@ -120,7 +120,7 @@ u[i][j] = { u[i - 1, j] + (α * dt / dx ** 2) * (u[i - 1, j + 1] - 2 * u[i - 1, 
           { u[i, j - 2] + Φ_2(i * dt) * dt                                                                                      j = 0
           { f(j * dx)                                                                                                           i = 0
 ```
-
+[[full code implementation](./src/services/heat_equation_service.py)]
 
 ## One-dimensional Wave Equation Solving Algorithm
 TODO
