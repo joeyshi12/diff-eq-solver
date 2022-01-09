@@ -4,6 +4,8 @@ An application that uses the finite difference method to solve various types of 
 heat equation and wave equation. The solution is written to a table in an Excel file, and the solution is visually
 displayed on a plot. For time dependent PDEs, the plot is animated.
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#<your-project-url>)
+
 <p align="center">
   <img src="./assets/heat_eq_demo.png" style="width: 400px;">
   <img src="./assets/wave_eq_demo.png" style="width: 400px;">
