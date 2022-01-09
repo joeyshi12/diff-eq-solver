@@ -1,13 +1,13 @@
 # diff-eq-solver
 
 An application that uses the finite difference method to solve various types of differential equations, such as the
-heat equation and wave equation. The solution is written to a table in an Excel file, and the solution is visually 
-displayed on a plot. For time dependent PDEs, the plot is animated.  
+heat equation and wave equation. The solution is written to a table in an Excel file, and the solution is visually
+displayed on a plot. For time dependent PDEs, the plot is animated.
 
 <p align="center">
-  <img src="./images/demo_fig_1.PNG" style="width: 400px;">
-  <img src="./images/demo_fig_3.PNG" style="width: 400px;">
-  <img src="./images/demo_fig_2.gif" style="width: 400px;">
+  <img src="./assets/heat_eq_demo.png" style="width: 400px;">
+  <img src="./assets/wave_eq_demo.png" style="width: 400px;">
+  <img src="./assets/wave_eq_demo.gif" style="width: 400px;">
 </p>
 
 ## How to run locally
@@ -61,7 +61,7 @@ We let `x(t)` be the solution function for the differential equation defined by
 * `x0 = x(0)`
 * `y0 = x'(0)`
 
-where `f(t, x, y)` is an arbitrary function of `(t, x, y)` and `x0`, `y0` are some constants. As with the [first order differential equation solving algorithm](#first-order-differential-equation-solving-algorithm), we can derive `x'(t + dt) = x'(t) + f(t, x(t), y(t)) * dt` by using the forward difference approximation, where `dt = T / (N - 1)`. 
+where `f(t, x, y)` is an arbitrary function of `(t, x, y)` and `x0`, `y0` are some constants. As with the [first order differential equation solving algorithm](#first-order-differential-equation-solving-algorithm), we can derive `x'(t + dt) = x'(t) + f(t, x(t), y(t)) * dt` by using the forward difference approximation, where `dt = T / (N - 1)`.
 
 So, we may iteratively compute values for `x[i] = x(i * dt)` from `i = 0` to `i = N - 1` as such:
 ```python
