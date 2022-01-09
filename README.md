@@ -38,7 +38,7 @@ First order differential equations problems can be written as the following init
 Let `x[i] = x(i * dt)` for `i = 0` to `i = N - 1`, where `dt = T / (N - 1)`. For `dt` 'small' enough, we can approximate the derivative `x'(t)` using the forward difference:
 
 ```
-x'(t) = [x(t + dt) - x(t)] / dt = f(t, x)
+x'(t) = (x(t + dt) - x(t)) / dt = f(t, x)
 x(t + dt) = x(t) + f(t, x) * dt
 ```
 
@@ -102,12 +102,12 @@ We let `u(t, x)` be the solution function for the differential equation defined 
 
 Let `u[i][j] = u(i * dt, j * dx)` for `i = 0` to `i = K - 1` and `j = 0` to `j = N - 1` for `dt = T / (K - 1)` and `dx = L / (N - 1)`. For `dt` small enough, we can approximate `u_{t}(t, x)` with the forward difference:
 ```
-u_{t}(t, x) = [u(t + dt, x) - u(t, x)] / dt
+u_{t}(t, x) = (u(t + dt, x) - u(t, x)) / dt
 ```
 
 For `dx` small enough, we can approximate `u_{xx}(t, x)` with the second order central difference:
 ```
-u_{xx}(t, x) = [u(t, x + dx) - 2 * u(t, x) + u(t, x - dx)] / (dx ** 2)
+u_{xx}(t, x) = (u(t, x + dx) - 2 * u(t, x) + u(t, x - dx)) / (dx ** 2)
 ```
 
 So after substituting and rearranging `u_{xx}`, `u_{t}` in `u_{t}(t, x) = α * u_{xx}(t, x) + S(t, x)`, we get
