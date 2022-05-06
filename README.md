@@ -17,7 +17,7 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 # Install package
 pip3 install -e .
 
-# Run diff-eq-solver
+# Run diffeq_tk script
 detk
 ```
 
