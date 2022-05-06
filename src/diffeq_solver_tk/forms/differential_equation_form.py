@@ -4,9 +4,9 @@ from tkinter.filedialog import asksaveasfilename
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-import src.messages.common_messages as common_messages
-import src.tkinter_config as config
-from src.services.differential_equation_service import DifferentialEquationService
+import diffeq_solver_tk.messages.common_messages as common_messages
+import diffeq_solver_tk.tkinter_config as config
+from diffeq_solver_tk.services.differential_equation_service import DifferentialEquationService
 
 
 class DifferentialEquationForm(Frame):

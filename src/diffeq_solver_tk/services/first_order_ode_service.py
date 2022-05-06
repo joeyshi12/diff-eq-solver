@@ -4,8 +4,8 @@ from typing import Callable
 import numpy as np
 from matplotlib.figure import Figure
 
-from src.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
-from src.services.differential_equation_service import OrdinaryDifferentialEquationService
+from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
+from diffeq_solver_tk.services.differential_equation_service import OrdinaryDifferentialEquationService
 
 
 class FirstOrderODEService(OrdinaryDifferentialEquationService):

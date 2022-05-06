@@ -3,16 +3,16 @@ from tkinter import RIGHT, BOTH, Tk, Frame, Button
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-import src.tkinter_config as config
-from src.forms.differential_equation_form import DifferentialEquationForm
-from src.forms.first_order_ode_form import FirstOrderODEForm
-from src.forms.heat_equation_form import HeatEquationForm
-from src.forms.second_order_ode_form import SecondOrderODEForm
-from src.forms.wave_equation_form import WaveEquationForm
-from src.services.first_order_ode_service import FirstOrderODEService
-from src.services.heat_equation_service import HeatEquationService
-from src.services.second_order_ode_service import SecondOrderODEService
-from src.services.wave_equation_service import WaveEquationService
+import diffeq_solver_tk.tkinter_config as config
+from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
+from diffeq_solver_tk.forms.first_order_ode_form import FirstOrderODEForm
+from diffeq_solver_tk.forms.heat_equation_form import HeatEquationForm
+from diffeq_solver_tk.forms.second_order_ode_form import SecondOrderODEForm
+from diffeq_solver_tk.forms.wave_equation_form import WaveEquationForm
+from diffeq_solver_tk.services.first_order_ode_service import FirstOrderODEService
+from diffeq_solver_tk.services.heat_equation_service import HeatEquationService
+from diffeq_solver_tk.services.second_order_ode_service import SecondOrderODEService
+from diffeq_solver_tk.services.wave_equation_service import WaveEquationService
 
 
 class MainView(Frame):

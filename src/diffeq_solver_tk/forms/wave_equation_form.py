@@ -2,12 +2,12 @@ from enum import auto, Enum
 from tkinter import Button, Entry, Variable, Frame
 from typing import Union
 
-import src.messages.common_messages as common_messages
-import src.messages.wave_equation_messages as messages
-from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, WaveEquationMetadata, BoundaryType
-from src.forms.differential_equation_form import DifferentialEquationForm
-from src.forms.equation_form_builder import EquationFormBuilder
-from src.services.wave_equation_service import WaveEquationService
+import diffeq_solver_tk.messages.common_messages as common_messages
+import diffeq_solver_tk.messages.wave_equation_messages as messages
+from diffeq_solver_tk.differential_equation_metadata import BoundaryConditions, BoundaryCondition, WaveEquationMetadata, BoundaryType
+from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
+from diffeq_solver_tk.forms.equation_form_builder import EquationFormBuilder
+from diffeq_solver_tk.services.wave_equation_service import WaveEquationService
 
 
 class WaveEquationFields(Enum):

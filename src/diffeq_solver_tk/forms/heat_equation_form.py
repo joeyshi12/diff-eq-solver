@@ -2,12 +2,12 @@ from enum import Enum, auto
 from tkinter import StringVar, Button, Entry, Frame
 from typing import Union
 
-import src.messages.common_messages as common_messages
-import src.messages.heat_equation_messages as messages
-from src.differential_equation_metadata import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType
-from src.forms.differential_equation_form import DifferentialEquationForm
-from src.forms.equation_form_builder import EquationFormBuilder
-from src.services.heat_equation_service import HeatEquationService
+import diffeq_solver_tk.messages.common_messages as common_messages
+import diffeq_solver_tk.messages.heat_equation_messages as messages
+from diffeq_solver_tk.differential_equation_metadata import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType
+from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
+from diffeq_solver_tk.forms.equation_form_builder import EquationFormBuilder
+from diffeq_solver_tk.services.heat_equation_service import HeatEquationService
 
 
 class HeatEquationFields(Enum):

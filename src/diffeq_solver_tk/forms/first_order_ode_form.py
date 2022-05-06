@@ -2,12 +2,12 @@ from enum import Enum, auto
 from tkinter import Entry, Frame, Button
 from typing import Dict
 
-import src.messages.common_messages as common_messages
-import src.messages.first_order_ode_messages as messages
-from src.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
-from src.forms.differential_equation_form import DifferentialEquationForm
-from src.forms.equation_form_builder import EquationFormBuilder
-from src.services.first_order_ode_service import FirstOrderODEService
+import diffeq_solver_tk.messages.common_messages as common_messages
+import diffeq_solver_tk.messages.first_order_ode_messages as messages
+from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
+from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
+from diffeq_solver_tk.forms.equation_form_builder import EquationFormBuilder
+from diffeq_solver_tk.services.first_order_ode_service import FirstOrderODEService
 
 
 class FirstOrderODEFields(Enum):

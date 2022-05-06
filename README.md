@@ -55,7 +55,7 @@ x[0] = x0
 for i in range(1, N):
   x[i] = x[i - 1] + f((i - 1) * dt, x[i - 1]) * dt
 ```
-[[full code implementation](./src/services/first_order_ode_service.py)]
+[[full code implementation](src/diffeq_solver_tk/services/first_order_ode_service.py)]
 
 ## Second Order Differential Equation Solving Algorithm
 Second order differential equation problems can be written as the following initial value problem:
@@ -91,7 +91,7 @@ for i in range(1, N):
   x[i] = x[i - 1] + y[i - 1] * dt
   y[i] = y[i - 1] + f((i - 1) * dt, x[i - 1], y[i - 1]) * dt
 ```
-[[full code implementation](./src/services/second_order_ode_service.py)]
+[[full code implementation](src/diffeq_solver_tk/services/second_order_ode_service.py)]
 
 ## One-dimensional Heat Equation Solving Algorithm
 We let `u(t, x)` be the solution function for the differential equation defined by
@@ -122,7 +122,7 @@ u[i][j] = { u[i - 1, j] + (α * dt / dx ** 2) * (u[i - 1, j + 1] - 2 * u[i - 1, 
           { u[i, j - 2] + Φ_2(i * dt) * dt                                                                                      j = 0
           { f(j * dx)                                                                                                           i = 0
 ```
-[[full code implementation](./src/services/heat_equation_service.py)]
+[[full code implementation](src/diffeq_solver_tk/services/heat_equation_service.py)]
 
 ## One-dimensional Wave Equation Solving Algorithm
 TODO

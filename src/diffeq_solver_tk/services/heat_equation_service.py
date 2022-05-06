@@ -4,8 +4,8 @@ from typing import Callable
 import numpy as np
 from matplotlib.figure import Figure
 
-from src.differential_equation_metadata import HeatEquationMetadata, BoundaryType
-from src.services.differential_equation_service import BoundedEquationService
+from diffeq_solver_tk.differential_equation_metadata import HeatEquationMetadata, BoundaryType
+from diffeq_solver_tk.services.differential_equation_service import BoundedEquationService
 
 
 class HeatEquationService(BoundedEquationService):
@@ -18,7 +18,7 @@ class HeatEquationService(BoundedEquationService):
         source: Callable[[float, float], float] = lambda t, x: eval(metadata.source)
         N = metadata.samples
         dx = metadata.length / (N - 1)
-        K = 2 * np.int(2 * metadata.alpha * metadata.time / dx ** 2) + 1
+        K = 2 * int(2 * metadata.alpha * metadata.time / dx ** 2) + 1
         dt = metadata.time / (K - 1)
         D = self.create_time_step_matrix(metadata.alpha * dt / dx ** 2, N)
         left_values: Callable[[float], float] = lambda t: eval(metadata.boundary_conditions.left.values)
