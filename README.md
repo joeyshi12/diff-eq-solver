@@ -9,17 +9,14 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/github.com/joeyshi12/diff-eq-solver/)
 
 <p align="center">
-  <img src="./assets/heat_eq_demo.png" style="width: 400px;">
-  <img src="./assets/wave_eq_demo.png" style="width: 400px;">
-  <img src="./assets/wave_eq_demo.gif" style="width: 400px;">
+  <img src="https://github.com/joeyshi12/diff-eq-solver/assets/heat_eq_demo.png" style="width: 400px;">
+  <img src="https://github.com/joeyshi12/diff-eq-solver/assets/wave_eq_demo.png" style="width: 400px;">
+  <img src="https://github.com/joeyshi12/diff-eq-solver/assets/wave_eq_demo.gif" style="width: 400px;">
 </p>
 
-## How to run locally
+## How to run
 ```
-# Install diffeq_solver_tk
-pip3 install .
-
-# Execute diffeq_solver_tk script
+pip3 install diffeq-solver-tk
 detk
 ```
 
