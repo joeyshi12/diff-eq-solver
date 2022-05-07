@@ -14,11 +14,11 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 
 ## How to run locally
 ```
-# Install requirements
-pip3 install -r requirements.txt
+# Install package
+pip3 install -e .
 
-# Run program
-python3 app.py
+# Run diffeq_tk script
+detk
 ```
 
 ## How to use
