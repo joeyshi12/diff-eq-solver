@@ -9,9 +9,9 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/github.com/joeyshi12/diff-eq-solver/)
 
 <p align="center">
-  <img src="https://github.com/joeyshi12/diff-eq-solver/assets/heat_eq_demo.png" style="width: 400px;">
-  <img src="https://github.com/joeyshi12/diff-eq-solver/assets/wave_eq_demo.png" style="width: 400px;">
-  <img src="https://github.com/joeyshi12/diff-eq-solver/assets/wave_eq_demo.gif" style="width: 400px;">
+  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/assets/heat_eq_demo.png" style="width: 400px;">
+  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/assets/wave_eq_demo.png" style="width: 400px;">
+  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/assets/wave_eq_demo.gif" style="width: 400px;">
 </p>
 
 ## How to run
