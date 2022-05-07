@@ -3,7 +3,7 @@ from tkinter import RIGHT, BOTH, Tk, Frame, Button
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-import diffeq_solver_tk.tkinter_config as config
+from diffeq_solver_tk import tkinter_config as config
 from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
 from diffeq_solver_tk.forms.first_order_ode_form import FirstOrderODEForm
 from diffeq_solver_tk.forms.heat_equation_form import HeatEquationForm

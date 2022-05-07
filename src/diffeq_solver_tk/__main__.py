@@ -1,7 +1,7 @@
 from tkinter import Tk
 
 import diffeq_solver_tk.messages.common_messages as common_messages
-from diffeq_solver_tk.main_view import MainView
+from .main_view import MainView
 
 
 def main():
