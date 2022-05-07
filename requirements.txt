@@ -1,5 +1,2 @@
-numpy>=1.21
-matplotlib~=3.4.2
-pillow
-pyparsing
+matplotlib~=3.5.2
 openpyxl~=3.0.7
