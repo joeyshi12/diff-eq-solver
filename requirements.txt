@@ -1,2 +1,2 @@
-matplotlib~=3.5.2
-openpyxl~=3.0.7
+matplotlib
+openpyxl
