@@ -1,6 +1,6 @@
 from enum import Enum, auto
 from tkinter import StringVar, Button, Entry, Frame
-from typing import Union
+from typing import Union, Dict
 
 import diffeq_solver_tk.messages.common_messages as common_messages
 import diffeq_solver_tk.messages.heat_equation_messages as messages
@@ -25,7 +25,7 @@ class HeatEquationFields(Enum):
 
 class HeatEquationForm(DifferentialEquationForm):
     equation_service: HeatEquationService
-    field_entry_map: dict[HeatEquationFields, Union[Entry, StringVar]]
+    field_entry_map: Dict[HeatEquationFields, Union[Entry, StringVar]]
     solve_button: Button
     export_button: Button
     render_plot_button: Button

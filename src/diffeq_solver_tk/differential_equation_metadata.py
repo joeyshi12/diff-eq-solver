@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import List
 
 
 class BoundaryType(Enum):
@@ -30,7 +31,7 @@ class BoundedEquationMetadata:
 @dataclass
 class OrdinaryDifferentialEquationMetadata:
     source: str
-    initial_derivatives: list[float]
+    initial_derivatives: List[float]
     samples: int
     time: float
 

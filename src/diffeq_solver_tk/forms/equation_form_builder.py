@@ -1,5 +1,5 @@
 from tkinter import Frame, Entry, Variable, Label, StringVar, Radiobutton, Button
-from typing import Generic, TypeVar, Union, Callable, Optional
+from typing import Generic, TypeVar, Union, Callable, Optional, Dict
 
 import diffeq_solver_tk.messages.common_messages as common_messages
 import diffeq_solver_tk.tkinter_config as config
@@ -9,7 +9,7 @@ T = TypeVar('T')
 
 
 class EquationFormBuilder(Generic[T]):
-    __field_entry_map: dict[T, Union[Entry, Variable]]
+    __field_entry_map: Dict[T, Union[Entry, Variable]]
 
     def __init__(self, frame: Frame):
         self.frame = frame
@@ -38,7 +38,7 @@ class EquationFormBuilder(Generic[T]):
             button.configure(command=callback)
         return button
 
-    def get_field_entry_map(self) -> dict[T, Union[Entry, Variable]]:
+    def get_field_entry_map(self) -> Dict[T, Union[Entry, Variable]]:
         return self.__field_entry_map
 
     def __place_label(self, text: str, row: int, column: int, horizontal_padding: int, sticky: str):

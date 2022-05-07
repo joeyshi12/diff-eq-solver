@@ -1,6 +1,6 @@
 from enum import auto, Enum
 from tkinter import Button, Entry, Variable, Frame
-from typing import Union
+from typing import Union, Dict
 
 import diffeq_solver_tk.messages.common_messages as common_messages
 import diffeq_solver_tk.messages.wave_equation_messages as messages
@@ -26,7 +26,7 @@ class WaveEquationFields(Enum):
 
 
 class WaveEquationForm(DifferentialEquationForm):
-    field_entry_map: dict[WaveEquationFields, Union[Entry, Variable]]
+    field_entry_map: Dict[WaveEquationFields, Union[Entry, Variable]]
     equation_service: WaveEquationService
     solve_button: Button
     export_button: Button
