@@ -7,7 +7,7 @@ import diffeq_solver_tk.messages.first_order_ode_messages as messages
 from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
 from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
 from diffeq_solver_tk.forms.equation_form_builder import EquationFormBuilder
-from diffeq_solver_tk.services.first_order_ode_service import FirstOrderODEService
+from diffeq_solver_tk.differential_equation_service import OrdinaryDifferentialEquationService
 
 
 class FirstOrderODEFields(Enum):
@@ -18,11 +18,11 @@ class FirstOrderODEFields(Enum):
 
 
 class FirstOrderODEForm(DifferentialEquationForm):
-    equation_service: FirstOrderODEService
+    equation_service: OrdinaryDifferentialEquationService
     field_entry_map: Dict[FirstOrderODEFields, Entry]
     export_button: Button
 
-    def __init__(self, frame: Frame, canvas, equation_service: FirstOrderODEService):
+    def __init__(self, frame: Frame, canvas, equation_service: OrdinaryDifferentialEquationService):
         DifferentialEquationForm.__init__(self, frame, canvas, equation_service)
 
     def build_form(self):

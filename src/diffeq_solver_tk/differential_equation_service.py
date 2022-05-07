@@ -1,30 +1,31 @@
 from abc import abstractmethod, ABC
-from typing import TypeVar, Generic, Optional
+from typing import TypeVar, Generic, Optional, Callable
 
 import numpy as np
 from matplotlib import cm
 from matplotlib.animation import FuncAnimation
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from openpyxl import Workbook
 
 from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, BoundedEquationMetadata
+from diffeq_solver_tk.util import export_bounded_equation_solution, export_ode_solution
 
 T = TypeVar('T')
 
 
 class DifferentialEquationService(Generic[T], ABC):
+    solve: Callable[[T], np.ndarray]
+    main_figure: Optional[Figure]
     metadata: Optional[T] = None
     solution: Optional[np.ndarray] = None
-    main_figure: Figure
 
-    def __init__(self, main_figure: Figure):
+    def __init__(self, solve: Callable[[T], np.ndarray], main_figure: Optional[Figure] = None):
+        self.solve = solve
         self.main_figure = main_figure
 
     def compute_and_update_solution(self, metadata: T):
-        self.validate_metadata(metadata)
+        self.solution = self.solve(metadata)
         self.metadata = metadata
-        self.solution = self.compute_solution(metadata)
         self.render_current_solution()
 
     def clear_solution(self):
@@ -36,10 +37,6 @@ class DifferentialEquationService(Generic[T], ABC):
         self.main_figure.clf()
 
     @abstractmethod
-    def compute_solution(self, metadata: T) -> np.ndarray:
-        raise NotImplementedError
-
-    @abstractmethod
     def export_solution(self, table_path: str):
         raise NotImplementedError
 
@@ -47,16 +44,11 @@ class DifferentialEquationService(Generic[T], ABC):
     def render_current_solution(self):
         raise NotImplementedError
 
-    @abstractmethod
-    def validate_metadata(self, metadata: T):
-        raise NotImplementedError
-
 
 class OrdinaryDifferentialEquationService(DifferentialEquationService[OrdinaryDifferentialEquationMetadata], ABC):
-    def __init__(self, main_figure: Figure):
-        super().__init__(main_figure)
-
     def render_current_solution(self):
+        if self.main_figure is None:
+            return
         domain = np.linspace(0, self.metadata.time, self.metadata.samples)
         ax = self.main_figure.add_subplot()
         ax.plot(domain, self.solution)
@@ -66,27 +58,16 @@ class OrdinaryDifferentialEquationService(DifferentialEquationService[OrdinaryDi
         ax.set_title("Solution: x(t)")
 
     def export_solution(self, table_path: str):
-        domain = np.linspace(0, self.metadata.time, self.metadata.samples)
-        workbook = Workbook()
-        worksheet = workbook.active
-        worksheet.cell(1, 1, 't')
-        worksheet.cell(1, 2, 'x')
-        row = 2
-        for t, x in zip(domain, self.solution):
-            worksheet.cell(row, 1, t)
-            worksheet.cell(row, 2, x)
-            row += 1
-        workbook.save(table_path)
+        export_ode_solution(self.solution, self.metadata, table_path)
 
 
 class BoundedEquationService(DifferentialEquationService[BoundedEquationMetadata], ABC):
     __animation: Optional[FuncAnimation] = None
     __is_animation_playing: bool = False
 
-    def __init__(self, main_figure: Figure):
-        super().__init__(main_figure)
-
     def render_current_solution(self):
+        if self.main_figure is None:
+            return
         self.clear_figure()
         self.clear_animation()
         K, N = self.solution.shape
@@ -101,6 +82,8 @@ class BoundedEquationService(DifferentialEquationService[BoundedEquationMetadata
         self.main_figure.colorbar(surf, shrink=0.5, aspect=5)
 
     def generate_animation(self):
+        if self.main_figure is None:
+            return
         self.clear_figure()
         K, N = self.solution.shape
         ax = self.main_figure.add_subplot()
@@ -136,25 +119,12 @@ class BoundedEquationService(DifferentialEquationService[BoundedEquationMetadata
         return self.__is_animation_playing
 
     def export_solution(self, table_path: str):
-        K, N = self.solution.shape
-        time_domain = np.linspace(0, self.metadata.time, K)
-        space_domain = np.linspace(0, self.metadata.length, N)
-        workbook = Workbook()
-        worksheet = workbook.active
-        worksheet.cell(1, 2, "x →")
-        for i in range(N):
-            worksheet.cell(1, 3 + i, space_domain[i])
-        worksheet.write(2, 1, "t ↓")
-        for k in range(K):
-            worksheet.write(3 + k, 1, time_domain[k])
-        for k in range(K):
-            for i in range(N):
-                worksheet.write(k + 3, i + 3, self.solution[k, i])
-        workbook.save(table_path)
+        export_bounded_equation_solution(self.solution, self.metadata, table_path)
 
     def clear_animation(self):
-        if self.__animation:
-            self.__animation.pause()
-            self.__animation = None
-            self.__is_animation_playing = False
-            self.main_figure.clf()
+        if self.main_figure is None or self.__animation is None:
+            return
+        self.__animation.pause()
+        self.__animation = None
+        self.__is_animation_playing = False
+        self.main_figure.clf()

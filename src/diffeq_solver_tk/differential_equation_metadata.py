@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
+from typing import List, Union
 
 
 class BoundaryType(Enum):
@@ -21,14 +21,6 @@ class BoundaryConditions:
 
 
 @dataclass
-class BoundedEquationMetadata:
-    boundary_conditions: BoundaryConditions
-    length: float
-    samples: int
-    time: float
-
-
-@dataclass
 class OrdinaryDifferentialEquationMetadata:
     source: str
     initial_derivatives: List[float]
@@ -37,15 +29,26 @@ class OrdinaryDifferentialEquationMetadata:
 
 
 @dataclass
-class HeatEquationMetadata(BoundedEquationMetadata):
+class HeatEquationMetadata:
+    boundary_conditions: BoundaryConditions
+    length: float
+    samples: int
+    time: float
     alpha: float
     initial_values: str
     source: str = "0"
 
 
 @dataclass
-class WaveEquationMetadata(BoundedEquationMetadata):
+class WaveEquationMetadata:
+    boundary_conditions: BoundaryConditions
+    length: float
+    samples: int
+    time: float
     wave_speed: float
     initial_values: str
     initial_derivatives: str
     source: str = "0"
+
+
+BoundedEquationMetadata = Union[HeatEquationMetadata, WaveEquationMetadata]

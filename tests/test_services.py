@@ -3,15 +3,14 @@ from matplotlib.figure import Figure
 
 from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, HeatEquationMetadata, \
     BoundaryConditions, BoundaryCondition, BoundaryType, WaveEquationMetadata
-from diffeq_solver_tk.services.first_order_ode_service import FirstOrderODEService
-from diffeq_solver_tk.services.heat_equation_service import HeatEquationService
-from diffeq_solver_tk.services.second_order_ode_service import SecondOrderODEService
-from diffeq_solver_tk.services.wave_equation_service import WaveEquationService
+from diffeq_solver_tk.differential_equation_service import OrdinaryDifferentialEquationService, BoundedEquationService
+from diffeq_solver_tk.finite_difference import solve_first_order_ode, solve_second_order_ode, solve_heat_equation, \
+    solve_wave_equation
 
 
 def test_first_order_ode_service():
     # TODO: add more assertions #8
-    service = FirstOrderODEService(Figure())
+    service = OrdinaryDifferentialEquationService(solve_first_order_ode, Figure())
     metadata = OrdinaryDifferentialEquationMetadata("-4 * x", [1], 50, 4)
     service.compute_and_update_solution(metadata)
     print(service.solution)
@@ -20,7 +19,7 @@ def test_first_order_ode_service():
 
 def test_second_order_ode_service():
     # TODO: add more assertions #8
-    service = SecondOrderODEService(Figure())
+    service = OrdinaryDifferentialEquationService(solve_second_order_ode, Figure())
     metadata = OrdinaryDifferentialEquationMetadata("-4 * x", [0, 1], 40, 5)
     service.compute_and_update_solution(metadata)
     assert service.solution[0] == 0
@@ -28,7 +27,7 @@ def test_second_order_ode_service():
 
 def test_heat_equation_service():
     # TODO: add more assertions #8
-    service = HeatEquationService(Figure())
+    service = BoundedEquationService(solve_heat_equation, Figure())
     metadata = HeatEquationMetadata(
         boundary_conditions=BoundaryConditions(
             BoundaryCondition(BoundaryType.NEUMANN, "t"),
@@ -47,7 +46,7 @@ def test_heat_equation_service():
 
 def test_wave_equation_service():
     # TODO: add more assertions #8
-    service = WaveEquationService(Figure())
+    service = BoundedEquationService(solve_wave_equation, Figure())
     metadata = WaveEquationMetadata(
         boundary_conditions=BoundaryConditions(
             BoundaryCondition(BoundaryType.NEUMANN, "t/2"),
