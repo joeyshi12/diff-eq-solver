@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffeq_solver_tk package &mdash; Differential Equation Solver  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="diffeq_solver_tk.forms package" href="diffeq_solver_tk.forms.html" />
+    <link rel="prev" title="diffeq_solver_tk" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Differential Equation Solver
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">diffeq_solver_tk</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">diffeq_solver_tk package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="diffeq_solver_tk.forms.html">diffeq_solver_tk.forms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffeq_solver_tk.messages.html">diffeq_solver_tk.messages package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffeq_solver_tk.services.html">diffeq_solver_tk.services package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-diffeq_solver_tk.differential_equation_metadata">diffeq_solver_tk.differential_equation_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diffeq-solver-tk-main-view-module">diffeq_solver_tk.main_view module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-diffeq_solver_tk.tkinter_config">diffeq_solver_tk.tkinter_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-diffeq_solver_tk">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Differential Equation Solver</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">diffeq_solver_tk</a> &raquo;</li>
+      <li>diffeq_solver_tk package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/diffeq_solver_tk.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="diffeq-solver-tk-package">
+<h1>diffeq_solver_tk package<a class="headerlink" href="#diffeq-solver-tk-package" title="Permalink to this headline"></a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="diffeq_solver_tk.forms.html">diffeq_solver_tk.forms package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#diffeq-solver-tk-forms-differential-equation-form-module">diffeq_solver_tk.forms.differential_equation_form module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#diffeq-solver-tk-forms-equation-form-builder-module">diffeq_solver_tk.forms.equation_form_builder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#diffeq-solver-tk-forms-first-order-ode-form-module">diffeq_solver_tk.forms.first_order_ode_form module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#diffeq-solver-tk-forms-heat-equation-form-module">diffeq_solver_tk.forms.heat_equation_form module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#diffeq-solver-tk-forms-second-order-ode-form-module">diffeq_solver_tk.forms.second_order_ode_form module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#diffeq-solver-tk-forms-wave-equation-form-module">diffeq_solver_tk.forms.wave_equation_form module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.forms.html#module-diffeq_solver_tk.forms">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq_solver_tk.messages.html">diffeq_solver_tk.messages package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.messages.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.messages.html#module-diffeq_solver_tk.messages.common_messages">diffeq_solver_tk.messages.common_messages module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.messages.html#module-diffeq_solver_tk.messages.first_order_ode_messages">diffeq_solver_tk.messages.first_order_ode_messages module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.messages.html#module-diffeq_solver_tk.messages.heat_equation_messages">diffeq_solver_tk.messages.heat_equation_messages module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.messages.html#module-diffeq_solver_tk.messages.second_order_ode_messages">diffeq_solver_tk.messages.second_order_ode_messages module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.messages.html#module-diffeq_solver_tk.messages.wave_equation_messages">diffeq_solver_tk.messages.wave_equation_messages module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.messages.html#module-diffeq_solver_tk.messages">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq_solver_tk.services.html">diffeq_solver_tk.services package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.services.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.services.html#diffeq-solver-tk-services-differential-equation-service-module">diffeq_solver_tk.services.differential_equation_service module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.services.html#diffeq-solver-tk-services-first-order-ode-service-module">diffeq_solver_tk.services.first_order_ode_service module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.services.html#diffeq-solver-tk-services-heat-equation-service-module">diffeq_solver_tk.services.heat_equation_service module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.services.html#diffeq-solver-tk-services-second-order-ode-service-module">diffeq_solver_tk.services.second_order_ode_service module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.services.html#diffeq-solver-tk-services-wave-equation-service-module">diffeq_solver_tk.services.wave_equation_service module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffeq_solver_tk.services.html#module-diffeq_solver_tk.services">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-diffeq_solver_tk.differential_equation_metadata">
+<span id="diffeq-solver-tk-differential-equation-metadata-module"></span><h2>diffeq_solver_tk.differential_equation_metadata module<a class="headerlink" href="#module-diffeq_solver_tk.differential_equation_metadata" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryCondition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffeq_solver_tk.differential_equation_metadata.</span></span><span class="sig-name descname"><span class="pre">BoundaryCondition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryType" title="diffeq_solver_tk.differential_equation_metadata.BoundaryType"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryCondition" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryCondition.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryType" title="diffeq_solver_tk.differential_equation_metadata.BoundaryType"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryType</span></a></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryCondition.type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryCondition.values">
+<span class="sig-name descname"><span class="pre">values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryCondition.values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryConditions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffeq_solver_tk.differential_equation_metadata.</span></span><span class="sig-name descname"><span class="pre">BoundaryConditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryCondition" title="diffeq_solver_tk.differential_equation_metadata.BoundaryCondition"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryCondition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryCondition" title="diffeq_solver_tk.differential_equation_metadata.BoundaryCondition"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryCondition</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryConditions" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryConditions.left">
+<span class="sig-name descname"><span class="pre">left</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryCondition" title="diffeq_solver_tk.differential_equation_metadata.BoundaryCondition"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryCondition</span></a></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryConditions.left" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryConditions.right">
+<span class="sig-name descname"><span class="pre">right</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryCondition" title="diffeq_solver_tk.differential_equation_metadata.BoundaryCondition"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryCondition</span></a></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryConditions.right" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffeq_solver_tk.differential_equation_metadata.</span></span><span class="sig-name descname"><span class="pre">BoundaryType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryType.DIRICHLET">
+<span class="sig-name descname"><span class="pre">DIRICHLET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DIRICHLET'</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryType.DIRICHLET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundaryType.NEUMANN">
+<span class="sig-name descname"><span class="pre">NEUMANN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NEUMANN'</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryType.NEUMANN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffeq_solver_tk.differential_equation_metadata.</span></span><span class="sig-name descname"><span class="pre">BoundedEquationMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boundary_conditions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryConditions" title="diffeq_solver_tk.differential_equation_metadata.BoundaryConditions"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryConditions</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.boundary_conditions">
+<span class="sig-name descname"><span class="pre">boundary_conditions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryConditions" title="diffeq_solver_tk.differential_equation_metadata.BoundaryConditions"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryConditions</span></a></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.boundary_conditions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.length">
+<span class="sig-name descname"><span class="pre">length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.length" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.samples">
+<span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.samples" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata.time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffeq_solver_tk.differential_equation_metadata.</span></span><span class="sig-name descname"><span class="pre">HeatEquationMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boundary_conditions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryConditions" title="diffeq_solver_tk.differential_equation_metadata.BoundaryConditions"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryConditions</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata" title="diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata.alpha">
+<span class="sig-name descname"><span class="pre">alpha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata.alpha" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata.initial_values">
+<span class="sig-name descname"><span class="pre">initial_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata.initial_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0'</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.HeatEquationMetadata.source" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffeq_solver_tk.differential_equation_metadata.</span></span><span class="sig-name descname"><span class="pre">OrdinaryDifferentialEquationMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_derivatives</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.initial_derivatives">
+<span class="sig-name descname"><span class="pre">initial_derivatives</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.initial_derivatives" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.samples">
+<span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.samples" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.source" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.OrdinaryDifferentialEquationMetadata.time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffeq_solver_tk.differential_equation_metadata.</span></span><span class="sig-name descname"><span class="pre">WaveEquationMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boundary_conditions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundaryConditions" title="diffeq_solver_tk.differential_equation_metadata.BoundaryConditions"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundaryConditions</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wave_speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_derivatives</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata" title="diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffeq_solver_tk.differential_equation_metadata.BoundedEquationMetadata</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.initial_derivatives">
+<span class="sig-name descname"><span class="pre">initial_derivatives</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.initial_derivatives" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.initial_values">
+<span class="sig-name descname"><span class="pre">initial_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.initial_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0'</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.source" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.wave_speed">
+<span class="sig-name descname"><span class="pre">wave_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#diffeq_solver_tk.differential_equation_metadata.WaveEquationMetadata.wave_speed" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="diffeq-solver-tk-main-view-module">
+<h2>diffeq_solver_tk.main_view module<a class="headerlink" href="#diffeq-solver-tk-main-view-module" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-diffeq_solver_tk.tkinter_config">
+<span id="diffeq-solver-tk-tkinter-config-module"></span><h2>diffeq_solver_tk.tkinter_config module<a class="headerlink" href="#module-diffeq_solver_tk.tkinter_config" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-diffeq_solver_tk">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffeq_solver_tk" title="Permalink to this headline"></a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="diffeq_solver_tk" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="diffeq_solver_tk.forms.html" class="btn btn-neutral float-right" title="diffeq_solver_tk.forms package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Joey Shi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
