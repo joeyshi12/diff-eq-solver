@@ -16,10 +16,10 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 
 ## How to run locally
 ```
-# Install package
-pip3 install -e .
+# Install diffeq_solver_tk
+pip3 install .
 
-# Run diffeq_tk script
+# Execute diffeq_solver_tk script
 detk
 ```
 
