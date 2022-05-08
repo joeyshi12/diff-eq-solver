@@ -27,7 +27,7 @@ solution as an xlsx file by clicking "Export". For partial differential equation
 in the right window by clicking "Play" and switch back to the static plot by clicking "Show Plot".
 
 diffeq-solver-tk can also be used in the command-line by running `detk solve <diff-eq-type> <infile> <outfile>`.
-Examples of valid `<infile>` files are provided in `tests/queries`.
+Examples of valid `<infile>` files are provided in `tests/queries`. Run `detk -h` for more info.
 
 ## Dev Wiki
 - [First order differential equations](https://github.com/joeyshi12/diff-eq-solver/wiki/First-Order-Differential-Equation-Solving-Algorithm)
