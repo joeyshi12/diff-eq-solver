@@ -1,0 +1,17 @@
+{
+  "boundary_conditions": {
+    "left": {
+      "type": "NEUMANN",
+      "values": "t"
+    },
+    "right": {
+      "type": "DIRICHLET",
+      "values": "1"
+    }
+  },
+  "length": 1,
+  "samples": 20,
+  "time": 1,
+  "alpha": 1,
+  "initial_values": "0"
+}

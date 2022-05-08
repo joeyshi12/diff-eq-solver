@@ -4,15 +4,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from diffeq_solver_tk import tkinter_config as config
+from diffeq_solver_tk.finite_difference import solve_first_order_ode, solve_second_order_ode, solve_heat_equation, \
+    solve_wave_equation
 from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
 from diffeq_solver_tk.forms.first_order_ode_form import FirstOrderODEForm
 from diffeq_solver_tk.forms.heat_equation_form import HeatEquationForm
 from diffeq_solver_tk.forms.second_order_ode_form import SecondOrderODEForm
 from diffeq_solver_tk.forms.wave_equation_form import WaveEquationForm
-from diffeq_solver_tk.services.first_order_ode_service import FirstOrderODEService
-from diffeq_solver_tk.services.heat_equation_service import HeatEquationService
-from diffeq_solver_tk.services.second_order_ode_service import SecondOrderODEService
-from diffeq_solver_tk.services.wave_equation_service import WaveEquationService
+from diffeq_solver_tk.differential_equation_service import OrdinaryDifferentialEquationService, \
+    BoundedEquationService
 
 
 class MainView(Frame):
@@ -33,10 +33,18 @@ class MainView(Frame):
         figure = Figure(figsize=(6, 1), dpi=91.4)
         canvas = FigureCanvasTkAgg(figure, self)
         canvas.get_tk_widget().pack(side=RIGHT, fill=BOTH)
-        self.first_order_ode_form = FirstOrderODEForm(self, canvas, FirstOrderODEService(figure))
-        self.second_order_ode_form = SecondOrderODEForm(self, canvas, SecondOrderODEService(figure))
-        self.heat_equation_form = HeatEquationForm(self, canvas, HeatEquationService(figure))
-        self.wave_equation_form = WaveEquationForm(self, canvas, WaveEquationService(figure))
+        self.first_order_ode_form = FirstOrderODEForm(
+            self, canvas,
+            OrdinaryDifferentialEquationService(solve_first_order_ode, figure))
+        self.second_order_ode_form = SecondOrderODEForm(
+            self, canvas,
+            OrdinaryDifferentialEquationService(solve_second_order_ode, figure))
+        self.heat_equation_form = HeatEquationForm(
+            self, canvas,
+            BoundedEquationService(solve_heat_equation, figure))
+        self.wave_equation_form = WaveEquationForm(
+            self, canvas,
+            BoundedEquationService(solve_wave_equation, figure))
 
     def build_nav_bar(self):
         nav_bar_frame = Frame(self)

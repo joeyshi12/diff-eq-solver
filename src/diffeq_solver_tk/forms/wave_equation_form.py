@@ -5,9 +5,9 @@ from typing import Union, Dict
 import diffeq_solver_tk.messages.common_messages as common_messages
 import diffeq_solver_tk.messages.wave_equation_messages as messages
 from diffeq_solver_tk.differential_equation_metadata import BoundaryConditions, BoundaryCondition, WaveEquationMetadata, BoundaryType
+from diffeq_solver_tk.differential_equation_service import BoundedEquationService
 from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
 from diffeq_solver_tk.forms.equation_form_builder import EquationFormBuilder
-from diffeq_solver_tk.services.wave_equation_service import WaveEquationService
 
 
 class WaveEquationFields(Enum):
@@ -27,13 +27,13 @@ class WaveEquationFields(Enum):
 
 class WaveEquationForm(DifferentialEquationForm):
     field_entry_map: Dict[WaveEquationFields, Union[Entry, Variable]]
-    equation_service: WaveEquationService
+    equation_service: BoundedEquationService
     solve_button: Button
     export_button: Button
     render_plot_button: Button
     toggle_animation_button: Button
 
-    def __init__(self, frame: Frame, canvas, equation_service: WaveEquationService):
+    def __init__(self, frame: Frame, canvas, equation_service: BoundedEquationService):
         DifferentialEquationForm.__init__(self, frame, canvas, equation_service)
 
     def build_form(self):

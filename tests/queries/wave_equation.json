@@ -1,0 +1,19 @@
+{
+  "boundary_conditions": {
+    "left": {
+      "type": "NEUMANN",
+      "values": "t/2"
+    },
+    "right": {
+      "type": "DIRICHLET",
+      "values": "0"
+    }
+  },
+  "length": 1,
+  "samples": 20,
+  "time": 1,
+  "wave_speed": 1,
+  "initial_values": "np.sin(3*x)",
+  "initial_derivatives": "x",
+  "source": "np.exp(-t)*np.sin(x)+1"
+}
