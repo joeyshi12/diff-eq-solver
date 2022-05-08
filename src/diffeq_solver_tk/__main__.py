@@ -5,8 +5,7 @@ from typing import List
 
 import diffeq_solver_tk.messages.common_messages as common_messages
 from diffeq_solver_tk import __version__
-from diffeq_solver_tk.conversion import to_first_order_ode_metadata, to_second_order_ode_metadata, \
-    to_heat_equation_metadata, to_wave_equation_metadata
+from diffeq_solver_tk.conversion import to_ode_metadata, to_heat_equation_metadata, to_wave_equation_metadata
 from diffeq_solver_tk.finite_difference import solve_first_order_ode, solve_second_order_ode, solve_heat_equation, \
     solve_wave_equation
 from diffeq_solver_tk.util import export_ode_solution, export_bounded_equation_solution
@@ -25,8 +24,8 @@ de_options: List[str] = [
 ]
 
 conversion_map = {
-    first_order_ode_option: to_first_order_ode_metadata,
-    second_order_ode_option: to_second_order_ode_metadata,
+    first_order_ode_option: to_ode_metadata,
+    second_order_ode_option: to_ode_metadata,
     heat_equation_option: to_heat_equation_metadata,
     wave_equation_option: to_wave_equation_metadata
 }

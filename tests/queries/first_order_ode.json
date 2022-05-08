@@ -1,6 +1,6 @@
 {
-  "source": "x",
+  "source": "-4 * x",
   "initial_derivatives": [1],
-  "samples": 20,
-  "time": 8
+  "samples": 50,
+  "time": 4
 }

@@ -25,10 +25,10 @@ def export_bounded_equation_solution(solution, metadata, table_path: str):
     worksheet.cell(1, 2, "x →")
     for i in range(N):
         worksheet.cell(1, 3 + i, space_domain[i])
-    worksheet.write(2, 1, "t ↓")
+    worksheet.cell(2, 1, "t ↓")
     for k in range(K):
-        worksheet.write(3 + k, 1, time_domain[k])
+        worksheet.cell(3 + k, 1, time_domain[k])
     for k in range(K):
         for i in range(N):
-            worksheet.write(k + 3, i + 3, solution[k, i])
+            worksheet.cell(k + 3, i + 3, solution[k, i])
     workbook.save(table_path)
