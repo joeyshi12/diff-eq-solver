@@ -4,8 +4,8 @@ from tkinter.filedialog import asksaveasfilename
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+import diffeq_solver_tk as detk
 import diffeq_solver_tk.messages.common_messages as common_messages
-import diffeq_solver_tk.tkinter_config as config
 from diffeq_solver_tk.differential_equation_service import DifferentialEquationService
 
 
@@ -18,7 +18,7 @@ class DifferentialEquationForm(Frame):
         self.canvas = canvas
         self.equation_service = equation_service
         self.build_form()
-        self.configure(background=config.details_background)
+        self.configure(background=detk.DETAILS_BACKGROUND)
 
     def solve_equation(self):
         try:

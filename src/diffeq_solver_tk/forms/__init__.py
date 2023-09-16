@@ -1,0 +1,5 @@
+from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
+from diffeq_solver_tk.forms.first_order_ode_form import FirstOrderODEForm
+from diffeq_solver_tk.forms.heat_equation_form import HeatEquationForm
+from diffeq_solver_tk.forms.second_order_ode_form import SecondOrderODEForm
+from diffeq_solver_tk.forms.wave_equation_form import WaveEquationForm

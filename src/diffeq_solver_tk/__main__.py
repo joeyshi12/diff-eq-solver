@@ -8,7 +8,7 @@ from diffeq_solver_tk import __version__
 from diffeq_solver_tk.conversion import to_ode_metadata, to_heat_equation_metadata, to_wave_equation_metadata
 from diffeq_solver_tk.finite_difference import solve_first_order_ode, solve_second_order_ode, solve_heat_equation, \
     solve_wave_equation
-from diffeq_solver_tk.util import export_ode_solution, export_bounded_equation_solution
+from diffeq_solver_tk.excel_export import export_ode_solution, export_bounded_equation_solution
 from .main_view import MainView
 
 first_order_ode_option = "ode1"

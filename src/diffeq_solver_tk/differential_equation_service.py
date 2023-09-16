@@ -8,7 +8,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, BoundedEquationMetadata
-from diffeq_solver_tk.util import export_bounded_equation_solution, export_ode_solution
+from diffeq_solver_tk.excel_export import export_bounded_equation_solution, export_ode_solution
 
 T = TypeVar('T')
 

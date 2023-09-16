@@ -1,8 +1,8 @@
 from tkinter import Frame, Entry, Variable, Label, StringVar, Radiobutton, Button
 from typing import Generic, TypeVar, Union, Callable, Optional, Dict
 
+import diffeq_solver_tk as detk
 import diffeq_solver_tk.messages.common_messages as common_messages
-import diffeq_solver_tk.tkinter_config as config
 from diffeq_solver_tk.differential_equation_metadata import BoundaryType
 
 T = TypeVar('T')
@@ -16,7 +16,7 @@ class EquationFormBuilder(Generic[T]):
         self.__field_entry_map = dict()
 
     def build_entry_row(self, field: T, display_name: str, symbol_name: str, row: int):
-        self.__field_entry_map[field] = Entry(master=self.frame, font=config.details_font, width=24)
+        self.__field_entry_map[field] = Entry(master=self.frame, font=detk.DETAILS_FONT, width=24)
         self.__place_label(f"{display_name}:", row, 0, 18, "w")
         self.__place_label(f"{symbol_name} = ", row, 1, 0, "e")
         self.__field_entry_map[field].grid(row=row, column=2, columnspan=2)
@@ -31,7 +31,7 @@ class EquationFormBuilder(Generic[T]):
         button = Button(
             master=self.frame,
             text=text,
-            font=config.details_font,
+            font=detk.DETAILS_FONT,
             width=10,
         )
         if callback is not None:
@@ -44,8 +44,8 @@ class EquationFormBuilder(Generic[T]):
     def __place_label(self, text: str, row: int, column: int, horizontal_padding: int, sticky: str):
         Label(master=self.frame,
               text=text,
-              font=config.details_font,
-              background=config.details_background).grid(
+              font=detk.DETAILS_FONT,
+              background=detk.DETAILS_BACKGROUND).grid(
             row=row, column=column, padx=horizontal_padding, pady=6, sticky=sticky)
 
     def __build_boundary_type_row(self, boundary_type_field: T, row: int):
@@ -62,8 +62,8 @@ class EquationFormBuilder(Generic[T]):
     def __place_radio_button(self, text: str, variable: Variable, value: str, row: int, column: int):
         Radiobutton(master=self.frame,
                     text=text,
-                    font=config.details_font,
-                    background=config.details_background,
-                    activebackground=config.details_background,
+                    font=detk.DETAILS_FONT,
+                    background=detk.DETAILS_BACKGROUND,
+                    activebackground=detk.DETAILS_BACKGROUND,
                     variable=variable,
                     value=value).grid(row=row, column=column, sticky="w")

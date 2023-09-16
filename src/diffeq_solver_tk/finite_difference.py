@@ -3,8 +3,8 @@ from typing import Callable
 
 import numpy as np
 
-from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, HeatEquationMetadata, \
-    WaveEquationMetadata, BoundaryType
+from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, \
+    HeatEquationMetadata, WaveEquationMetadata, BoundaryType
 
 
 def solve_first_order_ode(metadata: OrdinaryDifferentialEquationMetadata) -> np.ndarray:

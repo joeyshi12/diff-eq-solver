@@ -3,16 +3,13 @@ from tkinter import RIGHT, BOTH, Tk, Frame, Button
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from diffeq_solver_tk import tkinter_config as config
-from diffeq_solver_tk.finite_difference import solve_first_order_ode, solve_second_order_ode, solve_heat_equation, \
-    solve_wave_equation
-from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
-from diffeq_solver_tk.forms.first_order_ode_form import FirstOrderODEForm
-from diffeq_solver_tk.forms.heat_equation_form import HeatEquationForm
-from diffeq_solver_tk.forms.second_order_ode_form import SecondOrderODEForm
-from diffeq_solver_tk.forms.wave_equation_form import WaveEquationForm
-from diffeq_solver_tk.differential_equation_service import OrdinaryDifferentialEquationService, \
-    BoundedEquationService
+import diffeq_solver_tk as detk
+from diffeq_solver_tk.finite_difference import \
+    solve_first_order_ode, solve_second_order_ode, solve_heat_equation, solve_wave_equation
+from diffeq_solver_tk.forms import \
+    DifferentialEquationForm, FirstOrderODEForm, HeatEquationForm, SecondOrderODEForm, WaveEquationForm
+from diffeq_solver_tk.differential_equation_service import \
+    OrdinaryDifferentialEquationService, BoundedEquationService
 
 
 class MainView(Frame):
@@ -49,28 +46,36 @@ class MainView(Frame):
     def build_nav_bar(self):
         nav_bar_frame = Frame(self)
         nav_bar_frame.pack(side="top", fill="x", expand=False)
-        self.place_nav_bar_button(nav_bar_frame, "First Order ODE", self.first_order_ode_form, 0)
-        self.place_nav_bar_button(nav_bar_frame, "Second Order ODE", self.second_order_ode_form, 1)
-        self.place_nav_bar_button(nav_bar_frame, "Heat Equation", self.heat_equation_form, 2)
-        self.place_nav_bar_button(nav_bar_frame, "Wave Equation", self.wave_equation_form, 3)
+        self.place_nav_bar_button(
+            nav_bar_frame, "First Order ODE", self.first_order_ode_form, 0)
+        self.place_nav_bar_button(
+            nav_bar_frame, "Second Order ODE", self.second_order_ode_form, 1)
+        self.place_nav_bar_button(
+            nav_bar_frame, "Heat Equation", self.heat_equation_form, 2)
+        self.place_nav_bar_button(
+            nav_bar_frame, "Wave Equation", self.wave_equation_form, 3)
 
     def build_details_container(self):
         container = Frame(self)
-        container.configure(background=config.details_background)
+        container.configure(background=detk.DETAILS_BACKGROUND)
         container.pack(side="top", fill="both", expand=True)
-        self.first_order_ode_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
-        self.second_order_ode_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
-        self.heat_equation_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
-        self.wave_equation_form.place(in_=container, x=0, y=config.details_top_margin, relwidth=1, relheight=1)
+        self.first_order_ode_form.place(
+            in_=container, x=0, y=detk.DETAILS_TOP_MARGIN, relwidth=1, relheight=1)
+        self.second_order_ode_form.place(
+            in_=container, x=0, y=detk.DETAILS_TOP_MARGIN, relwidth=1, relheight=1)
+        self.heat_equation_form.place(
+            in_=container, x=0, y=detk.DETAILS_TOP_MARGIN, relwidth=1, relheight=1)
+        self.wave_equation_form.place(
+            in_=container, x=0, y=detk.DETAILS_TOP_MARGIN, relwidth=1, relheight=1)
 
     def place_nav_bar_button(self, frame: Frame, text: str, target_form: DifferentialEquationForm, column: int):
         Button(frame,
                text=text,
-               font=config.nav_bar_font,
-               foreground=config.nav_bar_foreground,
-               background=config.nav_bar_background,
+               font=detk.NAV_BAR_FONT,
+               foreground=detk.NAV_BAR_FOREGROUND,
+               background=detk.NAV_BAR_BACKGROUND,
                command=lambda: self.handle_select_form(target_form),
-               width=config.nav_bar_button_width).grid(row=0, column=column)
+               width=detk.NAV_BAR_BUTTON_WIDTH).grid(row=0, column=column)
 
     def handle_select_form(self, form: DifferentialEquationForm):
         if self.selected_form == form:
