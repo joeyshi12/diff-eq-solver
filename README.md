@@ -1,6 +1,7 @@
 # diff-eq-solver
 
 ![Tests](https://github.com/joeyshi12/diff-eq-solver/actions/workflows/tests.yml/badge.svg)
+![PyPI](https://img.shields.io/pypi/v/diffeq-solver-tk)
 
 An application that uses the finite difference method to solve various types of differential equations, such as the
 heat equation and wave equation. The solution is written to a table in an Excel file, and the solution is visually
