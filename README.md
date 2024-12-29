@@ -12,9 +12,9 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/github.com/joeyshi12/diff-eq-solver/)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/assets/heat_eq_demo.png" style="width: 400px;">
-  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/assets/wave_eq_demo.png" style="width: 400px;">
-  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/assets/wave_eq_demo.gif" style="width: 400px;">
+  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/snapshots/heat_eq_demo.png" style="width: 400px;">
+  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/snapshots/wave_eq_demo.png" style="width: 400px;">
+  <img src="https://raw.githubusercontent.com/joeyshi12/diff-eq-solver/master/snapshots/wave_eq_demo.gif" style="width: 400px;">
 </p>
 
 ## Installation
@@ -29,8 +29,8 @@ for your equation and generate a static plot in the right window. After a soluti
 solution as an xlsx file by clicking "Export". For partial differential equation types, you can play an animation
 in the right window by clicking "Play" and switch back to the static plot by clicking "Show Plot".
 
-diffeq-solver-tk can also be used in the command-line by running `detk solve <diff-eq-type> <infile> <outfile>`.
-Examples of valid `<infile>` files are provided in `tests/queries`. Run `detk -h` for more info.
+diffeq-solver-tk can also be used in the command-line by running `detk-cli <diff-eq-type> <infile> <outfile>`.
+Examples of valid `<infile>` files are provided in `tests/queries`. Run `detk-cli -h` for more info.
 
 ## Dev Wiki
 - [First order differential equations](https://github.com/joeyshi12/diff-eq-solver/wiki/First-Order-Differential-Equation-Solving-Algorithm)

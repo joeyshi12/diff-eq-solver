@@ -4,12 +4,16 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 import diffeq_solver_tk as detk
-from diffeq_solver_tk.finite_difference import \
-    solve_first_order_ode, solve_second_order_ode, solve_heat_equation, solve_wave_equation
-from diffeq_solver_tk.forms import \
+from diffeq_solver_tk.ui.forms import \
     DifferentialEquationForm, FirstOrderODEForm, HeatEquationForm, SecondOrderODEForm, WaveEquationForm
-from diffeq_solver_tk.differential_equation_service import \
+from diffeq_solver_tk.diffeq import \
+    solve_first_order_ode, solve_second_order_ode, solve_heat_equation, solve_wave_equation, \
     OrdinaryDifferentialEquationService, BoundedEquationService
+
+NAV_BAR_FONT = ("Arial", 10, "bold")
+NAV_BAR_FOREGROUND = "#FFFFFF"
+NAV_BAR_BACKGROUND = "#4F5D75"
+NAV_BAR_BUTTON_WIDTH = 16
 
 
 class MainView(Frame):
@@ -71,11 +75,11 @@ class MainView(Frame):
     def place_nav_bar_button(self, frame: Frame, text: str, target_form: DifferentialEquationForm, column: int):
         Button(frame,
                text=text,
-               font=detk.NAV_BAR_FONT,
-               foreground=detk.NAV_BAR_FOREGROUND,
-               background=detk.NAV_BAR_BACKGROUND,
+               font=NAV_BAR_FONT,
+               foreground=NAV_BAR_FOREGROUND,
+               background=NAV_BAR_BACKGROUND,
                command=lambda: self.handle_select_form(target_form),
-               width=detk.NAV_BAR_BUTTON_WIDTH).grid(row=0, column=column)
+               width=NAV_BAR_BUTTON_WIDTH).grid(row=0, column=column)
 
     def handle_select_form(self, form: DifferentialEquationForm):
         if self.selected_form == form:

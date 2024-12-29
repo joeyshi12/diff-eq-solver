@@ -5,8 +5,8 @@ from tkinter.filedialog import asksaveasfilename
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 import diffeq_solver_tk as detk
-import diffeq_solver_tk.messages.common_messages as common_messages
-from diffeq_solver_tk.differential_equation_service import DifferentialEquationService
+from diffeq_solver_tk.ui.messages import common_messages
+from diffeq_solver_tk.diffeq import DifferentialEquationService
 
 
 class DifferentialEquationForm(Frame):
@@ -27,7 +27,7 @@ class DifferentialEquationForm(Frame):
             self.on_solve()
             self.canvas.draw()
         except Exception as err:
-            messagebox.showinfo(common_messages.app_name, err)
+            messagebox.showinfo(common_messages.app_name, str(err))
 
     def export_solution(self):
         table_path = asksaveasfilename(filetypes=(("Excel files", "*.xlsx"), ("All files", "*.*")))

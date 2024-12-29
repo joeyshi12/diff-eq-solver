@@ -2,8 +2,8 @@ from tkinter import Frame, Entry, Variable, Label, StringVar, Radiobutton, Butto
 from typing import Generic, TypeVar, Union, Callable, Optional, Dict
 
 import diffeq_solver_tk as detk
-import diffeq_solver_tk.messages.common_messages as common_messages
-from diffeq_solver_tk.differential_equation_metadata import BoundaryType
+from diffeq_solver_tk.ui.messages import common_messages
+from diffeq_solver_tk.diffeq import BoundaryType
 
 T = TypeVar('T')
 

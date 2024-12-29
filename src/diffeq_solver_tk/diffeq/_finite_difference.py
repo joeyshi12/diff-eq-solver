@@ -3,7 +3,7 @@ from typing import Callable
 
 import numpy as np
 
-from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, \
+from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, \
     HeatEquationMetadata, WaveEquationMetadata, BoundaryType
 
 

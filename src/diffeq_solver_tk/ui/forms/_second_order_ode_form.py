@@ -2,12 +2,9 @@ from enum import Enum, auto
 from tkinter import Entry, Frame, Button
 from typing import Dict
 
-import diffeq_solver_tk.messages.common_messages as common_messages
-import diffeq_solver_tk.messages.second_order_ode_messages as messages
-from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata
-from diffeq_solver_tk.forms.differential_equation_form import DifferentialEquationForm
-from diffeq_solver_tk.forms.equation_form_builder import EquationFormBuilder
-from diffeq_solver_tk.differential_equation_service import OrdinaryDifferentialEquationService
+from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, OrdinaryDifferentialEquationService
+from diffeq_solver_tk.ui.messages import common_messages, second_order_ode_messages as messages
+from diffeq_solver_tk.ui.forms import DifferentialEquationForm, EquationFormBuilder
 
 
 class SecondOrderODEFields(Enum):
