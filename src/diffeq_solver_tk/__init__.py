@@ -1,9 +1,1 @@
-__version__ = "0.0.8"
-
-NAV_BAR_FONT = ("Arial", 10, "bold")
-NAV_BAR_FOREGROUND = "#FFFFFF"
-NAV_BAR_BACKGROUND = "#4F5D75"
-NAV_BAR_BUTTON_WIDTH = 16
-DETAILS_FONT = ("Verdana", 10)
-DETAILS_BACKGROUND = "#BFC0C0"
-DETAILS_TOP_MARGIN = 16
+__version__ = "0.0.9"
