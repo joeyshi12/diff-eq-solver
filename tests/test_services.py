@@ -1,11 +1,10 @@
 import numpy as np
 from matplotlib.figure import Figure
 
-from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, HeatEquationMetadata, \
-    BoundaryConditions, BoundaryCondition, BoundaryType, WaveEquationMetadata
-from diffeq_solver_tk.differential_equation_service import OrdinaryDifferentialEquationService, BoundedEquationService
-from diffeq_solver_tk.finite_difference import solve_first_order_ode, solve_second_order_ode, solve_heat_equation, \
-    solve_wave_equation
+from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, HeatEquationMetadata, \
+    BoundaryConditions, BoundaryCondition, BoundaryType, WaveEquationMetadata, \
+    OrdinaryDifferentialEquationService, BoundedEquationService, \
+    solve_first_order_ode, solve_second_order_ode, solve_heat_equation, solve_wave_equation
 
 
 def test_first_order_ode_service():
