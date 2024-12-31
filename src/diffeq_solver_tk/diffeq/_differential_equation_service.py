@@ -14,11 +14,11 @@ T = TypeVar('T')
 
 class DifferentialEquationService(Generic[T]):
     solve: Callable[[T], np.ndarray]
-    main_figure: Optional[Figure]
+    main_figure: Figure
     metadata: Optional[T] = None
     solution: Optional[np.ndarray] = None
 
-    def __init__(self, solve: Callable[[T], np.ndarray], main_figure: Optional[Figure] = None):
+    def __init__(self, solve: Callable[[T], np.ndarray], main_figure: Figure):
         self.solve = solve
         self.main_figure = main_figure
 
@@ -34,6 +34,8 @@ class DifferentialEquationService(Generic[T]):
 
     def clear_figure(self):
         self.main_figure.clf()
+        for axis in self.main_figure.axes:
+            axis.cla()
 
     def export_solution(self, table_path: str):
         raise NotImplementedError
@@ -46,6 +48,7 @@ class OrdinaryDifferentialEquationService(DifferentialEquationService[OrdinaryDi
     def render_current_solution(self):
         if self.main_figure is None:
             return
+        self.clear_figure()
         domain = np.linspace(0, self.metadata.time, self.metadata.samples)
         ax = self.main_figure.add_subplot()
         ax.plot(domain, self.solution)

@@ -27,7 +27,7 @@ class SecondOrderODEForm(DifferentialEquationForm):
             input_entry.grid(row=i, column=2, columnspan=2)
 
         tk.Button(master=self, text=common_messages.solve, width=10, command=self.solve_equation).grid(row=5, column=2, pady=10, sticky="w")
-        self.export_button = tk.Button(master=self, text=common_messages.export, command=self.export_solution)
+        self.export_button = tk.Button(master=self, text=common_messages.export, width=10, command=self.export_solution)
 
     def get_equation_metadata(self):
         initial_derivatives = [
