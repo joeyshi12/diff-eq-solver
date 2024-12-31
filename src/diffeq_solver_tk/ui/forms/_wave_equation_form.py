@@ -79,6 +79,7 @@ class WaveEquationForm(DifferentialEquationForm):
     def on_solve(self):
         self.render_plot_button.grid(row=11, column=3, pady=6, sticky="e")
         self.toggle_animation_button.grid(row=12, column=3, pady=6, sticky="e")
+        self.toggle_animation_button.configure(text=common_messages.play)
         self.export_button.grid(row=13, column=3, pady=6, sticky="e")
 
     def handle_render_plot(self):
