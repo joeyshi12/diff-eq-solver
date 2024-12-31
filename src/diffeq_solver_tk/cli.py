@@ -16,7 +16,7 @@ def write_solution(infile: str, outfile: str, equation_type: str):
                 metadata = to_ode_metadata(query)
                 solution = solve_first_order_ode(metadata) \
                     if equation_type == "ode1" \
-                    else solve_second_order_ode
+                    else solve_second_order_ode(metadata)
                 export_ode_solution(solution, metadata, outfile)
             case "heat":
                 metadata = to_heat_equation_metadata(query)
