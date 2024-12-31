@@ -1,4 +1,3 @@
-from abc import abstractmethod, ABC
 from typing import TypeVar, Generic, Optional, Callable
 
 import numpy as np
@@ -7,13 +6,13 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, BoundedEquationMetadata
+from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, BoundedEquationMetadata
 from diffeq_solver_tk.excel_export import export_bounded_equation_solution, export_ode_solution
 
 T = TypeVar('T')
 
 
-class DifferentialEquationService(Generic[T], ABC):
+class DifferentialEquationService(Generic[T]):
     solve: Callable[[T], np.ndarray]
     main_figure: Optional[Figure]
     metadata: Optional[T] = None
@@ -36,16 +35,14 @@ class DifferentialEquationService(Generic[T], ABC):
     def clear_figure(self):
         self.main_figure.clf()
 
-    @abstractmethod
     def export_solution(self, table_path: str):
         raise NotImplementedError
 
-    @abstractmethod
     def render_current_solution(self):
         raise NotImplementedError
 
 
-class OrdinaryDifferentialEquationService(DifferentialEquationService[OrdinaryDifferentialEquationMetadata], ABC):
+class OrdinaryDifferentialEquationService(DifferentialEquationService[OrdinaryDifferentialEquationMetadata]):
     def render_current_solution(self):
         if self.main_figure is None:
             return
@@ -61,7 +58,7 @@ class OrdinaryDifferentialEquationService(DifferentialEquationService[OrdinaryDi
         export_ode_solution(self.solution, self.metadata, table_path)
 
 
-class BoundedEquationService(DifferentialEquationService[BoundedEquationMetadata], ABC):
+class BoundedEquationService(DifferentialEquationService[BoundedEquationMetadata]):
     __animation: Optional[FuncAnimation] = None
     __is_animation_playing: bool = False
 

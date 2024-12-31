@@ -1,6 +1,6 @@
 from typing import Dict, Any
 
-from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, HeatEquationMetadata, \
+from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, HeatEquationMetadata, \
     BoundaryConditions, BoundaryCondition, BoundaryType, WaveEquationMetadata
 
 

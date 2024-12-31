@@ -1,9 +1,8 @@
 import timeit
 from typing import Callable
-
 import numpy as np
 
-from diffeq_solver_tk.differential_equation_metadata import OrdinaryDifferentialEquationMetadata, \
+from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, \
     HeatEquationMetadata, WaveEquationMetadata, BoundaryType
 
 
@@ -20,7 +19,7 @@ def solve_first_order_ode(metadata: OrdinaryDifferentialEquationMetadata) -> np.
     for i in range(1, N):
         solution[i] = solution[i - 1] + source(i * dt, solution[i - 1]) * dt
     total_time = timeit.default_timer() - start_time
-    print(f"computing first order ode solution took {total_time} seconds")
+    print(f"Computing first order ode solution took {total_time} seconds")
     return solution
 
 
@@ -40,7 +39,7 @@ def solve_second_order_ode(metadata: OrdinaryDifferentialEquationMetadata) -> np
         derivative = derivative + derivative_delta
         solution[i] = solution[i - 1] + derivative * dt
     total_time = timeit.default_timer() - start_time
-    print(f"computing second order ode solution took {total_time} seconds")
+    print(f"Computing second order ode solution took {total_time} seconds")
     return solution
 
 
@@ -71,7 +70,7 @@ def solve_heat_equation(metadata: HeatEquationMetadata) -> np.ndarray:
         solution[k, -1] = right_values(T) if is_right_dirichlet else solution[k, -2] + right_values(T) * dx
 
     total_time = timeit.default_timer() - start_time
-    print(f"computing heat equation solution took {total_time} seconds")
+    print(f"Computing heat equation solution took {total_time} seconds")
     return solution
 
 
@@ -109,7 +108,7 @@ def solve_wave_equation(metadata: WaveEquationMetadata) -> np.ndarray:
         solution[k, -1] = right_values(T) if is_right_dirichlet else solution[k, -2] + right_values(T) * dx
 
     total_time = timeit.default_timer() - start_time
-    print(f"computing wave equation solution took {total_time} seconds")
+    print(f"Computing wave equation solution took {total_time} seconds")
     return solution
 
 
