@@ -1,60 +1,44 @@
-from enum import Enum, auto
-from tkinter import Entry, Frame, Button
-from typing import Dict
+import tkinter as tk
 
 from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, OrdinaryDifferentialEquationService
 from diffeq_solver_tk.ui.messages import common_messages, second_order_ode_messages as messages
-from diffeq_solver_tk.ui.forms import DifferentialEquationForm, EquationFormBuilder
-
-
-class SecondOrderODEFields(Enum):
-    SOURCE = auto()
-    INITIAL_VALUE = auto()
-    INITIAL_DERIVATIVE = auto()
-    TIME = auto()
-    SAMPLES = auto()
+from diffeq_solver_tk.ui.forms import DifferentialEquationForm
 
 
 class SecondOrderODEForm(DifferentialEquationForm):
-    equation_service: OrdinaryDifferentialEquationService
-    field_entry_map: Dict[SecondOrderODEFields, Entry]
-    export_button: Button
+    def __init__(self, master: tk.Frame, canvas, equation_service: OrdinaryDifferentialEquationService):
+        DifferentialEquationForm.__init__(self, master, canvas, equation_service)
+        self.source_entry = tk.Entry(master=self, width=24)
+        self.initial_value_entry = tk.Entry(master=self, width=24)
+        self.initial_derivative_entry = tk.Entry(master=self, width=24)
+        self.time_entry = tk.Entry(master=self, width=24)
+        self.samples_entry = tk.Entry(master=self, width=24)
 
-    def __init__(self, frame: Frame, canvas, equation_service: OrdinaryDifferentialEquationService):
-        DifferentialEquationForm.__init__(self, frame, canvas, equation_service)
+        fields: list[tuple[str, str, tk.Entry]] = [
+            (messages.source_term, messages.source_term_symbol, self.source_entry),
+            (messages.initial_value, messages.initial_value_symbol, self.initial_value_entry),
+            (messages.initial_derivative, messages.initial_derivative_symbol, self.initial_derivative_entry),
+            (messages.time_interval, messages.time_interval_symbol, self.time_entry),
+            (messages.samples, messages.samples_symbol, self.samples_entry)
+        ]
+        for i, (label_text, symbol, input_entry) in enumerate(fields):
+            tk.Label(master=self, text=label_text + ":").grid(row=i, column=0, padx=12, pady=6, sticky="w")
+            tk.Label(master=self, text=symbol + " = ").grid(row=i, column=1, padx=0, pady=0, sticky="e")
+            input_entry.grid(row=i, column=2, columnspan=2)
 
-    def build_form(self):
-        builder: EquationFormBuilder[SecondOrderODEFields] = EquationFormBuilder[SecondOrderODEFields](self)
-        builder.build_entry_row(SecondOrderODEFields.SOURCE,
-                                messages.source_term,
-                                messages.source_term_symbol, 0)
-        builder.build_entry_row(SecondOrderODEFields.INITIAL_VALUE,
-                                messages.initial_value,
-                                messages.initial_value_symbol, 1)
-        builder.build_entry_row(SecondOrderODEFields.INITIAL_DERIVATIVE,
-                                messages.initial_derivative,
-                                messages.initial_derivative_symbol, 2)
-        builder.build_entry_row(SecondOrderODEFields.TIME,
-                                messages.time_interval,
-                                messages.time_interval_symbol, 3)
-        builder.build_entry_row(SecondOrderODEFields.SAMPLES,
-                                messages.samples,
-                                messages.samples_symbol, 4)
-        self.field_entry_map = builder.get_field_entry_map()
-        builder.create_button(common_messages.solve,
-                              callback=self.solve_equation).grid(row=5, column=2, pady=10, sticky="w")
-        self.export_button = builder.create_button(common_messages.export, callback=self.export_solution)
+        tk.Button(master=self, text=common_messages.solve, width=10, command=self.solve_equation).grid(row=5, column=2, pady=10, sticky="w")
+        self.export_button = tk.Button(master=self, text=common_messages.export, command=self.export_solution)
 
     def get_equation_metadata(self):
         initial_derivatives = [
-            float(self.field_entry_map.get(SecondOrderODEFields.INITIAL_VALUE).get()),
-            float(self.field_entry_map.get(SecondOrderODEFields.INITIAL_DERIVATIVE).get())
+            float(self.initial_value_entry.get()),
+            float(self.initial_derivative_entry.get())
         ]
         return OrdinaryDifferentialEquationMetadata(
-            self.field_entry_map.get(SecondOrderODEFields.SOURCE).get(),
+            self.source_entry.get(),
             initial_derivatives,
-            int(self.field_entry_map.get(SecondOrderODEFields.SAMPLES).get()),
-            float(self.field_entry_map.get(SecondOrderODEFields.TIME).get())
+            int(self.samples_entry.get()),
+            float(self.time_entry.get())
         )
 
     def on_solve(self):

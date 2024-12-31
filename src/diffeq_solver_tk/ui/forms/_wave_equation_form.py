@@ -1,100 +1,78 @@
-from enum import auto, Enum
-from tkinter import Button, Entry, Variable, Frame
-from typing import Union, Dict
+import tkinter as tk
 
 from diffeq_solver_tk.diffeq import BoundaryConditions, BoundaryCondition, WaveEquationMetadata, BoundaryType, BoundedEquationService
 from diffeq_solver_tk.ui.messages import common_messages, wave_equation_messages as messages
-from diffeq_solver_tk.ui.forms import DifferentialEquationForm, EquationFormBuilder
-
-
-class WaveEquationFields(Enum):
-    LEFT_BOUNDARY_TYPE = auto()
-    RIGHT_BOUNDARY_TYPE = auto()
-    LEFT_BOUNDARY_VALUES = auto()
-    RIGHT_BOUNDARY_VALUES = auto()
-    INITIAL_VALUES = auto()
-    INITIAL_DERIVATIVES = auto()
-    SOURCE = auto()
-    WAVE_SPEED = auto()
-    ALPHA = auto()
-    LENGTH = auto()
-    TIME = auto()
-    SAMPLES = auto()
+from diffeq_solver_tk.ui.forms import DifferentialEquationForm
 
 
 class WaveEquationForm(DifferentialEquationForm):
-    field_entry_map: Dict[WaveEquationFields, Union[Entry, Variable]]
-    equation_service: BoundedEquationService
-    solve_button: Button
-    export_button: Button
-    render_plot_button: Button
-    toggle_animation_button: Button
+    def __init__(self, master: tk.Frame, canvas, equation_service: BoundedEquationService):
+        DifferentialEquationForm.__init__(self, master, canvas, equation_service)
+        tk.Label(master=self, text=common_messages.left_boundary_type).grid(row=0, column=0, padx=12, pady=6, sticky="w")
+        tk.Label(master=self, text=common_messages.right_boundary_type).grid(row=1, column=0, padx=12, pady=6, sticky="w")
 
-    def __init__(self, frame: Frame, canvas, equation_service: BoundedEquationService):
-        DifferentialEquationForm.__init__(self, frame, canvas, equation_service)
+        self.left_boundary_type_variable = tk.StringVar(value=BoundaryType.DIRICHLET.value)
+        left_dirichlet_button = tk.Radiobutton(master=self, text=common_messages.dirichlet, variable=self.left_boundary_type_variable, value=BoundaryType.DIRICHLET.value)
+        left_neumann_button = tk.Radiobutton(master=self, text=common_messages.neumann, variable=self.left_boundary_type_variable, value=BoundaryType.NEUMANN.value)
+        left_dirichlet_button.grid(row=0, column=1, sticky="w")
+        left_neumann_button.grid(row=0, column=2, sticky="w")
 
-    def build_form(self):
-        builder = EquationFormBuilder[WaveEquationFields](self)
-        self.build_entries(builder)
-        self.build_buttons(builder)
+        self.right_boundary_type_variable = tk.StringVar(value=BoundaryType.DIRICHLET.value)
+        right_dirichlet_button = tk.Radiobutton(master=self, text=common_messages.dirichlet, variable=self.right_boundary_type_variable, value=BoundaryType.DIRICHLET.value)
+        right_neumann_button = tk.Radiobutton(master=self, text=common_messages.neumann, variable=self.right_boundary_type_variable, value=BoundaryType.NEUMANN.value)
+        right_dirichlet_button.grid(row=1, column=1, sticky="w")
+        right_neumann_button.grid(row=1, column=2, sticky="w")
 
-    def build_entries(self, builder: EquationFormBuilder[WaveEquationFields]):
-        builder.build_boundary_type_section(WaveEquationFields.LEFT_BOUNDARY_TYPE,
-                                            WaveEquationFields.RIGHT_BOUNDARY_TYPE)
-        builder.build_entry_row(WaveEquationFields.LEFT_BOUNDARY_VALUES,
-                                messages.left_boundary_values,
-                                messages.left_boundary_values_symbol, 2)
-        builder.build_entry_row(WaveEquationFields.RIGHT_BOUNDARY_VALUES,
-                                messages.right_boundary_values,
-                                messages.right_boundary_values_symbol, 3)
-        builder.build_entry_row(WaveEquationFields.INITIAL_VALUES,
-                                messages.initial_values,
-                                messages.initial_values_symbol, 4)
-        builder.build_entry_row(WaveEquationFields.INITIAL_DERIVATIVES,
-                                messages.initial_derivatives,
-                                messages.initial_derivatives_symbol, 5)
-        builder.build_entry_row(WaveEquationFields.SOURCE,
-                                messages.source_term,
-                                messages.source_term_symbol, 6)
-        builder.build_entry_row(WaveEquationFields.WAVE_SPEED,
-                                messages.wave_speed,
-                                messages.wave_speed_symbol, 7)
-        builder.build_entry_row(WaveEquationFields.LENGTH,
-                                messages.length,
-                                messages.length_symbol, 8)
-        builder.build_entry_row(WaveEquationFields.TIME,
-                                messages.time_interval,
-                                messages.time_interval_symbol, 9)
-        builder.build_entry_row(WaveEquationFields.SAMPLES,
-                                messages.samples,
-                                messages.samples_symbol, 10)
-        self.field_entry_map = builder.get_field_entry_map()
+        self.left_boundary_values_entry = tk.Entry(master=self, width=24)
+        self.right_boundary_values_entry = tk.Entry(master=self, width=24)
+        self.initial_values_entry = tk.Entry(master=self, width=24)
+        self.initial_derivatives_entry = tk.Entry(master=self, width=24)
+        self.source_entry = tk.Entry(master=self, width=24)
+        self.wave_speed_entry = tk.Entry(master=self, width=24)
+        self.length_entry = tk.Entry(master=self, width=24)
+        self.time_interval_entry = tk.Entry(master=self, width=24)
+        self.samples_entry = tk.Entry(master=self, width=24)
+        fields: list[tuple[str, str, tk.Entry]] = [
+            (messages.left_boundary_values, messages.left_boundary_values_symbol, self.left_boundary_values_entry),
+            (messages.right_boundary_values, messages.right_boundary_values_symbol, self.right_boundary_values_entry),
+            (messages.initial_values, messages.initial_values_symbol, self.initial_values_entry),
+            (messages.initial_derivatives, messages.initial_derivatives_symbol, self.initial_derivatives_entry),
+            (messages.source_term, messages.source_term_symbol, self.source_entry),
+            (messages.wave_speed, messages.wave_speed_symbol, self.wave_speed_entry),
+            (messages.length, messages.length_symbol, self.length_entry),
+            (messages.time_interval, messages.time_interval_symbol, self.time_interval_entry),
+            (messages.samples, messages.samples_symbol, self.samples_entry)
+        ]
 
-    def build_buttons(self, builder: EquationFormBuilder[WaveEquationFields]):
-        self.solve_button = builder.create_button(common_messages.solve, callback=self.solve_equation)
-        self.export_button = builder.create_button(common_messages.export, callback=self.export_solution)
-        self.render_plot_button = builder.create_button(common_messages.show_plot, callback=self.handle_render_plot)
-        self.toggle_animation_button = builder.create_button(common_messages.play,
-                                                             callback=self.handle_toggle_animation)
+        for i, (label_text, symbol, input_entry) in enumerate(fields):
+            row = i + 2
+            tk.Label(master=self, text=label_text + ":").grid(row=row, column=0, padx=12, pady=6, sticky="w")
+            tk.Label(master=self, text=symbol + " = ").grid(row=row, column=1, padx=0, pady=0, sticky="e")
+            input_entry.grid(row=row, column=2, columnspan=2)
+
+        self.solve_button = tk.Button(master=self, text=common_messages.solve, width=10, command=self.solve_equation)
+        self.export_button = tk.Button(master=self, text=common_messages.export, width=10, command=self.export_solution)
+        self.render_plot_button = tk.Button(master=self, text=common_messages.show_plot, width=10, command=self.handle_render_plot)
+        self.toggle_animation_button = tk.Button(master=self, text=common_messages.play, width=10, command=self.handle_toggle_animation)
         self.solve_button.grid(row=11, column=2, pady=6, sticky="w")
 
     def get_equation_metadata(self):
-        left_boundary_type = BoundaryType(self.field_entry_map[WaveEquationFields.LEFT_BOUNDARY_TYPE].get())
-        right_boundary_type = BoundaryType(self.field_entry_map[WaveEquationFields.RIGHT_BOUNDARY_TYPE].get())
+        left_boundary_type = BoundaryType(self.left_boundary_type_variable.get())
+        right_boundary_type = BoundaryType(self.right_boundary_type_variable.get())
         boundary_conditions = BoundaryConditions(
             BoundaryCondition(left_boundary_type,
-                              self.field_entry_map[WaveEquationFields.LEFT_BOUNDARY_VALUES].get()),
+                              self.left_boundary_values_entry.get()),
             BoundaryCondition(right_boundary_type,
-                              self.field_entry_map[WaveEquationFields.RIGHT_BOUNDARY_VALUES].get()))
-        source = self.field_entry_map[WaveEquationFields.SOURCE].get()
+                              self.right_boundary_values_entry.get()))
+        source = self.source_entry.get()
         return WaveEquationMetadata(
             boundary_conditions,
-            float(self.field_entry_map[WaveEquationFields.LENGTH].get()),
-            int(self.field_entry_map[WaveEquationFields.SAMPLES].get()),
-            float(self.field_entry_map[WaveEquationFields.TIME].get()),
-            float(self.field_entry_map[WaveEquationFields.WAVE_SPEED].get()),
-            self.field_entry_map[WaveEquationFields.INITIAL_VALUES].get(),
-            self.field_entry_map[WaveEquationFields.INITIAL_DERIVATIVES].get(),
+            float(self.length_entry.get()),
+            int(self.samples_entry.get()),
+            float(self.time_interval_entry.get()),
+            float(self.wave_speed_entry.get()),
+            self.initial_values_entry.get(),
+            self.initial_derivatives_entry.get(),
             source if source else "0"
         )
 

@@ -1,6 +1,5 @@
 import timeit
 from typing import Callable
-
 import numpy as np
 
 from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationMetadata, \

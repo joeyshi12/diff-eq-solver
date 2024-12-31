@@ -1,94 +1,73 @@
-from enum import Enum, auto
-from tkinter import StringVar, Button, Entry, Frame
-from typing import Union, Dict
+import tkinter as tk
 
-from diffeq_solver_tk.diffeq import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType, BoundedEquationService
+from diffeq_solver_tk.diffeq import BoundaryConditions, BoundaryCondition, HeatEquationMetadata, BoundaryType
 from diffeq_solver_tk.ui.messages import common_messages, heat_equation_messages as messages
-from diffeq_solver_tk.ui.forms import DifferentialEquationForm, EquationFormBuilder
-
-
-class HeatEquationFields(Enum):
-    LEFT_BOUNDARY_TYPE = auto()
-    RIGHT_BOUNDARY_TYPE = auto()
-    LEFT_BOUNDARY_VALUES = auto()
-    RIGHT_BOUNDARY_VALUES = auto()
-    INITIAL_VALUES = auto()
-    SOURCE = auto()
-    ALPHA = auto()
-    LENGTH = auto()
-    TIME = auto()
-    SAMPLES = auto()
+from diffeq_solver_tk.ui.forms import DifferentialEquationForm
 
 
 class HeatEquationForm(DifferentialEquationForm):
-    equation_service: BoundedEquationService
-    field_entry_map: Dict[HeatEquationFields, Union[Entry, StringVar]]
-    solve_button: Button
-    export_button: Button
-    render_plot_button: Button
-    toggle_animation_button: Button
+    def __init__(self, master: tk.Frame, canvas, equation_service):
+        DifferentialEquationForm.__init__(self, master, canvas, equation_service)
+        tk.Label(master=self, text=common_messages.left_boundary_type).grid(row=0, column=0, padx=12, pady=6, sticky="w")
+        tk.Label(master=self, text=common_messages.right_boundary_type).grid(row=1, column=0, padx=12, pady=6, sticky="w")
 
-    def __init__(self, frame: Frame, canvas, equation_service):
-        DifferentialEquationForm.__init__(self, frame, canvas, equation_service)
+        self.left_boundary_type_variable = tk.StringVar(value=BoundaryType.DIRICHLET.value)
+        left_dirichlet_button = tk.Radiobutton(master=self, text=common_messages.dirichlet, variable=self.left_boundary_type_variable, value=BoundaryType.DIRICHLET.value)
+        left_neumann_button = tk.Radiobutton(master=self, text=common_messages.neumann, variable=self.left_boundary_type_variable, value=BoundaryType.NEUMANN.value)
+        left_dirichlet_button.grid(row=0, column=1, sticky="w")
+        left_neumann_button.grid(row=0, column=2, sticky="w")
 
-    def build_form(self):
-        builder = EquationFormBuilder[HeatEquationFields](self)
-        self.build_entries(builder)
-        self.build_buttons(builder)
+        self.right_boundary_type_variable = tk.StringVar(value=BoundaryType.DIRICHLET.value)
+        right_dirichlet_button = tk.Radiobutton(master=self, text=common_messages.dirichlet, variable=self.right_boundary_type_variable, value=BoundaryType.DIRICHLET.value)
+        right_neumann_button = tk.Radiobutton(master=self, text=common_messages.neumann, variable=self.right_boundary_type_variable, value=BoundaryType.NEUMANN.value)
+        right_dirichlet_button.grid(row=1, column=1, sticky="w")
+        right_neumann_button.grid(row=1, column=2, sticky="w")
 
-    def build_entries(self, builder: EquationFormBuilder[HeatEquationFields]):
-        builder.build_boundary_type_section(HeatEquationFields.LEFT_BOUNDARY_TYPE,
-                                            HeatEquationFields.RIGHT_BOUNDARY_TYPE)
-        builder.build_entry_row(HeatEquationFields.LEFT_BOUNDARY_VALUES,
-                                messages.left_boundary_values,
-                                messages.left_boundary_type_symbol, 2)
-        builder.build_entry_row(HeatEquationFields.RIGHT_BOUNDARY_VALUES,
-                                messages.right_boundary_values,
-                                messages.right_boundary_type_symbol, 3)
-        builder.build_entry_row(HeatEquationFields.INITIAL_VALUES,
-                                messages.initial_values,
-                                messages.initial_values_symbol, 4)
-        builder.build_entry_row(HeatEquationFields.SOURCE,
-                                messages.source_term,
-                                messages.source_term_symbol, 5)
-        builder.build_entry_row(HeatEquationFields.ALPHA,
-                                messages.diffusivity,
-                                messages.diffusivity_symbol, 6)
-        builder.build_entry_row(HeatEquationFields.LENGTH,
-                                messages.length,
-                                messages.length_symbol, 7)
-        builder.build_entry_row(HeatEquationFields.TIME,
-                                messages.time_interval,
-                                messages.time_interval_symbol, 8)
-        builder.build_entry_row(HeatEquationFields.SAMPLES,
-                                messages.samples,
-                                messages.samples_symbol, 9)
-        self.field_entry_map = builder.get_field_entry_map()
+        self.left_boundary_values_entry = tk.Entry(master=self, width=24)
+        self.right_boundary_values_entry = tk.Entry(master=self, width=24)
+        self.initial_values_entry = tk.Entry(master=self, width=24)
+        self.source_entry = tk.Entry(master=self, width=24)
+        self.diffusivity_entry = tk.Entry(master=self, width=24)
+        self.length_entry = tk.Entry(master=self, width=24)
+        self.time_interval_entry = tk.Entry(master=self, width=24)
+        self.samples_entry = tk.Entry(master=self, width=24)
+        fields: list[tuple[str, str, tk.Entry]] = [
+            (messages.left_boundary_values, messages.left_boundary_values_symbol, self.left_boundary_values_entry),
+            (messages.right_boundary_values, messages.right_boundary_values_symbol, self.right_boundary_values_entry),
+            (messages.initial_values, messages.initial_values_symbol, self.initial_values_entry),
+            (messages.source_term, messages.source_term_symbol, self.source_entry),
+            (messages.diffusivity, messages.diffusivity_symbol, self.diffusivity_entry),
+            (messages.length, messages.length_symbol, self.length_entry),
+            (messages.time_interval, messages.time_interval_symbol, self.time_interval_entry),
+            (messages.samples, messages.samples_symbol, self.samples_entry)
+        ]
 
-    def build_buttons(self, builder: EquationFormBuilder[HeatEquationFields]):
-        self.solve_button = builder.create_button(common_messages.solve, callback=self.solve_equation)
-        self.export_button = builder.create_button(common_messages.export, callback=self.export_solution)
-        self.render_plot_button = builder.create_button(common_messages.show_plot, callback=self.handle_render_plot)
-        self.toggle_animation_button = builder.create_button(common_messages.play,
-                                                             callback=self.handle_toggle_animation)
+        for i, (label_text, symbol, input_entry) in enumerate(fields):
+            row = i + 2
+            tk.Label(master=self, text=label_text + ":").grid(row=row, column=0, padx=12, pady=6, sticky="w")
+            tk.Label(master=self, text=symbol + " = ").grid(row=row, column=1, padx=0, pady=0, sticky="e")
+            input_entry.grid(row=row, column=2, columnspan=2)
+
+        self.solve_button = tk.Button(master=self, text=common_messages.solve, width=10, command=self.solve_equation)
+        self.export_button = tk.Button(master=self, text=common_messages.export, width=10, command=self.export_solution)
+        self.render_plot_button = tk.Button(master=self, text=common_messages.show_plot, width=10, command=self.handle_render_plot)
+        self.toggle_animation_button = tk.Button(master=self, text=common_messages.play, width=10, command=self.handle_toggle_animation)
         self.solve_button.grid(row=10, column=2, pady=6, sticky="w")
 
     def get_equation_metadata(self):
-        left_boundary_type = BoundaryType(self.field_entry_map[HeatEquationFields.LEFT_BOUNDARY_TYPE].get())
-        right_boundary_type = BoundaryType(self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_TYPE].get())
+        left_boundary_type = BoundaryType(self.left_boundary_type_variable.get())
+        right_boundary_type = BoundaryType(self.right_boundary_type_variable.get())
         boundary_conditions = BoundaryConditions(
-            BoundaryCondition(left_boundary_type,
-                              self.field_entry_map[HeatEquationFields.LEFT_BOUNDARY_VALUES].get()),
-            BoundaryCondition(right_boundary_type,
-                              self.field_entry_map[HeatEquationFields.RIGHT_BOUNDARY_VALUES].get()))
-        source = self.field_entry_map[HeatEquationFields.SOURCE].get()
+            BoundaryCondition(left_boundary_type, self.left_boundary_values_entry.get()),
+            BoundaryCondition(right_boundary_type, self.right_boundary_values_entry.get()))
+        source = self.source_entry.get()
         return HeatEquationMetadata(
             boundary_conditions,
-            float(self.field_entry_map[HeatEquationFields.LENGTH].get()),
-            int(self.field_entry_map[HeatEquationFields.SAMPLES].get()),
-            float(self.field_entry_map[HeatEquationFields.TIME].get()),
-            float(self.field_entry_map[HeatEquationFields.ALPHA].get()),
-            self.field_entry_map[HeatEquationFields.INITIAL_VALUES].get(),
+            float(self.length_entry.get()),
+            int(self.samples_entry.get()),
+            float(self.time_interval_entry.get()),
+            float(self.diffusivity_entry.get()),
+            self.initial_values_entry.get(),
             source if source else "0"
         )
 

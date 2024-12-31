@@ -1,15 +1,13 @@
-from tkinter import Tk
+import tkinter as tk
 from diffeq_solver_tk.ui.messages import common_messages
-from diffeq_solver_tk.ui.main_view import MainView
+from diffeq_solver_tk.ui.app import App
 
 
 def main():
-    app = Tk(className=common_messages.app_name)
-    app.resizable(width=False, height=False)
-    # app.iconbitmap('assets/icon.ico')
-    app.geometry("1100x600")
-    MainView(app).pack(side="top", fill="both", expand=True)
-    app.mainloop()
+    root = tk.Tk(className=common_messages.app_name)
+    root.geometry("1100x600")
+    App(root).pack(side="top", fill="both", expand=True)
+    root.mainloop()
 
 
 if __name__ == "__main__":
