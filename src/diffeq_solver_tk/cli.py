@@ -2,9 +2,8 @@ import argparse
 import json
 
 from diffeq_solver_tk import __version__
-from diffeq_solver_tk.diffeq import to_ode_metadata, to_heat_equation_metadata, to_wave_equation_metadata
-from diffeq_solver_tk.diffeq import solve_first_order_ode, solve_second_order_ode, solve_heat_equation, \
-    solve_wave_equation
+from diffeq_solver_tk.diffeq import to_ode_metadata, to_heat_equation_metadata, to_wave_equation_metadata, \
+    solve_first_order_ode, solve_second_order_ode, solve_heat_equation, solve_wave_equation
 from diffeq_solver_tk.excel_export import export_ode_solution, export_bounded_equation_solution
 
 
