@@ -15,11 +15,13 @@ displayed on a plot. For time dependent PDEs, the plot is animated.
 </p>
 
 ## Installation
+
 ```
 pip3 install diffeq-solver-tk
 ```
 
 ## Usage
+
 The GUI can be started with `detk`. Once you open the solver, choose a differential equation type through the
 navigation bar above and enter the parameters for your equation. Clicking "Solve" will run the solving algorithm
 for your equation and generate a static plot in the right window. After a solution is prepared, you can export the
@@ -30,6 +32,7 @@ diffeq-solver-tk can also be used in the command-line by running `detk-cli <diff
 Examples of valid `<infile>` files are provided in `tests/queries`. Run `detk-cli -h` for more info.
 
 ## Dev Wiki
+
 - [First order differential equations](https://github.com/joeyshi12/diff-eq-solver/wiki/First-Order-Differential-Equation-Solving-Algorithm)
 - [Second order differential equations](https://github.com/joeyshi12/diff-eq-solver/wiki/Second-Order-Differential-Equation-Solving-Algorithm)
 - [One-dimensional Heat Equation](https://github.com/joeyshi12/diff-eq-solver/wiki/One-dimensional-Heat-Equation-Solving-Algorithm)
