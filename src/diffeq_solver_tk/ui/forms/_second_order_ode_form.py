@@ -22,8 +22,8 @@ class SecondOrderODEForm(DifferentialEquationForm):
             (messages.samples, messages.samples_symbol, self.samples_entry)
         ]
         for i, (label_text, symbol, input_entry) in enumerate(fields):
-            tk.Label(master=self, text=label_text + ":").grid(row=i, column=0, padx=12, pady=6, sticky="w")
-            tk.Label(master=self, text=symbol + " = ").grid(row=i, column=1, padx=0, pady=0, sticky="e")
+            tk.Label(master=self, text=label_text + ":").grid(row=i, column=0, pady=6, sticky="w")
+            tk.Label(master=self, text=symbol + " = ").grid(row=i, column=1, pady=0, sticky="e")
             input_entry.grid(row=i, column=2, columnspan=2)
 
         tk.Button(master=self, text=common_messages.solve, width=10, command=self.solve_equation).grid(row=5, column=2, pady=10, sticky="w")

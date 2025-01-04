@@ -8,8 +8,8 @@ from diffeq_solver_tk.ui.forms import DifferentialEquationForm
 class HeatEquationForm(DifferentialEquationForm):
     def __init__(self, master: tk.Frame, canvas, equation_service):
         DifferentialEquationForm.__init__(self, master, canvas, equation_service)
-        tk.Label(master=self, text=common_messages.left_boundary_type).grid(row=0, column=0, padx=12, pady=6, sticky="w")
-        tk.Label(master=self, text=common_messages.right_boundary_type).grid(row=1, column=0, padx=12, pady=6, sticky="w")
+        tk.Label(master=self, text=common_messages.left_boundary_type).grid(row=0, column=0, pady=6, sticky="w")
+        tk.Label(master=self, text=common_messages.right_boundary_type).grid(row=1, column=0, pady=6, sticky="w")
 
         self.left_boundary_type_variable = tk.StringVar(value=BoundaryType.DIRICHLET.value)
         left_dirichlet_button = tk.Radiobutton(master=self, text=common_messages.dirichlet, variable=self.left_boundary_type_variable, value=BoundaryType.DIRICHLET.value)
@@ -44,8 +44,8 @@ class HeatEquationForm(DifferentialEquationForm):
 
         for i, (label_text, symbol, input_entry) in enumerate(fields):
             row = i + 2
-            tk.Label(master=self, text=label_text + ":").grid(row=row, column=0, padx=12, pady=6, sticky="w")
-            tk.Label(master=self, text=symbol + " = ").grid(row=row, column=1, padx=0, pady=0, sticky="e")
+            tk.Label(master=self, text=label_text + ":").grid(row=row, column=0, pady=6, sticky="w")
+            tk.Label(master=self, text=symbol + " = ").grid(row=row, column=1, pady=0, sticky="e")
             input_entry.grid(row=row, column=2, columnspan=2)
 
         self.solve_button = tk.Button(master=self, text=common_messages.solve, width=10, command=self.solve_equation)
@@ -59,7 +59,8 @@ class HeatEquationForm(DifferentialEquationForm):
         right_boundary_type = BoundaryType(self.right_boundary_type_variable.get())
         boundary_conditions = BoundaryConditions(
             BoundaryCondition(left_boundary_type, self.left_boundary_values_entry.get()),
-            BoundaryCondition(right_boundary_type, self.right_boundary_values_entry.get()))
+            BoundaryCondition(right_boundary_type, self.right_boundary_values_entry.get())
+        )
         source = self.source_entry.get()
         return HeatEquationMetadata(
             boundary_conditions,
