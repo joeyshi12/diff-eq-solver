@@ -6,8 +6,6 @@ from diffeq_solver_tk.diffeq import OrdinaryDifferentialEquationService, Bounded
     solve_first_order_ode, solve_second_order_ode, solve_heat_equation, solve_wave_equation
 
 class FormContainer(tk.Frame):
-    NAV_BUTTON_WIDTH = 16
-
     def __init__(self, master: tk.Frame, canvas: FigureCanvasTkAgg):
         tk.Frame.__init__(self, master=master)
 
@@ -29,10 +27,10 @@ class FormContainer(tk.Frame):
 
         navbar_frame = tk.Frame(self)
         navbar_frame.pack(side="top", fill="x")
-        tk.Button(navbar_frame, width=self.NAV_BUTTON_WIDTH, text="First Order ODE", command=lambda: self.select_form(first_order_ode_form)).grid(row=0, column=0)
-        tk.Button(navbar_frame, width=self.NAV_BUTTON_WIDTH, text="Second Order ODE", command=lambda: self.select_form(second_order_ode_form)).grid(row=0, column=1)
-        tk.Button(navbar_frame, width=self.NAV_BUTTON_WIDTH, text="Heat Equation", command=lambda: self.select_form(heat_equation_form)).grid(row=0, column=2)
-        tk.Button(navbar_frame, width=self.NAV_BUTTON_WIDTH, text="Wave Equation", command=lambda: self.select_form(wave_equation_form)).grid(row=0, column=3)
+        tk.Button(navbar_frame, padx=4, text="First Order ODE", command=lambda: self.select_form(first_order_ode_form)).grid(row=0, column=0)
+        tk.Button(navbar_frame, padx=4, text="Second Order ODE", command=lambda: self.select_form(second_order_ode_form)).grid(row=0, column=1)
+        tk.Button(navbar_frame, padx=4, text="Heat Equation", command=lambda: self.select_form(heat_equation_form)).grid(row=0, column=2)
+        tk.Button(navbar_frame, padx=4, text="Wave Equation", command=lambda: self.select_form(wave_equation_form)).grid(row=0, column=3)
 
         self.selected_form.lift()
 

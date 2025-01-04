@@ -13,7 +13,7 @@ class DifferentialEquationForm(tk.Frame):
     equation_service: DifferentialEquationService
 
     def __init__(self, master: tk.Frame, canvas: FigureCanvasTkAgg, equation_service: DifferentialEquationService):
-        tk.Frame.__init__(self, master=master, padx=18, pady=6)
+        tk.Frame.__init__(self, master=master, padx=6, pady=6)
         self.canvas = canvas
         self.equation_service = equation_service
 
